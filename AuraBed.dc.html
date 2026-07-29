@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined"/>
+<style>
+  *,*::before,*::after{box-sizing:border-box}
+  .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;line-height:1}
+  *{scrollbar-width:thin;scrollbar-color:rgba(120,132,145,.22) transparent}
+  ::-webkit-scrollbar{width:6px;height:6px}
+  ::-webkit-scrollbar-track{background:transparent}
+  ::-webkit-scrollbar-thumb{background:rgba(120,132,145,.20);border-radius:999px}
+  ::-webkit-scrollbar-thumb:hover{background:rgba(120,132,145,.38)}
+  ::-webkit-scrollbar-corner{background:transparent}
+  @keyframes auraStripe{from{background-position:0 0}to{background-position:28px 0}}
+  @keyframes auraPulse{0%,100%{opacity:1}50%{opacity:.35}}
+  @keyframes auraScrim{from{opacity:0}to{opacity:1}}
+  @keyframes auraRise{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+
+  /* ── RESPONSIVE LAYOUT ── */
+  .au-outer{min-width:0!important;overflow-x:hidden}
+  .au-topbar-inner{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;flex-wrap:wrap;gap:8px}
+  .au-topbar-logo{display:flex;align-items:center;gap:10px}
+  .au-topbar-meta{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .au-nav{overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch}
+  .au-nav::-webkit-scrollbar{height:2px}
+  .au-breadcrumb-row{display:flex;align-items:center;justify-content:space-between;padding:16px 24px 0;flex-wrap:wrap;gap:12px}
+  .au-breadcrumb-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .au-kpi{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;margin-bottom:16px}
+  .au-main{display:grid;grid-template-columns:400px 1fr;gap:16px;align-items:stretch}
+  .au-bottom{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:stretch;grid-column:1/-1;grid-row:2}
+  .au-bed-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+  .au-pad{padding:16px 24px 48px}
+  @media(max-width:1100px){
+    .au-kpi{grid-template-columns:repeat(3,1fr)}
+    .au-main{grid-template-columns:1fr}
+    .au-pad{padding:12px 16px 32px}
+  }
+  @media(max-width:768px){
+    .au-kpi{grid-template-columns:repeat(2,1fr);gap:10px}
+    .au-bottom{grid-template-columns:1fr}
+    .au-bed-grid{grid-template-columns:repeat(3,1fr)}
+    .au-breadcrumb-row{padding:12px 16px 0}
+    .au-pad{padding:10px 16px 24px}
+    .au-topbar-inner{padding:8px 12px}
+  }
+  @media(max-width:480px){
+    .au-kpi{grid-template-columns:repeat(2,1fr);gap:8px}
+    .au-bed-grid{grid-template-columns:repeat(2,1fr)}
+    .au-topbar-meta .au-hide-sm{display:none}
+  }
+</style>
+</helmet>
+
+<div class="au-outer" style="min-height:100%;background:#ffffff;font-family:'Manrope',system-ui,sans-serif;color:#0a0a0a">
+
+  <!-- ===== UTILITY / WELCOME BAR ===== -->
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 24px;background:#fff;border-bottom:1px solid #e0e0e0">
+    <div style="display:flex;align-items:center;gap:14px">
+      <div style="width:34px;height:34px;border-radius:8px;background:#0085AA;display:flex;align-items:center;justify-content:center;color:#fff">
+        <span class="material-symbols-outlined" style="font-size:22px">hotel</span>
+      </div>
+      <div>
+        <div style="font:800 17px/1 'Manrope';letter-spacing:-.01em;color:#0085AA">AuraBed<span style="color:#0085AA">.</span></div>
+        <div style="font:400 10px/1.3 'Manrope';letter-spacing:.14em;text-transform:uppercase;color:#9e9e9e;margin-top:3px">Capacity Command · Meridian General</div>
+      </div>
+      <div style="width:1px;height:30px;background:#e0e0e0;margin:0 6px"></div>
+      <button style="display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border:1px solid #e0e0e0;border-radius:4px;font:600 12px 'Manrope';color:#0085AA;background:#eaf3fb;cursor:pointer">
+        <span class="material-symbols-outlined" style="font-size:18px;color:#0085AA">location_on</span>Meridian General — Main Campus
+        <span class="material-symbols-outlined" style="font-size:18px;color:#9e9e9e">expand_more</span>
+      </button>
+    </div>
+    <div style="display:flex;align-items:center;gap:16px">
+      <div style="display:flex;align-items:center;gap:7px;padding:6px 12px;border-radius:999px;background:#eafbe6;border:1px solid #bfe9c2">
+        <span style="width:8px;height:8px;border-radius:50%;background:#00832e;animation:auraPulse 1.8s infinite"></span>
+        <span style="font:600 11px 'Manrope';color:#00832e">Live · EHR synced 12s ago</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <button onClick="{{ openAlert }}" style="position:relative;width:38px;height:38px;border:1px solid #e0e0e0;border-radius:4px;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#616161">
+          <span class="material-symbols-outlined" style="font-size:22px">notifications</span>
+          <span style="position:absolute;top:-5px;right:-5px;min-width:18px;height:18px;padding:0 4px;border-radius:999px;background:#ed1b24;color:#fff;font:700 10px 'Manrope';display:flex;align-items:center;justify-content:center;border:2px solid #fff">3</span>
+        </button>
+        <div style="display:flex;align-items:center;gap:9px">
+          <div style="width:34px;height:34px;border-radius:50%;background:#0085AA;color:#fff;font:700 13px 'Manrope';display:flex;align-items:center;justify-content:center">LH</div>
+          <div style="text-align:left">
+            <div style="font:700 12px/1.2 'Manrope';color:#0a0a0a">L. Okafor, RN</div>
+            <div style="font:400 10px/1.2 'Manrope';color:#9e9e9e">House Supervisor · Shift 07:00–19:00</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== GLOBAL NAV (teal chrome) ===== -->
+  <div class="au-nav" style="height:52px;background:#0085AA;display:flex;align-items:stretch;padding:0 16px;position:sticky;top:0;z-index:40" data-screen-label="Global navigation">
+    <div style="display:flex;align-items:stretch;gap:2px">
+      <sc-for list="{{ nav }}" as="item" hint-placeholder-count="6">
+        <div onClick="{{ item.onClick }}" style="position:relative;display:flex;align-items:center;gap:9px;padding:0 18px;cursor:pointer;color:{{ item.color }};font:600 13px 'Manrope';border-bottom:3px solid {{ item.underline }};transition:color .18s">
+          <span class="material-symbols-outlined" style="font-size:20px">{{ item.icon }}</span>
+          <span>{{ item.label }}</span>
+        </div>
+      </sc-for>
+    </div>
+    <div style="flex:1"></div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <button style="display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 14px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);border-radius:4px;color:#fff;font:600 12px 'Manrope';cursor:pointer">
+        <span class="material-symbols-outlined" style="font-size:18px">tune</span>Filters
+      </button>
+      <div style="width:1px;height:24px;background:rgba(255,255,255,.2)"></div>
+      <div style="display:flex;align-items:center;gap:8px;color:rgba(255,255,255,.85);font:700 13px 'Manrope';padding:0 8px">
+        <span class="material-symbols-outlined" style="font-size:18px">schedule</span>{{ clock }}
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== BREADCRUMB / PAGE ACTIONS ===== -->
+  <div class="au-breadcrumb-row">
+    <div>
+      <div style="font:400 11px/1 'Manrope';letter-spacing:.06em;color:#9e9e9e;text-transform:uppercase">Operations / <span style="color:#0085AA">{{ crumb }}</span></div>
+      <h1 style="font:400 24px/1.2 'Manrope';letter-spacing:0;color:#0a0a0a;margin:8px 0 0">{{ pageTitle }}</h1>
+    </div>
+    <div class="au-breadcrumb-actions">
+      <div style="display:flex;align-items:center;gap:6px;padding:7px 12px;border-radius:4px;background:#fff;border:1px solid #e0e0e0;font:600 12px 'Manrope';color:#616161">
+        <span class="material-symbols-outlined" style="font-size:17px;color:#00832e">sync</span>Auto-refresh 15s
+      </div>
+      <button onClick="{{ openAlert }}" style="display:inline-flex;align-items:center;gap:7px;height:36px;padding:0 16px;background:#ed1b24;color:#fff;border:none;border-radius:4px;font:700 12px 'Manrope';letter-spacing:.03em;cursor:pointer">
+        <span class="material-symbols-outlined" style="font-size:18px">emergency</span>SIMULATE ED SURGE
+      </button>
+      <button onClick="{{ goAI }}" style="display:inline-flex;align-items:center;gap:7px;height:36px;padding:0 16px;background:#0085AA;color:#fff;border:none;border-radius:4px;font:700 12px 'Manrope';letter-spacing:.03em;cursor:pointer">
+        <span class="material-symbols-outlined" style="font-size:18px">auto_awesome</span>Command Bar
+      </button>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       SCREEN A — COMMAND CENTER
+       ========================================================= -->
+  <sc-if value="{{ isCommand }}" hint-placeholder-val="{{ true }}">
+  <div class="au-pad">
+
+    <!-- KPI STRIP -->
+    <div class="au-kpi">
+      <sc-for list="{{ kpis }}" as="k" hint-placeholder-count="6">
+        <div style="background:#fff;border:1px solid #e0e0e0;border-radius:8px;box-shadow:0 1px 2px rgba(10,30,80,.06);padding:14px 16px 12px">
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <span style="font:700 10px 'Manrope';letter-spacing:.08em;text-transform:uppercase;color:#9e9e9e">{{ k.label }}</span>
+            <span class="material-symbols-outlined" style="font-size:16px;color:{{ k.accent }}">{{ k.icon }}</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:4px;margin-top:8px">
+            <span style="font:700 30px/1 'Manrope';letter-spacing:-.02em;color:#0a0a0a">{{ k.value }}</span>
+            <span style="font:600 13px 'Manrope';color:#9e9e9e">{{ k.unit }}</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:flex-end;margin-top:8px">
+            <span style="display:inline-flex;align-items:center;gap:2px;font:700 11px 'Manrope';color:{{ k.deltaColor }}">{{ k.delta }}</span>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+
+    <!-- 3-COLUMN MODULAR GRID -->
+    <div class="au-main">
+
+      <!-- LEFT COLUMN: ED transfers + Capacity by unit -->
+      <div style="grid-column:1;grid-row:1;display:flex;flex-direction:column;gap:16px;min-height:0">
+        <div style="background:#fff;border:1px solid #e0e0e0;border-radius:8px;box-shadow:0 1px 2px rgba(10,30,80,.06);flex:1;display:flex;flex-direction:column;overflow:hidden">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid #eee;flex:none">
+            <div style="display:flex;align-items:center;gap:8px">
+              <span style="font:700 15px 'Manrope';color:#0a0a0a">Incoming ED transfers</span>
+              <span style="background:#ed1b24;color:#fff;font:700 10px 'Manrope';padding:2px 7px;border-radius:999px">{{ transferCount }}</span>
+            </div>
+            <span class="material-symbols-outlined" style="font-size:20px;color:#9e9e9e;cursor:pointer">open_in_full</span>
+          </div>
+          <div style="flex:1;overflow:auto;min-height:0">
+            <sc-for list="{{ transfers }}" as="t" hint-placeholder-count="4">
+              <div onClick="{{ t.onClick }}" style="display:flex;gap:11px;padding:12px 16px;border-bottom:1px solid #f0f0f0;cursor:pointer">
+                <div style="width:4px;border-radius:2px;background:{{ t.accent }};flex:none"></div>
+                <div style="flex:1;min-width:0">
+                  <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+                    <span style="font:700 13px 'Manrope';color:#0a0a0a">{{ t.name }}</span>
+                    <span style="font:700 10px 'Manrope';letter-spacing:.05em;text-transform:uppercase;color:{{ t.accent }};background:{{ t.chipBg }};padding:2px 7px;border-radius:4px">{{ t.acuity }}</span>
+                  </div>
+                  <div style="font:400 11px/1.5 'Manrope';color:#616161;margin-top:3px">{{ t.detail }}</div>
+                  <div style="display:flex;align-items:center;gap:12px;margin-top:6px;font:600 11px 'Manrope';color:#9e9e9e">
+                    <span style="display:inline-flex;align-items:center;gap:3px"><span class="material-symbols-outlined" style="font-size:14px">timer</span>ETA {{ t.eta }}</span>
+                    <span style="display:inline-flex;align-items:center;gap:3px"><span class="material-symbols-outlined" style="font-size:14px">bed</span>Needs {{ t.needs }}</span>
+                  </div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="background:#fff;border:1px solid #e0e0e0;border-radius:8px;box-shadow:0 1px 2px rgba(10,30,80,.06);padding:14px 16px;flex:none">
+          <div style="font:700 15px 'Manrope';color:#0a0a0a;margin-bottom:12px">Capacity by unit</div>
+          <sc-for list="{{ unitCap }}" as="u" hint-placeholder-count="5">
+            <div style="margin-bottom:12px">
+              <div style="display:flex;align-items:center;justify-content:space-between;font:600 12px 'Manrope';color:#0a0a0a;margin-bottom:5px">
+                <span>{{ u.name }}</span>
+                <span style="font:700 12px 'Manrope';color:{{ u.color }}">{{ u.pct }}%</span>
+              </div>
+              <div style="height:8px;border-radius:999px;background:#eee;overflow:hidden">
+                <div style="height:100%;width:{{ u.pct }}%;background:{{ u.color }};border-radius:999px"></div>
+              </div>
+              <div style="font:400 10px 'Manrope';color:#9e9e9e;margin-top:4px">{{ u.occ }} of {{ u.total }} beds occupied · {{ u.free }} available</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN: ALERT + BED BOARD -->
+      <div style="grid-column:2;grid-row:1;display:flex;flex-direction:column;gap:16px">
+        <!-- URGENT ALERT: above Live Bed Board -->
+        <div style="background:#fff0f1;border:1px solid #f9c0c5;border-left:4px solid #ed1b24;border-radius:8px;padding:14px 18px;flex:none;display:flex;gap:16px;align-items:flex-start">
+          <div style="width:42px;height:42px;border-radius:10px;background:#ffe9ec;display:flex;align-items:center;justify-content:center;flex:none">
+            <span class="material-symbols-outlined" style="font-size:24px;color:#ed1b24;animation:auraPulse 1.4s infinite">emergency</span>
+          </div>
+          <div style="flex:1;min-width:0">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+              <span style="font:700 10px 'Manrope';letter-spacing:.08em;text-transform:uppercase;color:#b3000a">Urgent Alert · Priority 1</span>
+              <span style="display:inline-flex;align-items:center;gap:4px;font:600 10px 'Manrope';color:#00832e"><span style="width:6px;height:6px;border-radius:50%;background:#00832e;animation:auraPulse 1.2s infinite"></span>EMS confirmed</span>
+            </div>
+            <div style="font:700 14px/1.3 'Manrope';color:#0a0a0a;margin-bottom:3px">Bed Required — Ambulance Inbound</div>
+            <div style="font:400 12px/1.6 'Manrope';color:#616161">ETA 4 min · ICU isolation + ventilator required · ED Bay 4 · Level 1 trauma</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:7px;flex:none">
+            <button style="height:34px;padding:0 15px;background:#ed1b24;color:#fff;border:none;border-radius:6px;font:700 11px 'Manrope';letter-spacing:.03em;cursor:pointer;display:inline-flex;align-items:center;gap:5px;white-space:nowrap">
+              <span class="material-symbols-outlined" style="font-size:15px">assignment_ind</span>Assign Task
+            </button>
+            <button style="height:34px;padding:0 15px;background:#fff;color:#ed1b24;border:1.5px solid #f9c0c5;border-radius:6px;font:700 11px 'Manrope';letter-spacing:.03em;cursor:pointer;display:inline-flex;align-items:center;gap:5px;white-space:nowrap">
+              <span class="material-symbols-outlined" style="font-size:15px">notifications_active</span>Notify
+            </button>
+          </div>
+        </div>
+        <div style="background:#fff;border:1px solid #e0e0e0;border-radius:8px;box-shadow:0 1px 2px rgba(10,30,80,.06);flex:1;display:flex;flex-direction:column;overflow:hidden">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid #eee">
+          <div style="display:flex;align-items:center;gap:10px">
+            <span class="material-symbols-outlined" style="font-size:22px;color:#0085AA">grid_view</span>
+            <div>
+              <div style="font:700 16px/1.1 'Manrope';color:#0a0a0a">Live bed board</div>
+              <div style="font:400 11px 'Manrope';color:#9e9e9e;margin-top:2px">Occupancy by ward type · {{ totalBeds }} beds · real-time EHR + RTLS feed</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:6px">
+            <button style="width:34px;height:34px;border:1px solid #e0e0e0;background:#eef2f7;border-radius:4px;cursor:pointer;color:#0085AA;display:flex;align-items:center;justify-content:center"><span class="material-symbols-outlined" style="font-size:19px">grid_view</span></button>
+            <button style="width:34px;height:34px;border:1px solid #e0e0e0;background:#fff;border-radius:4px;cursor:pointer;color:#9e9e9e;display:flex;align-items:center;justify-content:center"><span class="material-symbols-outlined" style="font-size:19px">table_rows</span></button>
+          </div>
+        </div>
+
+        <!-- WARD TABS (horizontal) -->
+        <div style="display:flex;flex-wrap:wrap;gap:8px;padding:12px 18px;border-bottom:1px solid #eee">
+          <sc-for list="{{ wardTabs }}" as="w" hint-placeholder-count="4">
+            <button onClick="{{ w.onClick }}" style="display:flex;align-items:center;gap:9px;padding:8px 14px;border:1.5px solid {{ w.border }};background:{{ w.bg }};border-radius:6px;cursor:pointer;transition:all .18s">
+              <span style="font:700 12px 'Manrope';color:{{ w.textColor }}">{{ w.code }}</span>
+              <span style="font:700 11px 'Manrope';color:{{ w.pctColor }};background:{{ w.pctBg }};padding:1px 7px;border-radius:999px">{{ w.pct }}%</span>
+            </button>
+          </sc-for>
+        </div>
+
+        <!-- ACTIVE SECTION DETAIL -->
+        <div style="padding:12px 18px 16px;min-height:160px">
+
+          <!-- SINGLE WARD VIEW -->
+          <sc-if value="{{ filterOff }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:16px">
+            <div>
+              <div style="font:700 17px/1.2 'Manrope';color:#0a0a0a">{{ activeWard.code }}</div>
+              <div style="font:400 12px 'Manrope';color:#9e9e9e;margin-top:3px">{{ activeWard.name }}</div>
+            </div>
+            <div style="text-align:right">
+              <div style="font:700 28px/1 'Manrope';color:{{ activeWard.color }}">{{ activeWard.pct }}%</div>
+              <div style="font:400 10px 'Manrope';color:#bdbdbd;margin-top:2px">{{ activeWard.count }} occupied</div>
+            </div>
+          </div>
+          <div class="au-bed-grid">
+            <sc-for list="{{ activeWard.beds }}" as="b" hint-placeholder-count="12">
+              <div onClick="{{ b.onClick }}" title="{{ b.tip }}" style="position:relative;height:58px;border-radius:6px;background:{{ b.bg }};border:1.5px solid {{ b.br }};cursor:pointer;padding:6px 8px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;{{ b.extra }}">
+                <div style="display:flex;align-items:center;justify-content:space-between">
+                  <span style="font:700 12px 'Manrope';color:{{ b.fg }}">{{ b.room }}</span>
+                  <sc-if value="{{ b.iso }}" hint-placeholder-val="{{ false }}"><span class="material-symbols-outlined" style="font-size:13px;color:#7355a8">masks</span></sc-if>
+                </div>
+                <div style="display:flex;align-items:center;gap:3px">
+                  <sc-if value="{{ b.tele }}" hint-placeholder-val="{{ false }}"><span class="material-symbols-outlined" style="font-size:12px;color:{{ b.fg }}">monitor_heart</span></sc-if>
+                  <span style="font:600 9px/1.1 'Manrope';color:{{ b.fg }};white-space:normal;overflow:hidden;line-height:1.08">{{ b.tag }}</span>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+          </sc-if>
+
+          <!-- CROSS-WARD FILTERED VIEW -->
+          <sc-if value="{{ filterOn }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding:10px 12px;background:#e0f4f9;border:1px solid #99d6e8;border-radius:6px">
+            <div style="display:flex;align-items:center;gap:8px">
+              <span class="material-symbols-outlined" style="font-size:18px;color:#0085AA">filter_alt</span>
+              <span style="font:600 12px 'Manrope';color:#005f7a">Filtering all wards by <b>{{ filterLabel }}</b> · {{ filterCount }} beds</span>
+            </div>
+            <button onClick="{{ clearFilter }}" style="display:inline-flex;align-items:center;gap:4px;font:700 11px 'Manrope';color:#0085AA;background:#fff;border:1px solid #99d6e8;border-radius:4px;padding:5px 10px;cursor:pointer"><span class="material-symbols-outlined" style="font-size:15px">close</span>Clear</button>
+          </div>
+          <sc-for list="{{ filterView }}" as="fv" hint-placeholder-count="4">
+            <div style="display:flex;gap:14px;padding:11px 0;border-bottom:1px solid #f2f2f2">
+              <div style="width:118px;flex:none;padding-top:4px">
+                <div style="font:700 12px/1.3 'Manrope';color:#0a0a0a">{{ fv.code }}</div>
+                <div style="font:400 10px 'Manrope';color:#9e9e9e;margin-top:2px">{{ fv.name }}</div>
+              </div>
+              <div style="flex:1;display:flex;flex-wrap:wrap;gap:8px;align-items:flex-start">
+                <sc-for list="{{ fv.beds }}" as="b" hint-placeholder-count="3">
+                  <div onClick="{{ b.onClick }}" title="{{ b.tip }}" style="position:relative;width:74px;height:58px;border-radius:6px;background:{{ b.bg }};border:1.5px solid {{ b.br }};cursor:pointer;padding:6px 8px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;{{ b.extra }}">
+                    <div style="display:flex;align-items:center;justify-content:space-between">
+                      <span style="font:700 12px 'Manrope';color:{{ b.fg }}">{{ b.room }}</span>
+                      <sc-if value="{{ b.iso }}" hint-placeholder-val="{{ false }}"><span class="material-symbols-outlined" style="font-size:13px;color:#7355a8">masks</span></sc-if>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:3px">
+                      <sc-if value="{{ b.tele }}" hint-placeholder-val="{{ false }}"><span class="material-symbols-outlined" style="font-size:12px;color:{{ b.fg }}">monitor_heart</span></sc-if>
+                      <span style="font:600 9px/1.1 'Manrope';color:{{ b.fg }};white-space:normal;overflow:hidden;line-height:1.08">{{ b.tag }}</span>
+                    </div>
+                  </div>
+                </sc-for>
+                <sc-if value="{{ fv.empty }}" hint-placeholder-val="{{ false }}"><span style="font:400 11px 'Manrope';color:#bdbdbd;padding-top:8px">No beds in this status</span></sc-if>
+              </div>
+            </div>
+          </sc-for>
+          </sc-if>
+
+        </div>
+
+        <!-- COLOR-INDICATOR LEGEND (below departments) -->
+        <div style="display:flex;flex-wrap:wrap;gap:12px 18px;padding:13px 18px;background:#fafbfc;border-top:1px solid #eee;border-radius:0 0 8px 8px">
+          <span style="font:700 10px 'Manrope';letter-spacing:.06em;text-transform:uppercase;color:#9e9e9e;width:100%">Status key · click to filter across all wards</span>
+          <sc-for list="{{ legend }}" as="l" hint-placeholder-count="7">
+            <button onClick="{{ l.onClick }}" style="display:flex;align-items:center;gap:6px;padding:4px 9px;border:1px solid {{ l.selBorder }};background:{{ l.selBg }};border-radius:999px;cursor:pointer">
+              <span style="width:12px;height:12px;border-radius:3px;background:{{ l.bg }};border:1.5px solid {{ l.br }}"></span>
+              <span style="font:600 11px 'Manrope';color:#616161">{{ l.label }}</span>
+            </button>
+          </sc-for>
+        </div>
+        </div>
+
+        <!-- HOUSEKEEPING STATUS -->
+        <div style="background:#fff;border:1px solid #e0e0e0;border-radius:8px;box-shadow:0 1px 2px rgba(10,30,80,.06);flex:none">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid #eee">
+            <span style="font:700 15px 'Manrope';color:#0a0a0a">Housekeeping status</span>
+            <span onClick="{{ goHK }}" style="font:600 11px 'Manrope';color:#0085AA;cursor:pointer">Open queue →</span>
+          </div>
+          <div style="padding:14px 16px;display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <sc-for list="{{ hkStats }}" as="s" hint-placeholder-count="4">
+              <div style="padding:12px 14px;border-radius:6px;background:#fafafa;border:1px solid #e8e8e8;display:flex;align-items:center;gap:10px">
+                <span style="width:8px;height:8px;border-radius:50%;background:{{ s.dot }};flex:none"></span>
+                <div>
+                  <div style="font:700 22px/1 'Manrope';color:#0a0a0a">{{ s.value }}</div>
+                  <div style="font:500 10px 'Manrope';color:#9e9e9e;margin-top:4px">{{ s.label }}</div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>        </div>
+      </div>
+
+      <!-- BOTTOM ROW: Discharge queue + Housekeeping status -->
+      <div class="au-bottom">
+        <div style="background:#fff;border:1px solid #e0e0e0;border-radius:8px;box-shadow:0 1px 2px rgba(10,30,80,.06);display:flex;flex-direction:column">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid #eee;flex:none">
+            <div style="display:flex;align-items:center;gap:8px">
+              <span style="font:700 15px 'Manrope';color:#0a0a0a">Discharge queue</span>
+              <span style="background:#0085AA;color:#fff;font:700 10px 'Manrope';padding:2px 7px;border-radius:999px">{{ dischargeCount }}</span>
+            </div>
+            <span style="font:600 11px 'Manrope';color:#0085AA;cursor:pointer">View all →</span>
+          </div>
+          <div style="flex:1;overflow:auto;min-height:0">
+            <sc-for list="{{ discharges }}" as="d" hint-placeholder-count="4">
+              <div style="display:flex;align-items:center;gap:10px;padding:11px 16px;border-bottom:1px solid #f0f0f0">
+                <div style="width:44px;text-align:center;flex:none">
+                  <div style="font:700 13px 'Manrope';color:#0a0a0a">{{ d.bed }}</div>
+                  <div style="font:400 9px 'Manrope';color:#9e9e9e">{{ d.unit }}</div>
+                </div>
+                <div style="flex:1;min-width:0">
+                  <div style="font:700 12px 'Manrope';color:#0a0a0a">{{ d.patient }}</div>
+                  <div style="display:inline-flex;align-items:center;gap:4px;margin-top:3px;font:600 10px 'Manrope';color:{{ d.stColor }};background:{{ d.stBg }};padding:2px 7px;border-radius:4px">
+                    <span style="width:5px;height:5px;border-radius:50%;background:{{ d.stColor }}"></span>{{ d.status }}
+                  </div>
+                </div>
+                <div style="text-align:right;flex:none">
+                  <div style="font:700 12px 'Manrope';color:{{ d.stColor }}">{{ d.eta }}</div>
+                  <div style="font:400 9px 'Manrope';color:#9e9e9e">order → clean</div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <!-- DOCTOR SCHEDULE · CALENDAR WEEK VIEW -->
+        <div style="background:#fff;border:1px solid #e0e0e0;border-radius:8px;box-shadow:0 1px 2px rgba(10,30,80,.06);display:flex;flex-direction:column;height:100%">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid #eee">
+            <div style="display:flex;align-items:center;gap:8px">
+              <span style="font:700 15px 'Manrope';color:#0a0a0a">Doctor Schedule</span>
+              <span style="font:400 12px 'Manrope';color:#9e9e9e">Week · Jun 30 – Jul 4</span>
+            </div>
+            <span style="font:600 11px 'Manrope';color:#0085AA;cursor:pointer">Full schedule →</span>
+          </div>
+          <div style="flex:1;overflow:hidden;display:flex;flex-direction:column">
+            <!-- CALENDAR GRID -->
+            <table style="width:100%;height:100%;border-collapse:collapse;font-family:'Manrope',sans-serif;table-layout:fixed">
+              <thead>
+                <tr style="background:#f7f8fa">
+                  <th style="width:30px;padding:3px 2px;border-bottom:1px solid #eee;border-right:1px solid #eee;font:600 8px 'Manrope';letter-spacing:.05em;text-transform:uppercase;color:#9e9e9e;text-align:center"></th>
+                  <th style="padding:3px 2px;border-bottom:1px solid #eee;border-right:1px solid #eee;text-align:center">
+                    <div style="font:700 10px 'Manrope';color:#4a5568">Mon</div>
+                    <div style="font:500 9px 'Manrope';color:#bdbdbd">Jun 30</div>
+                  </th>
+                  <th style="padding:3px 2px;border-bottom:1px solid #eee;border-right:1px solid #eee;text-align:center">
+                    <div style="font:700 10px 'Manrope';color:#4a5568">Tue</div>
+                    <div style="font:500 9px 'Manrope';color:#bdbdbd">Jul 1</div>
+                  </th>
+                  <th style="padding:3px 2px;border-bottom:1px solid #eee;border-right:1px solid #eee;text-align:center">
+                    <div style="font:700 10px 'Manrope';color:#4a5568">Wed</div>
+                    <div style="font:500 9px 'Manrope';color:#bdbdbd">Jul 2</div>
+                  </th>
+                  <th style="padding:3px 2px;border-bottom:1px solid #eee;border-right:1px solid #eee;background:#e0f4f9;text-align:center">
+                    <div style="font:800 10px 'Manrope';color:#0085AA">Thu</div>
+                    <div style="font:600 9px 'Manrope';color:#0085AA">Jul 3 ★</div>
+                  </th>
+                  <th style="padding:3px 2px;border-bottom:1px solid #eee;text-align:center">
+                    <div style="font:700 10px 'Manrope';color:#4a5568">Fri</div>
+                    <div style="font:500 9px 'Manrope';color:#bdbdbd">Jul 4</div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- MORNING BAND 07:00–13:00 -->
+                <tr style="height:50%">
+                  <td style="padding:3px 2px;border-bottom:1px solid #eee;border-right:1px solid #eee;text-align:center;vertical-align:middle">
+                    <div style="font:700 8px 'Manrope';color:#9e9e9e">07–13</div>
+                    <div style="font:400 7px 'Manrope';color:#c4c4c4;margin-top:1px">AM</div>
+                  </td>
+                  <td style="padding:3px 4px;border-bottom:1px solid #eee;border-right:1px solid #eee;vertical-align:top">
+                    <div style="background:#e0f4f9;border-left:2px solid #0085AA;border-radius:3px;padding:2px 5px;margin-bottom:2px;font:600 10px 'Manrope';color:#005f7a">Dr.K. Sharma · ICU</div>
+                    <div style="background:#ffe9ec;border-left:2px solid #ed1b24;border-radius:3px;padding:2px 5px;font:600 10px 'Manrope';color:#b3000a">Dr.N. Mehta · ICU</div>
+                  </td>
+                  <td style="padding:3px 4px;border-bottom:1px solid #eee;border-right:1px solid #eee;vertical-align:top">
+                    <div style="background:#eafbe6;border-left:2px solid #00832e;border-radius:3px;padding:2px 5px;margin-bottom:2px;font:600 10px 'Manrope';color:#00701f">Dr.S. Chen · OT-1</div>
+                    <div style="background:#fff4e2;border-left:2px solid #c87100;border-radius:3px;padding:2px 5px;font:600 10px 'Manrope';color:#a85f00">Dr.R. Kumar · OPD</div>
+                  </td>
+                  <td style="padding:3px 4px;border-bottom:1px solid #eee;border-right:1px solid #eee;vertical-align:top">
+                    <div style="background:#f0ecfb;border-left:2px solid #7355a8;border-radius:3px;padding:2px 5px;margin-bottom:2px;font:600 10px 'Manrope';color:#7355a8">Dr.A. Patel · 3-N</div>
+                    <div style="background:#eafbe6;border-left:2px solid #00832e;border-radius:3px;padding:2px 5px;font:600 10px 'Manrope';color:#00701f">Dr.S. Chen · OT-2</div>
+                  </td>
+                  <td style="padding:3px 4px;border-bottom:1px solid #eee;border-right:1px solid #eee;background:#f5f9ff;vertical-align:top">
+                    <div style="background:#e0f4f9;border-left:2px solid #0085AA;border-radius:3px;padding:2px 5px;margin-bottom:2px;font:600 10px 'Manrope';color:#005f7a">Dr.K. Sharma · ICU</div>
+                    <div style="background:#fff4e2;border-left:2px solid #c87100;border-radius:3px;padding:2px 5px;font:600 10px 'Manrope';color:#a85f00">Dr.R. Kumar · OPD</div>
+                  </td>
+                  <td style="padding:3px 4px;border-bottom:1px solid #eee;vertical-align:top">
+                    <div style="background:#f0ecfb;border-left:2px solid #7355a8;border-radius:3px;padding:2px 5px;margin-bottom:2px;font:600 10px 'Manrope';color:#7355a8">Dr.A. Patel · OPD</div>
+                    <div style="background:#ffe9ec;border-left:2px solid #ed1b24;border-radius:3px;padding:2px 5px;font:600 10px 'Manrope';color:#b3000a">Dr.N. Mehta · ICU</div>
+                  </td>
+                </tr>
+                <!-- AFTERNOON BAND 13:00–19:00 -->
+                <tr style="height:50%">
+                  <td style="padding:3px 2px;border-right:1px solid #eee;text-align:center;vertical-align:middle">
+                    <div style="font:700 9px 'Manrope';color:#9e9e9e">13–19</div>
+                    <div style="font:400 7px 'Manrope';color:#c4c4c4;margin-top:1px">PM</div>
+                  </td>
+                  <td style="padding:3px 4px;border-right:1px solid #eee;vertical-align:top">
+                    <div style="background:#e0f4f9;border-left:2px solid #0085AA;border-radius:3px;padding:2px 5px;margin-bottom:2px;font:600 10px 'Manrope';color:#005f7a">Dr.K. Sharma · 3-N</div>
+                    <div style="background:#f0ecfb;border-left:2px solid #7355a8;border-radius:3px;padding:2px 5px;font:600 10px 'Manrope';color:#7355a8">Dr.A. Patel · OPD</div>
+                  </td>
+                  <td style="padding:3px 4px;border-right:1px solid #eee;vertical-align:top">
+                    <div style="background:#ffe9ec;border-left:2px solid #ed1b24;border-radius:3px;padding:2px 5px;font:600 10px 'Manrope';color:#b3000a">Dr.N. Mehta · ICU</div>
+                  </td>
+                  <td style="padding:3px 4px;border-right:1px solid #eee;vertical-align:top">
+                    <div style="background:#e0f4f9;border-left:2px solid #0085AA;border-radius:3px;padding:2px 5px;margin-bottom:2px;font:600 10px 'Manrope';color:#005f7a">Dr.K. Sharma · Disch.</div>
+                    <div style="background:#ffe9ec;border-left:2px solid #ed1b24;border-radius:3px;padding:2px 5px;font:600 10px 'Manrope';color:#b3000a">Dr.N. Mehta · ICU</div>
+                  </td>
+                  <td style="padding:3px 4px;border-right:1px solid #eee;background:#f5f9ff;vertical-align:top">
+                    <div style="background:#eafbe6;border-left:2px solid #00832e;border-radius:3px;padding:2px 5px;margin-bottom:2px;font:600 10px 'Manrope';color:#00701f">Dr.S. Chen · OT-2</div>
+                    <div style="background:#f0ecfb;border-left:2px solid #7355a8;border-radius:3px;padding:2px 5px;font:600 10px 'Manrope';color:#7355a8">Dr.A. Patel · Consult</div>
+                  </td>
+                  <td style="padding:3px 4px;vertical-align:top">
+                    <div style="background:#e0f4f9;border-left:2px solid #0085AA;border-radius:3px;padding:2px 5px;margin-bottom:2px;font:600 10px 'Manrope';color:#005f7a">Dr.K. Sharma · Ward</div>
+                    <div style="background:#fff4e2;border-left:2px solid #c87100;border-radius:3px;padding:2px 5px;font:600 10px 'Manrope';color:#a85f00">Dr.R. Kumar · OT-3</div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <!-- LEGEND -->
+            <div style="display:flex;flex-wrap:wrap;gap:4px 8px;padding:5px 10px;border-top:1px solid #eee;background:#fafbfc;flex:none">
+              <span style="display:inline-flex;align-items:center;gap:4px;font:600 9px 'Manrope';color:#005f7a"><span style="width:8px;height:8px;border-radius:2px;background:#e0f4f9;border-left:2px solid #0085AA"></span>Cardiology</span>
+              <span style="display:inline-flex;align-items:center;gap:4px;font:600 9px 'Manrope';color:#7355a8"><span style="width:8px;height:8px;border-radius:2px;background:#f0ecfb;border-left:2px solid #7355a8"></span>Neurology</span>
+              <span style="display:inline-flex;align-items:center;gap:4px;font:600 9px 'Manrope';color:#00701f"><span style="width:8px;height:8px;border-radius:2px;background:#eafbe6;border-left:2px solid #00832e"></span>Gen. Surgery</span>
+              <span style="display:inline-flex;align-items:center;gap:4px;font:600 9px 'Manrope';color:#a85f00"><span style="width:8px;height:8px;border-radius:2px;background:#fff4e2;border-left:2px solid #c87100"></span>Orthopaedics</span>
+              <span style="display:inline-flex;align-items:center;gap:4px;font:600 9px 'Manrope';color:#b3000a"><span style="width:8px;height:8px;border-radius:2px;background:#ffe9ec;border-left:2px solid #ed1b24"></span>Intensivist</span>
+            </div>
+          </div>
+
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- =========================================================
+       SCREEN B — INTELLIGENT COMMAND BAR
+       ========================================================= -->
+  <sc-if value="{{ isAI }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:16px 24px 48px">
+    <div style="display:grid;grid-template-columns:1fr 380px;gap:16px;align-items:start">
+
+      <!-- LEFT: command bar + results -->
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <!-- COMMAND BAR -->
+        <div style="background:#fff;border:1px solid #e0e0e0;border-radius:10px;box-shadow:0 8px 16px rgba(10,30,80,.08);overflow:hidden">
+          <div style="display:flex;align-items:center;gap:12px;padding:16px 18px">
+            <span class="material-symbols-outlined" style="font-size:26px;color:#0085AA">auto_awesome</span>
+            <div style="flex:1;font:400 17px 'Manrope';color:#0a0a0a">{{ aiQuery }}<span style="display:inline-block;width:2px;height:20px;background:#0085AA;margin-left:2px;vertical-align:middle;animation:auraPulse 1s steps(1) infinite"></span></div>
+            <span style="font:600 11px 'Manrope';color:#9e9e9e;border:1px solid #e0e0e0;border-radius:4px;padding:3px 7px">⏎ Search</span>
+          </div>
+          <!-- interpreted filters -->
+          <div style="display:flex;flex-wrap:wrap;gap:8px;padding:0 18px 16px">
+            <span style="font:700 10px 'Manrope';letter-spacing:.08em;text-transform:uppercase;color:#9e9e9e;align-self:center;margin-right:2px">Interpreted as</span>
+            <sc-for list="{{ aiChips }}" as="c" hint-placeholder-count="4">
+              <span style="display:inline-flex;align-items:center;gap:6px;font:600 12px 'Manrope';color:#005f7a;background:#e0f4f9;border:1px solid #c4d2ec;padding:5px 10px;border-radius:999px">
+                <span class="material-symbols-outlined" style="font-size:15px">{{ c.icon }}</span>{{ c.label }}
+                <span class="material-symbols-outlined" style="font-size:14px;color:#7796cd;cursor:pointer">close</span>
+              </span>
+            </sc-for>
+          </div>
+          <!-- suggestions -->
+          <div style="border-top:1px solid #eee;background:#fafbfc">
+            <div style="font:700 10px 'Manrope';letter-spacing:.08em;text-transform:uppercase;color:#9e9e9e;padding:11px 18px 6px">Suggested queries</div>
+            <sc-for list="{{ aiSuggest }}" as="s" hint-placeholder-count="3">
+              <div onClick="{{ s.onClick }}" style="display:flex;align-items:center;gap:11px;padding:10px 18px;cursor:pointer;border-top:1px solid #f0f0f0">
+                <span class="material-symbols-outlined" style="font-size:18px;color:#0085AA">{{ s.icon }}</span>
+                <span style="flex:1;font:400 13px 'Manrope';color:#424242">{{ s.text }}</span>
+                <span class="material-symbols-outlined" style="font-size:16px;color:#bdbdbd">north_west</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <!-- RESULTS TABLE -->
+        <div style="background:#fff;border:1px solid #e0e0e0;border-radius:8px;box-shadow:0 1px 2px rgba(10,30,80,.06)">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid #eee">
+            <div style="display:flex;align-items:center;gap:9px">
+              <span style="font:700 15px 'Manrope';color:#0a0a0a">Matching beds</span>
+              <span style="background:#eef2f7;color:#0085AA;font:700 11px 'Manrope';padding:2px 9px;border-radius:999px">{{ aiResultCount }} results</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;font:600 12px 'Manrope';color:#616161">
+              <span class="material-symbols-outlined" style="font-size:17px">sort</span>Sorted by match confidence
+            </div>
+          </div>
+          <table style="width:100%;border-collapse:collapse;font:400 13px 'Manrope';color:#424242">
+            <thead>
+              <tr>
+                <th style="text-align:left;font:700 10px 'Manrope';letter-spacing:.06em;color:#9e9e9e;padding:9px 14px;border-bottom:1px solid #e0e0e0">Bed</th>
+                <th style="text-align:left;font:700 10px 'Manrope';letter-spacing:.06em;color:#9e9e9e;padding:9px 14px;border-bottom:1px solid #e0e0e0">Unit / Floor</th>
+                <th style="text-align:left;font:700 10px 'Manrope';letter-spacing:.06em;color:#9e9e9e;padding:9px 14px;border-bottom:1px solid #e0e0e0">Isolation</th>
+                <th style="text-align:center;font:700 10px 'Manrope';letter-spacing:.06em;color:#9e9e9e;padding:9px 14px;border-bottom:1px solid #e0e0e0">Ventilator</th>
+                <th style="text-align:center;font:700 10px 'Manrope';letter-spacing:.06em;color:#9e9e9e;padding:9px 14px;border-bottom:1px solid #e0e0e0">Telemetry</th>
+                <th style="text-align:left;font:700 10px 'Manrope';letter-spacing:.06em;color:#9e9e9e;padding:9px 14px;border-bottom:1px solid #e0e0e0">Ready in</th>
+                <th style="text-align:left;font:700 10px 'Manrope';letter-spacing:.06em;color:#9e9e9e;padding:9px 14px;border-bottom:1px solid #e0e0e0">Match</th>
+                <th style="border-bottom:1px solid #e0e0e0"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <sc-for list="{{ aiResults }}" as="r" hint-placeholder-count="5">
+                <tr style="{{ r.rowStyle }}">
+                  <td style="padding:11px 14px;border-bottom:1px solid #f0f0f0;font:700 13px 'Manrope';color:#0a0a0a">{{ r.bed }}</td>
+                  <td style="padding:11px 14px;border-bottom:1px solid #f0f0f0">{{ r.unit }}</td>
+                  <td style="padding:11px 14px;border-bottom:1px solid #f0f0f0">
+                    <span style="display:inline-flex;align-items:center;gap:5px;font:600 11px 'Manrope';color:{{ r.isoColor }}">
+                      <span class="material-symbols-outlined" style="font-size:15px">{{ r.isoIcon }}</span>{{ r.iso }}
+                    </span>
+                  </td>
+                  <td style="padding:11px 14px;border-bottom:1px solid #f0f0f0;text-align:center"><span class="material-symbols-outlined" style="font-size:19px;color:{{ r.ventColor }}">{{ r.ventIcon }}</span></td>
+                  <td style="padding:11px 14px;border-bottom:1px solid #f0f0f0;text-align:center"><span class="material-symbols-outlined" style="font-size:19px;color:{{ r.teleColor }}">{{ r.teleIcon }}</span></td>
+                  <td style="padding:11px 14px;border-bottom:1px solid #f0f0f0;font:700 12px 'Manrope';color:{{ r.readyColor }}">{{ r.ready }}</td>
+                  <td style="padding:11px 14px;border-bottom:1px solid #f0f0f0">
+                    <div style="display:flex;align-items:center;gap:8px">
+                      <div style="width:52px;height:6px;border-radius:999px;background:#eee;overflow:hidden"><div style="height:100%;width:{{ r.match }}%;background:{{ r.matchColor }};border-radius:999px"></div></div>
+                      <span style="font:700 12px 'Manrope';color:{{ r.matchColor }}">{{ r.match }}%</span>
+                    </div>
+                  </td>
+                  <td style="padding:11px 14px;border-bottom:1px solid #f0f0f0;text-align:right">
+                    <button style="height:30px;padding:0 12px;background:#0085AA;color:#fff;border:none;border-radius:4px;font:700 11px 'Manrope';letter-spacing:.03em;cursor:pointer">ASSIGN</button>
+                  </td>
+                </tr>
+              </sc-for>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- RIGHT: PREDICTIVE TIMELINE -->
+      <div style="background:#fff;border:1px solid #e0e0e0;border-radius:8px;box-shadow:0 1px 2px rgba(10,30,80,.06);position:sticky;top:70px">
+        <div style="padding:14px 18px;border-bottom:1px solid #eee">
+          <div style="display:flex;align-items:center;gap:8px">
+            <span class="material-symbols-outlined" style="font-size:20px;color:#0085AA">insights</span>
+            <span style="font:700 15px 'Manrope';color:#0a0a0a">Predictive discharge timeline</span>
+          </div>
+          <div style="font:400 11px/1.5 'Manrope';color:#9e9e9e;margin-top:5px">EHR-triggered forecast · next 12h. Confidence from order sets, labs & mobility flags.</div>
+        </div>
+        <div style="padding:16px 18px">
+          <sc-for list="{{ timeline }}" as="tl" hint-placeholder-count="5">
+            <div style="display:flex;gap:12px;padding-bottom:18px;position:relative">
+              <div style="width:44px;flex:none;text-align:right;font:700 11px 'Manrope';color:#616161;padding-top:1px">{{ tl.time }}</div>
+              <div style="flex:none;display:flex;flex-direction:column;align-items:center">
+                <span style="width:12px;height:12px;border-radius:50%;background:{{ tl.dotBg }};border:2px solid {{ tl.dotBr }};z-index:1"></span>
+                <span style="flex:1;width:2px;background:#e0e0e0;margin-top:2px"></span>
+              </div>
+              <div style="flex:1;padding-bottom:2px">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:6px">
+                  <span style="font:700 13px 'Manrope';color:#0a0a0a">{{ tl.bed }} · {{ tl.patient }}</span>
+                  <span style="font:700 10px 'Manrope';color:{{ tl.confColor }};background:{{ tl.confBg }};padding:2px 7px;border-radius:4px">{{ tl.conf }}</span>
+                </div>
+                <div style="font:400 11px/1.5 'Manrope';color:#616161;margin-top:3px">{{ tl.event }}</div>
+                <div style="display:inline-flex;align-items:center;gap:5px;margin-top:6px;font:600 10px 'Manrope';color:#005f7a;background:#eef2f7;padding:3px 8px;border-radius:4px">
+                  <span class="material-symbols-outlined" style="font-size:13px">bolt</span>{{ tl.trigger }}
+                </div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- =========================================================
+       SCREEN C — HOUSEKEEPING TASK QUEUE
+       ========================================================= -->
+  <sc-if value="{{ isHK }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:16px 24px 48px">
+    <!-- toolbar -->
+    <div style="display:flex;align-items:center;justify-content:space-between;background:#0085AA;border-radius:8px;padding:12px 18px;margin-bottom:16px">
+      <div style="display:flex;align-items:center;gap:22px">
+        <sc-for list="{{ hkSummary }}" as="h" hint-placeholder-count="4">
+          <div style="display:flex;align-items:center;gap:9px">
+            <span style="width:10px;height:10px;border-radius:50%;background:{{ h.dot }}"></span>
+            <span style="font:700 22px 'Manrope';color:#fff">{{ h.value }}</span>
+            <span style="font:600 12px 'Manrope';color:rgba(255,255,255,.75)">{{ h.label }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="font:600 12px 'Manrope';color:rgba(255,255,255,.7)">4 staff on shift · 2 available</span>
+        <button style="height:34px;padding:0 15px;background:#0085AA;color:#fff;border:none;border-radius:4px;font:700 12px 'Manrope';letter-spacing:.03em;cursor:pointer;display:inline-flex;align-items:center;gap:6px">
+          <span class="material-symbols-outlined" style="font-size:18px">add</span>NEW TASK
+        </button>
+      </div>
+    </div>
+
+    <!-- kanban -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;align-items:start">
+      <sc-for list="{{ hkColumns }}" as="col" hint-placeholder-count="4">
+        <div style="background:#eef1f4;border:1px solid #e0e0e0;border-radius:8px;min-height:300px">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid #e0e0e0">
+            <div style="display:flex;align-items:center;gap:8px">
+              <span style="width:9px;height:9px;border-radius:50%;background:{{ col.dot }}"></span>
+              <span style="font:700 13px 'Manrope';color:#0a0a0a">{{ col.title }}</span>
+            </div>
+            <span style="background:#fff;border:1px solid #e0e0e0;color:#616161;font:700 11px 'Manrope';padding:1px 8px;border-radius:999px">{{ col.count }}</span>
+          </div>
+          <div style="padding:12px;display:flex;flex-direction:column;gap:12px">
+            <sc-for list="{{ col.tasks }}" as="t" hint-placeholder-count="2">
+              <div style="background:#fff;border:1px solid #e0e0e0;border-left:4px solid {{ t.priColor }};border-radius:6px;box-shadow:0 1px 2px rgba(10,30,80,.06);padding:12px">
+                <div style="display:flex;align-items:center;justify-content:space-between">
+                  <span style="font:700 10px 'Manrope';letter-spacing:.06em;text-transform:uppercase;color:{{ t.priColor }};background:{{ t.priBg }};padding:2px 8px;border-radius:4px">{{ t.priority }}</span>
+                  <span style="font:600 11px 'Manrope';color:{{ t.elapsedColor }};display:inline-flex;align-items:center;gap:3px"><span class="material-symbols-outlined" style="font-size:14px">timer</span>{{ t.elapsed }}</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;margin-top:10px">
+                  <span class="material-symbols-outlined" style="font-size:20px;color:#0085AA">{{ t.typeIcon }}</span>
+                  <div>
+                    <div style="font:700 15px/1.1 'Manrope';color:#0a0a0a">{{ t.room }}</div>
+                    <div style="font:400 11px 'Manrope';color:#9e9e9e">{{ t.floor }}</div>
+                  </div>
+                </div>
+                <div style="font:600 12px 'Manrope';color:#424242;margin-top:8px">{{ t.type }}</div>
+                <div style="font:400 11px/1.5 'Manrope';color:#9e9e9e;margin-top:2px">Requested by {{ t.requester }}</div>
+
+                <!-- checklist -->
+                <sc-if value="{{ t.showChecklist }}" hint-placeholder-val="{{ false }}">
+                <div style="margin-top:10px;padding-top:10px;border-top:1px solid #f0f0f0;display:flex;flex-direction:column;gap:5px">
+                  <sc-for list="{{ t.checklist }}" as="ci" hint-placeholder-count="3">
+                    <div style="display:flex;align-items:center;gap:7px">
+                      <span class="material-symbols-outlined" style="font-size:17px;color:{{ ci.color }}">{{ ci.icon }}</span>
+                      <span style="font:400 11px 'Manrope';color:{{ ci.textColor }};text-decoration:{{ ci.strike }}">{{ ci.label }}</span>
+                    </div>
+                  </sc-for>
+                  <div style="margin-top:3px;height:5px;border-radius:999px;background:#eee;overflow:hidden"><div style="height:100%;width:{{ t.progress }}%;background:#00c853"></div></div>
+                </div>
+                </sc-if>
+
+                <!-- footer: assignee + action -->
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-top:11px;padding-top:10px;border-top:1px solid #f0f0f0">
+                  <sc-if value="{{ t.assigned }}" hint-placeholder-val="{{ false }}">
+                    <div style="display:flex;align-items:center;gap:6px">
+                      <span style="width:24px;height:24px;border-radius:50%;background:{{ t.avaColor }};color:#fff;font:700 10px 'Manrope';display:flex;align-items:center;justify-content:center">{{ t.avaInit }}</span>
+                      <span style="font:600 11px 'Manrope';color:#616161">{{ t.assignee }}</span>
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{ t.unassigned }}" hint-placeholder-val="{{ false }}">
+                    <span style="font:600 11px 'Manrope';color:#ed1b24;display:inline-flex;align-items:center;gap:4px"><span class="material-symbols-outlined" style="font-size:15px">person_off</span>Unassigned</span>
+                  </sc-if>
+                  <button style="height:30px;padding:0 13px;background:{{ t.btnBg }};color:{{ t.btnColor }};border:1px solid {{ t.btnBr }};border-radius:4px;font:700 11px 'Manrope';letter-spacing:.03em;cursor:pointer;display:inline-flex;align-items:center;gap:5px">
+                    <span class="material-symbols-outlined" style="font-size:16px">{{ t.btnIcon }}</span>{{ t.btn }}
+                  </button>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- =========================================================
+       SCREEN D — COMPONENT SPECS
+       ========================================================= -->
+  <sc-if value="{{ isSpecs }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:16px 24px 48px;max-width:1180px">
+    <div style="font:400 13px/1.6 'Manrope';color:#616161;margin-bottom:20px">Anatomy, tokens and interaction rules for the three custom elements. Measurements in px on an 8-pt grid; colors reference ARTUS Protect semantic tokens.</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start">
+      <sc-for list="{{ specs }}" as="sp" hint-placeholder-count="3">
+        <div style="background:#fff;border:1px solid #e0e0e0;border-radius:8px;box-shadow:0 1px 2px rgba(10,30,80,.06);overflow:hidden;{{ sp.span }}">
+          <div style="display:flex;align-items:center;gap:10px;padding:14px 18px;background:#eaf3fb;border-bottom:1px solid #eee">
+            <span class="material-symbols-outlined" style="font-size:22px;color:#0085AA">{{ sp.icon }}</span>
+            <div>
+              <div style="font:700 15px 'Manrope';color:#0a0a0a">{{ sp.name }}</div>
+              <div style="font:600 10px 'Manrope';letter-spacing:.05em;color:#9e9e9e">{{ sp.tag }}</div>
+            </div>
+          </div>
+          <div style="padding:18px">
+            <sc-for list="{{ sp.rows }}" as="row" hint-placeholder-count="4">
+              <div style="display:grid;grid-template-columns:120px 1fr;gap:12px;padding:9px 0;border-bottom:1px solid #f2f2f2">
+                <div style="font:700 11px 'Manrope';letter-spacing:.04em;text-transform:uppercase;color:#0085AA">{{ row.k }}</div>
+                <div style="font:400 12px/1.6 'Manrope';color:#424242">{{ row.v }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- ===== FOOTER ===== -->
+  <div style="background:#0085AA;color:#fff;padding:13px;text-align:center;font:400 12px 'Manrope';letter-spacing:.02em">© Artus Health Systems 2026 · AuraBed Capacity Command · v3.2 — for demonstration only, not a medical device</div>
+
+  <!-- =========================================================
+       URGENT ALERT MODAL
+       ========================================================= -->
+  <sc-if value="{{ showAlert }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;inset:0;z-index:100;background:rgba(6,33,79,.48);display:flex;align-items:center;justify-content:center;animation:auraScrim .16s ease" onClick="{{ closeAlert }}">
+    <div onClick="{{ stop }}" style="width:520px;background:#fff;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.35);overflow:hidden;animation:auraRise .22s cubic-bezier(.2,.7,.2,1)">
+      <div style="background:#ed1b24;padding:16px 22px;display:flex;align-items:center;gap:12px">
+        <span class="material-symbols-outlined" style="font-size:30px;color:#fff;animation:auraPulse 1.2s infinite">e911_emergency</span>
+        <div style="flex:1">
+          <div style="font:700 10px 'Manrope';letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.8)">Priority 1 · ED capacity surge</div>
+          <div style="font:700 19px/1.2 'Manrope';color:#fff;margin-top:2px">Immediate bed placement required</div>
+        </div>
+        <span onClick="{{ closeAlert }}" class="material-symbols-outlined" style="font-size:24px;color:rgba(255,255,255,.85);cursor:pointer">close</span>
+      </div>
+      <div style="padding:22px">
+        <div style="display:flex;gap:14px;padding:14px;background:#ffe9ec;border:1px solid #f7c4c8;border-radius:8px">
+          <div style="width:48px;height:48px;border-radius:8px;background:#ed1b24;color:#fff;display:flex;align-items:center;justify-content:center;flex:none"><span class="material-symbols-outlined" style="font-size:28px">personal_injury</span></div>
+          <div style="flex:1">
+            <div style="font:700 15px 'Manrope';color:#0a0a0a">Trauma activation — ETA 6 min</div>
+            <div style="font:400 12px/1.6 'Manrope';color:#616161;margin-top:3px">Level 1 trauma, ventilated, requires <b>isolated ICU bed with negative pressure</b>. EMS inbound to ED Bay 4.</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px">
+          <div style="padding:12px 14px;border:1px solid #e0e0e0;border-radius:8px">
+            <div style="font:700 10px 'Manrope';letter-spacing:.06em;text-transform:uppercase;color:#9e9e9e">AuraBed recommendation</div>
+            <div style="font:700 20px 'Manrope';color:#0085AA;margin-top:5px">ICU-07 · 3-North</div>
+            <div style="font:600 11px 'Manrope';color:#00832e;margin-top:2px">Ready now · 96% match</div>
+          </div>
+          <div style="padding:12px 14px;border:1px solid #e0e0e0;border-radius:8px">
+            <div style="font:700 10px 'Manrope';letter-spacing:.06em;text-transform:uppercase;color:#9e9e9e">Fallback</div>
+            <div style="font:700 20px 'Manrope';color:#0a0a0a;margin-top:5px">ICU-11 · 3-North</div>
+            <div style="font:600 11px 'Manrope';color:#c87100;margin-top:2px">Clean in progress · ~14 min</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:20px">
+          <button onClick="{{ closeAlert }}" style="flex:none;height:44px;padding:0 18px;background:#fff;color:#616161;border:1px solid #e0e0e0;border-radius:6px;font:700 13px 'Manrope';cursor:pointer">Dismiss</button>
+          <button onClick="{{ closeAlert }}" style="flex:1;height:44px;background:#fff;color:#0085AA;border:1.5px solid #0085AA;border-radius:6px;font:700 13px 'Manrope';cursor:pointer">Notify charge nurse</button>
+          <button onClick="{{ closeAlert }}" style="flex:1;height:44px;background:#ed1b24;color:#fff;border:none;border-radius:6px;font:700 13px 'Manrope';letter-spacing:.02em;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px">
+            <span class="material-symbols-outlined" style="font-size:19px">check_circle</span>Accept &amp; assign ICU-07
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:940}}">
+class Component extends DCLogic {
+  state = { screen: 'command', showAlert: false, activeWard: 0, statusFilter: null };
+
+  // ---- static datasets built once ----
+  constructor(props){
+    super(props);
+    this.STATUS = {
+      available:{bg:'#eafbe6',br:'#8fd6a2',fg:'#00701f',label:'Available (clean)'},
+      occupied: {bg:'#eef2f7',br:'#c3ccd6',fg:'#aab4c0',label:'Occupied (stable)'},
+      critical: {bg:'#ffe9ec',br:'#f4a6ac',fg:'#b3000a',label:'Critical / ICU'},
+      discharge:{bg:'#e0f4f9',br:'#88cade',fg:'#005f7a',label:'Discharge pending'},
+      cleaning: {bg:'#fff4e2',br:'#f3c988',fg:'#a85f00',label:'Cleaning in progress'},
+      dirty:    {bg:'#ffe6cf',br:'#f0bb86',fg:'#a85f00',label:'Awaiting clean'},
+      blocked:  {bg:'#eeeeee',br:'#cfcfcf',fg:'#8a8a8a',label:'Blocked / OOO'}
+    };
+    this.floorDefs = [
+      {code:'ICU · ICCU · NICU', name:'Critical care', spec:[
+        ['ICU-01','critical',1,1,'Vent'],['ICU-02','critical',0,1,'Sedated'],['ICU-03','occupied',0,1,''],['ICU-04','occupied',0,1,''],
+        ['ICU-05','available',0,1,'Ready'],['ICU-06','cleaning',1,0,'Cleaning'],['ICU-07','critical',1,1,'Vent'],['ICU-08','discharge',0,1,'Step-dn'],
+        ['ICU-09','occupied',0,1,''],['ICU-10','dirty',0,0,'Dirty'],['ICCU-1','critical',0,1,'IABP'],['ICCU-2','occupied',0,1,''],
+        ['ICCU-3','available',0,1,'Ready'],['ICCU-4','occupied',0,1,''],['ICCU-5','discharge',0,1,'Step-dn'],['NICU-1','critical',1,0,'Incub'],
+        ['NICU-2','occupied',0,0,''],['NICU-3','cleaning',1,0,'Cleaning'],['NICU-4','available',0,0,'Ready'],['NICU-5','occupied',0,0,'']]},
+      {code:'Semi-Private', name:'2 beds / room', spec:[
+        ['201A','occupied',0,0,''],['201B','occupied',0,0,''],['202A','available',0,0,'Ready'],['202B','occupied',0,0,''],
+        ['203A','cleaning',0,0,'Cleaning'],['203B','occupied',0,0,''],['204A','discharge',0,0,'Discharge Today'],['204B','occupied',1,0,'Isolation'],
+        ['205A','available',0,0,'Ready'],['205B','occupied',0,0,''],['206A','dirty',0,0,'Dirty'],['206B','occupied',0,0,''],
+        ['207A','occupied',0,0,''],['207B','available',0,0,'Ready'],['208A','occupied',0,0,''],['208B','discharge',0,0,'Discharge Today'],
+        ['209A','cleaning',0,0,'Cleaning'],['209B','occupied',0,0,''],['210A','occupied',0,0,''],['210B','available',0,0,'Ready']]},
+      {code:'Private', name:'Single occupancy', spec:[
+        ['301','occupied',0,1,''],['302','discharge',0,0,'Discharge Today'],['303','occupied',0,0,''],['304','available',0,0,'Ready'],
+        ['305','cleaning',0,0,'Cleaning'],['306','occupied',1,0,'Droplet'],['307','occupied',0,1,''],['308','discharge',0,0,'SNF'],
+        ['309','available',0,0,'Ready'],['310','occupied',0,0,''],['311','occupied',0,0,''],['312','available',0,0,'Ready'],
+        ['313','dirty',0,0,'Dirty'],['314','occupied',0,0,''],['315','discharge',0,0,'Discharge Today'],['316','occupied',1,0,'Isolation'],
+        ['317','available',0,0,'Ready'],['318','occupied',0,0,''],['319','cleaning',0,0,'Cleaning'],['320','occupied',0,0,'']]},
+      {code:'General', name:'General ward', spec:[
+        ['401','occupied',0,0,''],['402','occupied',0,0,''],['403','available',0,0,'Ready'],['404','discharge',0,0,'Discharge Today'],
+        ['405','occupied',1,0,'Isolation'],['406','cleaning',0,0,'Cleaning'],['407','occupied',0,0,''],['408','occupied',0,0,''],
+        ['409','available',0,0,'Ready'],['410','occupied',0,0,''],['411','dirty',0,0,'Dirty'],['412','occupied',0,0,''],
+        ['413','occupied',0,0,''],['414','available',0,0,'Ready'],['415','discharge',0,0,'Discharge Today'],['416','occupied',0,0,''],
+        ['417','available',0,0,'Ready'],['418','cleaning',0,0,'Cleaning'],['419','occupied',0,0,''],['420','occupied',0,0,'']]}
+    ];
+  }
+
+  go(s){ return () => this.setState({ screen: s }); }
+
+  renderVals(){
+    const S = this.STATUS;
+    const screen = this.state.screen;
+    const statusFilter = this.state.statusFilter || null;
+    const navDef = [
+      ['command','Command Center','space_dashboard'],
+      ['ai','Command Bar','auto_awesome'],
+      ['hk','Housekeeping','cleaning_services'],
+      ['analytics','Analytics','monitoring'],
+      ['specs','Components','widgets']
+    ];
+    const nav = navDef.map(([id,label,icon])=>({
+      id,label,icon,
+      onClick: this.go(id),
+      color: screen===id ? '#ffffff' : 'rgba(255,255,255,.72)',
+      underline: screen===id ? '#0085AA' : 'transparent'
+    }));
+
+    const pageMeta = {
+      command:['Command Center','AuraBed Command Center','Command Center'],
+      ai:['Command Bar','Intelligent Command Bar','Command Bar'],
+      hk:['Housekeeping','Housekeeping Supervisor — Task Queue','Housekeeping'],
+      analytics:['Analytics','Capacity Analytics','Analytics'],
+      specs:['Components','Component Design Specifications','Components']
+    }[screen] || ['Command Center','AuraBed','Command Center'];
+
+    // KPIs with sparklines
+    const mkSpark = (arr)=>{ const mn=Math.min(...arr),mx=Math.max(...arr),n=arr.length;
+      return arr.map((v,i)=>`${(i/(n-1)*70+1).toFixed(1)},${(20-(v-mn)/((mx-mn)||1)*18+1).toFixed(1)}`).join(' '); };
+    const kpiDef = [
+      ['Occupancy','87.4','%','donut_large','#c24158','+2.1','up',[80,82,81,84,85,84,86,87],'#b3000a'],
+      ['Available beds','34','','king_bed','#0085AA','−6','down',[46,44,42,40,39,37,36,34],'#b3000a'],
+      ['Avg turnaround','68','min','timelapse','#00832e','−9','down',[92,88,84,80,76,74,70,68],'#00832e'],
+      ['Discharge queue','22','','logout','#0085AA','+4','up',[14,15,17,18,19,20,21,22],'#a85f00'],
+      ['Pending cleans','17','','cleaning_services','#c87100','+3','up',[9,10,12,13,14,15,16,17],'#a85f00'],
+      ['ED boarding','9','','emergency','#ed1b24','+2','up',[3,4,4,5,6,7,8,9],'#b3000a']
+    ];
+    const kpis = kpiDef.map(([label,value,unit,icon,accent,delta,dir,arr,dc])=>({
+      label,value,unit,icon,accent,delta,
+      spark:mkSpark(arr),
+      deltaColor:dc,
+      deltaIcon: dir==='up'?'trending_up':'trending_down'
+    }));
+
+    // Transfers
+    const transfers = [
+      ['Trauma — J. Reyes','#ed1b24','#ffe9ec','P1','MVC, intubated, GCS 7 · from Field','6 min','Isolated ICU + vent'],
+      ['Sepsis — M. Bauer','#c87100','#fff4e2','P2','Lactate 4.2, on pressors · ED Bay 2','18 min','ICU or step-down'],
+      ['Chest pain — A. Novak','#0085AA','#e0f4f9','P3','STEMI ruled out, tele needed · ED Bay 7','35 min','Cardiac tele bed'],
+      ['Fall — R. Silva','#0085AA','#e0f4f9','P3','Hip fracture, ortho consult · ED Bay 11','50 min','Med/Surg bed']
+    ].map(([name,accent,chipBg,acuity,detail,eta,needs])=>({name,accent,chipBg,acuity,detail,eta,needs,onClick:()=>{}}));
+
+    // Unit capacity
+    const unitCap = [
+      ['ICU / Critical','#d45c72',92,'11','12','1'],
+      ['Cardiac / Tele','#d4820a',83,'20','24','4'],
+      ['Med/Surg A','#2fa862',67,'16','24','8'],
+      ['Med/Surg B','#d4820a',79,'19','24','5'],
+      ['ED Observation','#d45c72',94,'15','16','1']
+    ].map(([name,color,pct,occ,total,free])=>({name,color,pct,occ,total,free}));
+
+    // Legend
+    const legend = Object.keys(S).map(k=>({
+      key:k, bg:S[k].bg, br:S[k].br, label:S[k].label,
+      onClick:()=>this.setState(st=>({statusFilter: st.statusFilter===k?null:k})),
+      selBg: statusFilter===k ? '#e0f4f9' : 'transparent',
+      selBorder: statusFilter===k ? '#0085AA' : 'transparent'
+    }));
+
+    // Floors → beds
+    const floors = this.floorDefs.map(f=>{
+      const beds = f.spec.map(([room,st,iso,tele,tag])=>{
+        const c=S[st];
+        let extra='';
+        if(st==='cleaning') extra="background-image:repeating-linear-gradient(45deg,#fff4e2 0 7px,#fbe6c2 7px 14px);background-size:28px 28px;animation:auraStripe 1s linear infinite";
+        return {room,st,bg:c.bg,br:c.br,fg:c.fg,tag,iso:!!iso,tele:!!tele,extra,
+          tip:`${f.code} · Room ${room} · ${c.label}`, onClick:()=>{}};
+      });
+      const occCount=f.spec.filter(s=>['occupied','critical','discharge'].includes(s[1])).length;
+      const pct=Math.round(occCount/f.spec.length*100);
+      return {code:f.code,name:f.name,beds,pct,count:`${occCount}/${f.spec.length} beds`,color: pct>=90?'#b3000a':pct>=75?'#c87100':'#00832e'};
+    });
+    const totalBeds = this.floorDefs.reduce((n,f)=>n+f.spec.length,0);
+    const aw = this.state.activeWard ?? 0;
+    const wardTabs = floors.map((f,i)=>({
+      code:f.code, pct:f.pct,
+      onClick:()=>this.setState({activeWard:i, statusFilter:null}),
+      bg: i===aw ? '#e8f1fb' : '#fff',
+      border: i===aw ? '#0085AA' : '#e0e0e0',
+      textColor: i===aw ? '#005f7a' : '#616161',
+      pctColor: i===aw ? '#fff' : f.color,
+      pctBg: i===aw ? '#0085AA' : '#f2f4f7'
+    }));
+    const activeWard = floors[aw] || floors[0];
+    const filterOn = !!statusFilter;
+    const filterLabel = statusFilter ? S[statusFilter].label : '';
+    let filterCount = 0;
+    const filterView = floors.map(f=>{
+      const bs = f.beds.filter(b=>b.st===statusFilter);
+      filterCount += bs.length;
+      return { code:f.code, name:f.name, beds:bs, empty: bs.length===0 };
+    });
+
+    // Discharges
+    const discharges = [
+      ['C-02','4-W','H. Andersson','Ride confirmed 14:00','#005f7a','#e0f4f9','2:00p'],
+      ['08','4-W','P. Moreau','Awaiting pharmacy','#c87100','#fff4e2','~45m'],
+      ['23','5-E','T. Larsen','AMA — paperwork','#b3000a','#ffe9ec','Now'],
+      ['31','5-E','G. Ferrari','Rehab transport','#005f7a','#e0f4f9','3:30p'],
+      ['50','5-W','V. Costa','SNF bed pending','#c87100','#fff4e2','~2h']
+    ].map(([bed,unit,patient,status,stColor,stBg,eta])=>({bed,unit,patient,status,stColor,stBg,eta}));
+
+    // Housekeeping stats (command right rail)
+    const hkStats = [
+      ['17','Queued','#ff9f29'],
+      ['6','In progress','#0085AA'],
+      ['3','Inspection','#9e9e9e'],
+      ['24','Done today','#00832e']
+    ].map(([value,label,dot])=>({value,label,dot}));
+
+    // ---- Screen B ----
+    const aiChips = [
+      ['ICU / Critical care','local_hospital'],
+      ['Isolation — negative pressure','shield'],
+      ['Ventilator capable','pulmonology'],
+      ['Available ≤ 30 min','schedule']
+    ].map(([label,icon])=>({label,icon}));
+    const aiSuggest = [
+      ['Show all beds freeing up before 3 PM on cardiac','schedule'],
+      ['Pediatric isolation bed with negative pressure','child_care'],
+      ['Nearest available step-down bed to ED','near_me']
+    ].map(([text,icon])=>({text,icon,onClick:()=>{}}));
+    const yes=['check_circle','#00832e'], no=['cancel','#c3ccd6'];
+    const aiResults = [
+      ['ICU-07','3-North · ICU','Neg. pressure','shield','#7355a8',yes,yes,'Now','#00832e',96],
+      ['ICU-15','3-North · ICU','Neg. pressure','shield','#7355a8',yes,yes,'~8 min','#c87100',88],
+      ['ICU-11','3-North · ICU','Isolation','shield','#7355a8',yes,yes,'~14 min','#c87100',81],
+      ['SD-04','2-North · Step-down','None','remove','#c3ccd6',no,yes,'Now','#00832e',64],
+      ['SD-09','2-North · Step-down','None','remove','#c3ccd6',no,yes,'~20 min','#c87100',58]
+    ].map((r,i)=>({
+      bed:r[0],unit:r[1],iso:r[2],isoIcon:r[3],isoColor:r[4],
+      ventIcon:r[5][0],ventColor:r[5][1],teleIcon:r[6][0],teleColor:r[6][1],
+      ready:r[7],readyColor:r[8],match:r[9],
+      matchColor: r[9]>=85?'#00832e':r[9]>=65?'#c87100':'#9e9e9e',
+      rowStyle: i===0?'background:#eafbe6':''
+    }));
+    const timeline = [
+      ['11:30','C-02 · H. Andersson','Discharge order signed · ride confirmed 14:00','92% likely','#00832e','#eafbe6','discharge','#8fd6a2','EHR: discharge order + transport booked'],
+      ['12:15','5E-31 · G. Ferrari','PT clearance pending → rehab transfer','78% likely','#c87100','#fff4e2','discharge','#f3c988','EHR: PT consult scheduled'],
+      ['13:45','4W-08 · P. Moreau','Awaiting pharmacy reconciliation','71% likely','#c87100','#fff4e2','discharge','#f3c988','EHR: meds pending verification'],
+      ['15:00','5W-50 · V. Costa','SNF placement — bed offer sent','54% likely','#4a5568','#eef2f7','occupied','#c3ccd6','EHR: case mgmt referral open'],
+      ['16:30','5E-24 · L. Weber','Afebrile 24h, cultures negative','63% likely','#c87100','#fff4e2','discharge','#f3c988','EHR: isolation review due']
+    ].map(t=>({time:t[0],bed:t[1].split(' · ')[0],patient:t[1].split(' · ')[1],event:t[2],conf:t[3],confColor:t[4],confBg:t[5],dotBg:S[t[6]].bg,dotBr:t[7],trigger:t[8]}));
+
+    // ---- Screen C ----
+    const hkSummary = [
+      ['17','Queued','#ff9f29'],['6','Active','#0085AA'],['3','Inspect','#9e9e9e'],['12','Overdue','#ed1b24']
+    ].map(([value,label,dot])=>({value,label,dot}));
+
+    const chk=(done)=>({icon:done?'check_circle':'radio_button_unchecked',color:done?'#00c853':'#c3ccd6',textColor:done?'#9e9e9e':'#424242',strike:done?'line-through':'none'});
+    const mkTask=(o)=>{
+      const pri={STAT:['#ed1b24','#ffe9ec'],High:['#c87100','#fff4e2'],Routine:['#4a5568','#eef2f7']}[o.priority];
+      const btn={
+        Assign:['#0085AA','#fff','#0085AA','person_add','ASSIGN'],
+        Start:['#fff','#0085AA','#0085AA','play_arrow','START'],
+        Inspect:['#fff','#c87100','#c87100','fact_check','INSPECT'],
+        Done:['#eafbe6','#00701f','#8fd6a2','check','DONE']
+      }[o.action];
+      return {
+        priority:o.priority,priColor:pri[0],priBg:pri[1],
+        elapsed:o.elapsed,elapsedColor:o.overdue?'#ed1b24':'#9e9e9e',
+        room:o.room,floor:o.floor,type:o.type,typeIcon:o.typeIcon,requester:o.requester,
+        assigned:!!o.assignee,unassigned:!o.assignee,
+        assignee:o.assignee||'',avaInit:o.init||'',avaColor:o.avaColor||'#9e9e9e',
+        showChecklist:!!o.checklist,checklist:(o.checklist||[]).map(c=>({label:c[0],...chk(c[1])})),
+        progress:o.progress||0,
+        btn:btn[4],btnColor:btn[1],btnBg:btn[0],btnBr:btn[2],btnIcon:btn[3]
+      };
+    };
+    const hkColumns = [
+      {title:'Queued',dot:'#ff9f29',count:'17',tasks:[
+        mkTask({priority:'STAT',elapsed:'22m',overdue:true,room:'ICU-11',floor:'3-North · ICU',type:'Terminal isolation clean',typeIcon:'biotech',requester:'Charge RN, 3N',action:'Assign'}),
+        mkTask({priority:'High',elapsed:'14m',room:'4W-08',floor:'4-West · Cardiac',type:'Discharge clean',typeIcon:'cleaning_services',requester:'Discharge queue',action:'Assign'})
+      ]},
+      {title:'In progress',dot:'#0085AA',count:'6',tasks:[
+        mkTask({priority:'STAT',elapsed:'6m',room:'ICU-05',floor:'3-North · ICU',type:'Terminal clean',typeIcon:'biotech',requester:'Bed control',assignee:'M. Diaz',init:'MD',avaColor:'#0085AA',action:'Inspect',
+          checklist:[['Strip & dispose linens',true],['Disinfect high-touch surfaces',true],['Mop & floor care',false]],progress:66}),
+        mkTask({priority:'Routine',elapsed:'11m',room:'5E-25',floor:'5-East · Med/Surg',type:'Discharge clean',typeIcon:'cleaning_services',requester:'EHR trigger',assignee:'K. Owusu',init:'KO',avaColor:'#0085AA',action:'Inspect',
+          checklist:[['Strip & dispose linens',true],['Disinfect surfaces',false],['Restock supplies',false]],progress:33})
+      ]},
+      {title:'Inspection',dot:'#9e9e9e',count:'3',tasks:[
+        mkTask({priority:'High',elapsed:'2m',room:'4W-05',floor:'4-West · Cardiac',type:'Discharge clean',typeIcon:'fact_check',requester:'Bed control',assignee:'S. Petrov',init:'SP',avaColor:'#c87100',action:'Done',
+          checklist:[['All cleaning steps',true],['Supervisor QA check',false]],progress:80})
+      ]},
+      {title:'Ready',dot:'#00c853',count:'24',tasks:[
+        mkTask({priority:'Routine',elapsed:'—',room:'5W-51',floor:'5-West · Med/Surg',type:'Verified clean · released',typeIcon:'verified',requester:'S. Petrov',assignee:'S. Petrov',init:'SP',avaColor:'#00701f',action:'Done'})
+      ]}
+    ];
+
+    // ---- Screen D specs ----
+    const specs = [
+      {name:'Patient Capacity Metric Card',tag:'<aura-metric-card>',icon:'insert_chart',span:'',rows:[
+        ['Footprint','Fixed 1/6 of KPI strip · min-width 168px · height 116px · 8px radius · 16px padding · 3px top border = semantic accent.'],
+        ['Content order','Overline label (10px/700 uppercase, .08em) + status icon → primary value (Roboto 700, 30px, −.02em) with unit (13px muted) → footer row.'],
+        ['Sparkline','72×22 inline SVG, 8-point trailing series, 1.6px stroke in accent color. No axes/fill — trend shape only.'],
+        ['Delta','Right-aligned, Roboto 700 11px + trend arrow. Color encodes GOODNESS not direction (falling turnaround = green).'],
+        ['Hover','Elevate shadow-card→shadow-md over 180ms; reveal 4-point tooltip (current, Δ1h, Δshift, target). No scale transform.'],
+        ['Edge cases','Value >4 digits drops unit to caption line; null series hides sparkline, keeps delta as "—".']
+      ]},
+      {name:'Interactive Timeline Component',tag:'<aura-predict-timeline>',icon:'timeline',span:'',rows:[
+        ['Structure','Vertical rail, 44px time gutter (Roboto 700 11px) + 12px node + connector + event block. Nodes colored by predicted end-state (discharge/occupied).'],
+        ['Time blocks','Each row = one predicted event within a 12h horizon; ordered ascending. Node fill = status token, ring = 2px darker.'],
+        ['Milestones','Event line states the EHR change; a bolt chip names the source trigger (order set, PT consult, pharmacy, culture result).'],
+        ['Predictive indicator','Confidence pill (92%/78%…) colored green≥85, amber 60–84, slate <60; derived from order sets, labs, mobility flags.'],
+        ['Interaction','Hover expands block to show contributing signals; click pins the bed to the board & scrolls the bed grid highlight.'],
+        ['Live update','New EHR triggers insert in time-order with a 180ms fade; confidence re-scores in place without reflow jump.']
+      ]},
+      {name:'Urgent Alert Modal',tag:'<aura-alert-modal role="alertdialog">',icon:'emergency_home',span:'grid-column:1 / -1',rows:[
+        ['Positioning','Centered, 520px fixed width. Scrim rgba(6,33,79,.48) over full viewport — darkened royal blue, never pure black.'],
+        ['Entrance','Scrim fade 160ms; card rise+scale (14px / .98→1) 220ms ease (.2,.7,.2,1). Pulsing header icon at 1.2s cadence.'],
+        ['Header','Priority-1 = error-500 (#ed1b24) fill, white text, overline priority tag + one-line directive + close affordance.'],
+        ['Body','Situation card (patient/acuity) → two recommendation tiles (AuraBed pick vs fallback) with match % and readiness.'],
+        ['Button priority','Reverse-order emphasis: destructive-red primary "Accept & assign" (right), secondary outline "Notify", tertiary ghost "Dismiss" (left).'],
+        ['A11y / edge','Focus trapped to modal, ESC & scrim dismiss, aria-live=assertive announces directive. Blocks background scroll; queues if a second P1 fires.']
+      ]}
+    ];
+
+    specs.forEach(sp=>{ sp.rows = sp.rows.map(r=>Array.isArray(r)?{k:r[0],v:r[1]}:r); });
+
+    return {
+      nav, clock:'11:07',
+      crumb:pageMeta[0], pageTitle:pageMeta[1],
+      isCommand:screen==='command', isAI:screen==='ai', isHK:screen==='hk', isSpecs:screen==='specs',
+      goAI:this.go('ai'), goHK:this.go('hk'),
+      openAlert:()=>this.setState({showAlert:true}),
+      closeAlert:()=>this.setState({showAlert:false}),
+      stop:(e)=>e.stopPropagation(),
+      showAlert:this.state.showAlert,
+      kpis, transfers, transferCount:transfers.length, unitCap, legend, floors,
+      discharges, dischargeCount:discharges.length, hkStats, totalBeds, wardTabs, activeWard,
+      filterOn, filterOff:!filterOn, filterLabel, filterCount, filterView, clearFilter:()=>this.setState({statusFilter:null}),
+      aiQuery:'Find an isolated ICU bed with a ventilator for an arriving trauma patient',
+      aiChips, aiSuggest, aiResults, aiResultCount:aiResults.length, timeline,
+      hkSummary, hkColumns, specs
+    };
+  }
+}
+</script>
+</body>
+</html>

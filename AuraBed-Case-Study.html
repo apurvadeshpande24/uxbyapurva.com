@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AuraBed — Hospital Operations &amp; Bed Management System · Case Study</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ─── Portfolio theme vars ─── */
+:root{
+  --brand:#F07728;--brand-mid:#D96218;--brand-light:#FFF3EC;--brand-em:#FFAD6B;
+  --ink:#1a1a1a;--ink-mid:#4a4a4a;--ink-light:#767676;
+  --white:#ffffff;--divider:#f0ece8;--border:#e8e0d8;
+  --f:'Manrope',system-ui,sans-serif;
+  --cs-blue:#00ACEE;--cs-blue-dk:#0080B8;--cs-gold:#E8B23A;--cs-gold-bg:#FBF1D7;
+  --cs-green:#1F9D6B;--cs-green-bg:#E4F4EC;--cs-red:#D24A43;--cs-red-bg:#FBE7E5;
+  --cs-line:#e8e0d8;--cs-bg:#F7F8FC;--cs-r:12px;--cs-pad:clamp(1.25rem,5%,5rem);
+  --cs-ink:#0E1726;--cs-ink2:#3C4858;--cs-muted:#5e6b78;--cs-blue-soft:#E0F5FD;
+}
+[data-theme="navy"]{--brand:#1A3F6F;--brand-mid:#2B65A8;--brand-light:#EDF4FD;--brand-em:#7EC8F8;--divider:#f1f1f1;--border:#e4e4e4;}
+
+*,*::before,*::after{box-sizing:border-box;}
+html{font-family:var(--f);background:var(--white);color:var(--ink);scroll-behavior:smooth;scroll-padding-top:72px;}
+body{margin:0;min-height:100vh;-webkit-font-smoothing:antialiased;}
+a{color:inherit;text-decoration:none;}
+img{max-width:100%;display:block;}
+h1,h2,h3,h4{margin:0;font-family:'Manrope',sans-serif;font-weight:700;line-height:1.15;letter-spacing:-0.01em;}
+p{margin:0 0 0.75em;}
+p:last-child{margin-bottom:0;}
+ul{margin:0;padding:0;list-style:none;}
+
+/* ─── NAV ─── */
+.pf-nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.97);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--divider);box-shadow:none;transition:box-shadow 0.3s ease;}
+.pf-nav.nav-shadow{box-shadow:0 4px 24px rgba(0,0,0,0.09);}
+.pf-nav-inner{width:100%;padding:0 var(--cs-pad);height:60px;display:flex;align-items:center;justify-content:space-between;}
+.pf-logo{display:inline-flex;flex-direction:column;align-items:flex-start;justify-content:center;text-decoration:none;line-height:1.25;}
+.pf-logo-name{font-size:1rem;font-weight:700;letter-spacing:-0.01em;color:var(--brand);transition:color 0.3s;}
+.pf-logo-sub{font-size:0.62rem;font-weight:400;color:var(--ink-light);letter-spacing:0.01em;}
+.pf-links{display:flex;gap:2rem;list-style:none;}
+.pf-links a{font-size:0.82rem;font-weight:500;letter-spacing:0.04em;text-transform:uppercase;color:var(--ink-mid);text-decoration:none;transition:color 0.2s,border-color 0.2s;border-bottom:2px solid transparent;padding-bottom:1px;}
+.pf-links a:hover{color:var(--brand);}
+.pf-nav-right{display:flex;align-items:center;gap:1rem;}
+.pf-theme-sw{display:flex;align-items:center;background:var(--divider);border-radius:2rem;padding:3px;gap:2px;transition:background 0.3s;}
+.pf-tbtn{display:flex;align-items:center;gap:5px;font-size:0.72rem;font-weight:600;padding:0.28rem 0.75rem;border-radius:2rem;border:none;cursor:pointer;background:transparent;color:var(--ink-mid);font-family:var(--f);transition:all 0.2s;white-space:nowrap;}
+.pf-tbtn.active{background:var(--white);color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,0.1);}
+.pf-tdot{display:inline-block;width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.pf-cta{background:var(--brand);color:#fff;padding:0.45rem 1.1rem;border-radius:2rem;font-size:0.8rem;font-weight:600;font-family:var(--f);text-decoration:none;letter-spacing:0.02em;transition:background 0.2s;}
+.pf-cta:hover{background:var(--brand-mid);}
+.pf-burger{display:none;flex-direction:column;justify-content:center;gap:5px;background:none;border:none;cursor:pointer;padding:4px;}
+.pf-burger span{display:block;width:22px;height:2px;background:var(--ink);border-radius:2px;transition:all 0.25s;}
+
+/* ─── BANNER ─── */
+.cs-banner{background:linear-gradient(315deg,#00ACEE 0%,#0f4a7a 100%);padding:clamp(2rem,4vw,3rem) var(--cs-pad);overflow:hidden;}
+.cs-banner-title{font-size:clamp(1.75rem,3.5vw,2.6rem);color:#fff;font-weight:700;line-height:1.1;margin-bottom:1.75rem;text-align:center;letter-spacing:-.01em;}
+.cs-breadcrumb{margin-bottom:1.25rem;}
+.cs-breadcrumb ol{list-style:none;padding:0;margin:0;display:flex;align-items:center;gap:.35rem;flex-wrap:wrap;}
+.cs-breadcrumb li{display:flex;align-items:center;gap:.35rem;font-size:.82rem;font-weight:500;}
+.cs-breadcrumb a{color:rgba(255,255,255,.65);text-decoration:none;transition:color .2s;}
+.cs-breadcrumb a:hover{color:#fff;text-decoration:underline;}
+.cs-breadcrumb .bc-sep{color:rgba(255,255,255,.3);font-size:.75rem;}
+.cs-breadcrumb [aria-current="page"]{color:rgba(255,255,255,.9);font-weight:600;}
+.cs-banner-cols{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;}
+.cs-bm-row{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:.55rem;font-size:1rem;line-height:1.5;}
+.cs-bm-label{font-weight:700;color:#fff;}
+.cs-bm-val{color:rgba(255,255,255,.82);font-weight:400;}
+.cs-banner-outcome{margin-top:.85rem;}
+.cs-banner-bullets{list-style:none;padding:0;margin:.45rem 0 0 0;}
+.cs-banner-bullets li{font-size:1rem;color:rgba(255,255,255,.82);padding-left:1.1rem;position:relative;margin-bottom:.3rem;line-height:1.5;}
+.cs-banner-bullets li::before{content:'\2022';position:absolute;left:0;color:rgba(255,255,255,.45);}
+.cs-imac{width:100%;}
+.cs-imac-outer{background:#003350;border:3px solid #007BA8;border-radius:10px 10px 0 0;padding:6px 6px 0;box-shadow:0 16px 48px rgba(0,0,0,.45);}
+.cs-imac-screen{background:#001E38;border-radius:6px;overflow:hidden;max-height:280px;}
+.cs-imac-screen img{width:100%;display:block;object-fit:cover;object-position:top left;}
+.cs-imac-chin{background:#004E6E;height:20px;border-radius:0 0 8px 8px;display:flex;align-items:center;justify-content:center;}
+.cs-imac-chin::after{content:'';width:36px;height:4px;background:rgba(255,255,255,.12);border-radius:2px;}
+.cs-imac-neck{width:10%;height:22px;background:#001E38;margin:0 auto;}
+.cs-imac-foot{width:32%;height:7px;background:#003350;border-radius:3px;margin:0 auto;}
+@media(max-width:900px){.cs-banner-cols{grid-template-columns:1fr;}.cs-imac{display:none;}}
+
+/* ─── SECTION BASE ─── */
+.cs-sec{width:100%;padding:5rem var(--cs-pad);}
+.cs-sec.alt{background:var(--white);}
+.cs-sec.grey{background:#f7f8fc;}
+.cs-sec-label{font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:var(--brand);margin-bottom:0.8rem;}
+.cs-sec-title{font-size:clamp(2rem,3.5vw,2.8rem);color:var(--ink);line-height:1.15;margin-bottom:1rem;font-weight:500;}
+.cs-sec-sub{font-size:1rem;color:var(--ink-mid);line-height:1.75;max-width:520px;margin-bottom:3rem;font-weight:400;}
+
+/* ─── OUTCOMES RIBBON ─── */
+.cs-ribbon{width:100%;background:var(--cs-ink);padding:clamp(2rem,4vw,3rem) var(--cs-pad);}
+.cs-ribbon-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;}
+.cs-ribbon-cell{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);padding:1.5rem 1.25rem;display:flex;flex-direction:column;align-items:flex-start;}
+.cs-kpi-ring{position:relative;width:90px;height:90px;margin-bottom:.85rem;}
+.cs-kpi-ring svg{transform:rotate(-90deg);}
+.cs-kpi-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.cs-kpi-num{font-family:'Manrope',sans-serif;font-size:1.4rem;font-weight:700;color:#fff;line-height:1;}
+.cs-kpi-unit{font-size:.6rem;color:var(--cs-gold);font-weight:600;letter-spacing:.08em;margin-top:1px;}
+.cs-ribbon-label{font-size:0.8rem;font-weight:600;color:#fff;margin-bottom:4px;}
+.cs-ribbon-desc{font-size:0.73rem;color:rgba(255,255,255,0.82);line-height:1.5;}
+
+/* ─── STAT BARS ─── */
+.cs-stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;margin-bottom:1.75rem;}
+.cs-stat-bar-card{background:#fff;border:1px solid var(--border);border-radius:var(--cs-r);padding:1.25rem;position:relative;overflow:hidden;}
+.cs-stat-bar-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--cs-blue);}
+.cs-stat-bar-card.warn::before{background:var(--cs-gold);}
+.cs-stat-bar-card.alert::before{background:var(--cs-red);}
+.cs-stat-k{font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-light);margin-bottom:.4rem;}
+.cs-stat-n{font-size:2rem;font-weight:800;color:var(--ink);line-height:1;margin-bottom:.5rem;}
+.cs-stat-n.red{color:var(--cs-red);}
+.cs-stat-n.warn{color:#b88000;}
+.cs-bar-track{height:5px;background:var(--border);border-radius:99px;margin-bottom:.4rem;overflow:hidden;}
+.cs-bar-fill{height:100%;border-radius:99px;background:var(--cs-blue);}
+.cs-bar-fill.red{background:var(--cs-red);}
+.cs-bar-fill.warn{background:var(--cs-gold);}
+.cs-stat-l{font-size:0.78rem;color:var(--ink-light);line-height:1.5;}
+
+/* ─── PERSONA / USER ROLE CARDS ─── */
+.cs-user-roles-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-bottom:1.5rem;}
+.cs-ur-card{background:var(--white);border:1px solid var(--border);border-radius:var(--cs-r);padding:1.25rem 1.25rem 1rem;display:flex;flex-direction:column;gap:.6rem;transition:border-color .2s,box-shadow .2s;}
+.cs-ur-card:hover{border-color:var(--cs-blue);box-shadow:0 6px 20px rgba(26,106,168,.08);}
+.cs-ur-icon{width:38px;height:38px;border-radius:10px;background:var(--cs-blue-soft);color:var(--cs-blue);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.cs-ur-icon svg{width:20px;height:20px;}
+.cs-ur-type{font-size:.9rem;font-weight:700;color:var(--ink);line-height:1.25;margin-top:.15rem;}
+.cs-ur-desc{font-size:.8rem;color:var(--ink-mid);line-height:1.6;flex:1;}
+.cs-ur-roles-row{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.25rem;}
+.cs-ur-role-chip{display:inline-flex;align-items:center;gap:.3rem;font-size:.72rem;font-weight:600;color:var(--cs-blue-dk);background:var(--cs-blue-soft);border:1px solid rgba(26,106,168,.15);border-radius:2rem;padding:.2rem .65rem;}
+.cs-ur-role-chip.primary{background:var(--cs-blue);color:#fff;border-color:var(--cs-blue);}
+
+/* ─── WORKFLOW COMPARE ─── */
+.cs-flow-compare{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:1.25rem;}
+.cs-flow-col{border-radius:var(--cs-r);overflow:hidden;border:1px solid var(--border);}
+.cs-flow-col-head{padding:.85rem 1.25rem;display:flex;align-items:center;gap:.6rem;font-weight:700;font-size:.9rem;}
+.cs-flow-col-head.bad{background:var(--cs-red-bg);color:var(--cs-red);}
+.cs-flow-col-head.good{background:var(--cs-green-bg);color:var(--cs-green);}
+.cs-flow-col-head svg{width:16px;height:16px;flex-shrink:0;}
+.cs-flow-steps{padding:.75rem;}
+.cs-flow-step{display:flex;align-items:flex-start;gap:.6rem;padding:.55rem .65rem;border-radius:8px;margin-bottom:.35rem;font-size:.82rem;line-height:1.4;}
+.cs-flow-step:last-child{margin-bottom:0;}
+.cs-flow-step.bad{background:var(--cs-red-bg);color:#7a2520;}
+.cs-flow-step.good{background:var(--cs-green-bg);color:#156148;}
+.cs-flow-step-icon{flex-shrink:0;margin-top:1px;font-size:0.88rem;font-weight:700;}
+.cs-flow-step strong{display:block;font-weight:600;font-size:0.83rem;}
+.cs-flow-step span{font-size:0.77rem;opacity:0.7;line-height:1.5;}
+
+/* ─── DESIGN DECISIONS ─── */
+.cs-decisions{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.cs-decision{background:var(--white);border:1px solid var(--border);border-radius:var(--cs-r);padding:1.1rem 1.25rem;display:flex;gap:.85rem;align-items:flex-start;}
+.cs-decision-ico{flex-shrink:0;width:36px;height:36px;border-radius:8px;background:var(--cs-blue-soft);display:flex;align-items:center;justify-content:center;font-size:1rem;}
+.cs-decision-body strong{display:block;font-size:0.88rem;font-weight:600;color:var(--ink);margin-bottom:.25rem;}
+.cs-decision-body p{font-size:0.82rem;color:var(--ink-mid);margin:0;line-height:1.65;}
+
+/* ─── INSIGHT QUOTE ─── */
+.cs-insight{background:var(--brand-light);border-left:3px solid var(--brand);border-radius:0 var(--cs-r) var(--cs-r) 0;padding:1rem 1.5rem;margin-top:1.5rem;font-size:0.92rem;color:var(--ink-mid);font-style:italic;line-height:1.75;}
+
+/* ─── KEY INSIGHTS GRID ─── */
+.cs-insights-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:2rem;}
+.cs-insight-card{background:var(--white);border:1px solid var(--border);border-radius:var(--cs-r);padding:1rem 1.1rem;display:flex;gap:.75rem;align-items:flex-start;}
+.cs-insight-num{flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--cs-blue-soft);color:var(--cs-blue);font-family:'IBM Plex Mono',monospace;font-size:.7rem;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:1px;}
+.cs-insight-body strong{display:block;font-size:.87rem;font-weight:600;color:var(--ink);margin-bottom:.25rem;line-height:1.3;}
+.cs-insight-body p{font-size:.8rem;color:var(--ink-mid);margin:0;line-height:1.6;}
+
+/* ─── OVERVIEW ─── */
+.cs-overview{display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:start;}
+.cs-what h3{font-family:'Manrope',sans-serif;font-size:clamp(2rem,3.5vw,2.8rem);font-weight:500;color:var(--ink);line-height:1.15;margin-bottom:.6rem;}
+.cs-what p{font-size:.9rem;color:var(--ink-mid);line-height:1.7;margin-bottom:.5rem;}
+.cs-did h3{font-family:'Manrope',sans-serif;font-size:clamp(2rem,3.5vw,2.8rem);font-weight:500;color:var(--ink);line-height:1.15;margin-bottom:1rem;}
+.cs-did-list{display:flex;flex-direction:column;gap:.85rem;}
+.cs-did-row{display:flex;gap:.85rem;align-items:flex-start;}
+.cs-did-alpha{flex-shrink:0;width:24px;height:24px;background:var(--cs-gold-bg);color:var(--cs-blue-dk);border-radius:50%;font-family:'IBM Plex Mono',monospace;font-size:.68rem;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:2px;}
+.cs-did-body strong{display:block;font-size:.88rem;font-weight:700;color:var(--ink);line-height:1.3;}
+.cs-did-body span{font-size:0.82rem;color:var(--ink-mid);line-height:1.65;}
+
+/* ─── WIREFRAMES ─── */
+.cs-wf-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+.cs-wf-block h4{font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:var(--brand);margin-bottom:0.65rem;}
+.cs-wf{background:var(--white);border:1px solid var(--border);border-radius:var(--cs-r);overflow:hidden;box-shadow:0 4px 16px rgba(26,106,168,.06);filter:grayscale(100%);}
+.cs-wf-bar{background:#00ACEE;padding:7px 12px;display:flex;align-items:center;gap:8px;}
+.cs-wf-bar-logo{width:50px;height:10px;background:rgba(255,255,255,.35);border-radius:2px;}
+.cs-wf-bar-nav{flex:1;display:flex;gap:6px;}
+.cs-wf-bar-nav span{height:8px;width:40px;background:rgba(255,255,255,.2);border-radius:2px;}
+.cs-wf-bar-avatar{width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,.3);margin-left:auto;}
+.cs-wf-body{display:flex;min-height:220px;}
+.cs-wf-side{width:110px;background:#E0F5FD;border-right:1px solid var(--border);padding:10px 8px;flex-shrink:0;}
+.cs-wf-side-logo{width:65%;height:10px;background:#00ACEE;border-radius:2px;margin-bottom:12px;opacity:.4;}
+.cs-wf-nav{height:8px;background:var(--border);border-radius:2px;margin-bottom:6px;}
+.cs-wf-nav.active{background:#00ACEE;width:75%;}
+.cs-wf-main{flex:1;padding:10px;}
+.cs-wf-kpis{display:grid;gap:5px;margin-bottom:8px;}
+.cs-wf-kpis.g6{grid-template-columns:repeat(6,1fr);}
+.cs-wf-kpis.g4{grid-template-columns:repeat(4,1fr);}
+.cs-wf-kpi{background:var(--divider);border:1px solid var(--border);border-radius:5px;padding:6px;}
+.cs-wf-kpi .n{height:11px;background:#00ACEE;border-radius:2px;width:45%;opacity:.55;margin-bottom:4px;}
+.cs-wf-kpi .l{height:6px;background:var(--border);border-radius:2px;width:75%;}
+.cs-wf-tbl{background:var(--divider);border:1px solid var(--border);border-radius:5px;overflow:hidden;}
+.cs-wf-tbl-head{background:var(--border);display:grid;padding:4px 8px;gap:5px;}
+.cs-wf-tbl-head.c6{grid-template-columns:repeat(6,1fr);}
+.cs-wf-tbl-head.c4{grid-template-columns:repeat(4,1fr);}
+.cs-wf-th{height:6px;background:#b0bbc8;border-radius:1px;}
+.cs-wf-tr{display:grid;padding:4px 8px;gap:5px;border-top:1px solid var(--divider);}
+.cs-wf-tr.c6{grid-template-columns:repeat(6,1fr);}
+.cs-wf-tr.c4{grid-template-columns:repeat(4,1fr);}
+.cs-wf-td{height:6px;background:var(--border);border-radius:1px;}
+.cs-wf-td.sg{background:#b3e0c8;}.cs-wf-td.sy{background:#f0d99a;}.cs-wf-td.sr{background:#f0bfbb;}
+.cs-wf-bed-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:3px;margin-bottom:6px;}
+.cs-wf-bed{height:18px;border-radius:3px;background:var(--border);}
+.cs-wf-bed.occ{background:rgba(26,106,168,.3);}
+.cs-wf-bed.clean{background:rgba(240,183,40,.35);}
+.cs-wf-bed.avail{background:rgba(31,157,107,.3);}
+
+/* ─── COLORS ─── */
+.cs-colors{display:flex;flex-wrap:wrap;gap:1.5rem;margin-top:1.25rem;}
+.cs-color{display:flex;flex-direction:column;align-items:center;gap:.4rem;}
+.cs-color-sw{width:64px;height:64px;border-radius:50%;border:1px solid rgba(0,0,0,.07);}
+.cs-color-hex{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--ink-mid);font-weight:500;}
+.cs-color-nm{font-size:0.68rem;color:var(--ink-light);text-align:center;max-width:80px;line-height:1.4;}
+
+/* ─── CONSIDERATIONS ─── */
+.cs-consid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:1.5rem;}
+.cs-consid-card{background:var(--white);border:1px solid var(--border);border-top:3px solid var(--cs-blue);border-radius:var(--cs-r);padding:1.1rem;}
+.cs-consid-card h4{font-size:0.9rem;font-weight:600;color:var(--ink);margin-bottom:.35rem;}
+.cs-consid-card p{font-size:0.82rem;color:var(--ink-mid);margin:0;line-height:1.65;}
+
+/* ─── LIVE PROTOTYPE BLOCK ─── */
+.cs-proto-wrap{background:#0080B8;border-radius:var(--cs-r);overflow:hidden;padding:2.5rem;display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;align-items:center;}
+.cs-proto-text h3{font-size:1.6rem;font-weight:700;color:#fff;margin-bottom:.75rem;line-height:1.2;}
+.cs-proto-text p{font-size:.9rem;color:rgba(255,255,255,.75);line-height:1.7;margin-bottom:1.5rem;}
+.cs-proto-btn{display:inline-flex;align-items:center;gap:.6rem;background:#fff;color:#0080B8;padding:.7rem 1.4rem;border-radius:2rem;font-size:.88rem;font-weight:700;text-decoration:none;transition:opacity .2s;}
+.cs-proto-btn:hover{opacity:.88;}
+.cs-proto-btn-outline{display:inline-flex;align-items:center;gap:.6rem;background:transparent;color:#fff;padding:.65rem 1.3rem;border-radius:2rem;font-size:.88rem;font-weight:600;text-decoration:none;border:1.5px solid rgba(255,255,255,.4);transition:border-color .2s;margin-left:.75rem;}
+.cs-proto-btn-outline:hover{border-color:#fff;}
+.cs-proto-preview{border-radius:8px;overflow:hidden;border:2px solid rgba(255,255,255,.15);box-shadow:0 12px 40px rgba(0,0,0,.35);}
+.cs-proto-preview img{width:100%;display:block;object-fit:cover;object-position:top left;max-height:260px;}
+
+/* ─── TYPOGRAPHY ─── */
+.cs-type-fam{font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-light);margin-bottom:.85rem;margin-top:1.5rem;}
+.cs-type-fam:first-child{margin-top:0;}
+.cs-type-row{display:flex;align-items:baseline;gap:1rem;margin-bottom:.4rem;}
+.cs-type-lbl{font-size:0.72rem;font-weight:500;color:var(--ink-light);width:160px;flex-shrink:0;}
+
+/* ─── ACCESSIBILITY ─── */
+.skip-link{position:absolute;top:-100%;left:1rem;z-index:9999;background:var(--brand);color:#fff;padding:.45rem 1.25rem;border-radius:0 0 8px 8px;font-size:.875rem;font-weight:600;text-decoration:none;transition:top .1s;}
+.skip-link:focus{top:0;}
+:focus-visible{outline:3px solid var(--brand);outline-offset:3px;border-radius:3px;}
+
+/* ─── SCREENSHOT ─── */
+.cs-screenshot{border-radius:var(--cs-r);overflow:hidden;border:1px solid var(--border);box-shadow:0 12px 48px rgba(26,106,168,.12);}
+.cs-screenshot img{width:100%;display:block;}
+
+/* ─── FOOTER ─── */
+.pf-footer{background:var(--ink);border-top:1px solid rgba(255,255,255,0.06);padding:1.5rem var(--cs-pad);}
+.pf-footer-inner{width:100%;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+.pf-footer-name{font-weight:600;color:rgba(255,255,255,0.6);font-size:0.9rem;}
+.pf-footer-back{font-size:0.78rem;font-weight:600;color:var(--brand);text-decoration:none;display:inline-flex;align-items:center;gap:.35rem;transition:opacity .2s;}
+.pf-footer-back:hover{opacity:.8;}
+.pf-footer-copy{font-size:0.78rem;color:rgba(255,255,255,0.3);font-weight:400;}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:1024px){.cs-consid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:900px){
+  .pf-links{display:none;position:fixed;top:60px;left:0;right:0;flex-direction:column;background:rgba(255,255,255,0.98);backdrop-filter:blur(16px);border-bottom:1px solid var(--divider);padding:1.25rem var(--cs-pad) 1.75rem;gap:1.25rem;z-index:99;box-shadow:0 8px 24px rgba(0,0,0,0.08);}
+  .pf-links.open{display:flex;}
+  .pf-burger{display:flex;}
+  .pf-footer-inner{flex-direction:column;text-align:center;}
+  .cs-overview{grid-template-columns:1fr;gap:2rem;}
+  .cs-ribbon-grid{grid-template-columns:repeat(2,1fr);}
+  .cs-stats-grid{grid-template-columns:repeat(2,1fr);}
+  .cs-user-roles-grid{grid-template-columns:1fr;}
+  .cs-flow-compare{grid-template-columns:1fr;}
+  .cs-decisions{grid-template-columns:1fr;}
+  .cs-wf-grid{grid-template-columns:1fr;}
+  .cs-insights-grid{grid-template-columns:1fr;}
+  .cs-proto-wrap{grid-template-columns:1fr;}
+  .cs-proto-preview{display:none;}
+}
+@media(max-width:640px){
+  .pf-cta{display:none;}.pf-tlabel{display:none;}
+  .pf-tbtn{padding:.3rem .5rem;}.pf-tdot{width:10px;height:10px;}
+  .cs-ribbon-grid{grid-template-columns:1fr;}.cs-stats-grid{grid-template-columns:1fr;}
+  .cs-consid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<!-- NAV -->
+<nav class="pf-nav" id="pfNav" aria-label="Main navigation">
+  <div class="pf-nav-inner">
+    <a href="index.html" class="pf-logo">
+      <span class="pf-logo-name">Apurva Deshpande</span>
+      <span class="pf-logo-sub">Senior UX/UI Designer &amp; Product Designer</span>
+    </a>
+    <ul class="pf-links" id="pfLinks" role="list">
+      <li><a href="index.html#process">Design Process</a></li>
+      <li><a href="index.html#work">Work</a></li>
+      <li><a href="index.html#skills">Skills</a></li>
+      <li><a href="index.html#experience">Professional Experience</a></li>
+    </ul>
+    <div class="pf-nav-right">
+      <div class="pf-theme-sw" role="group" aria-label="Colour theme">
+        <button class="pf-tbtn" id="pfBtnNavy" onclick="setTheme('navy')" aria-pressed="false">
+          <span class="pf-tdot" style="background:#1A3F6F;"></span><span class="pf-tlabel">Classic</span>
+        </button>
+        <button class="pf-tbtn" id="pfBtnOrange" onclick="setTheme('orange')" aria-pressed="false">
+          <span class="pf-tdot" style="background:#F07728;"></span><span class="pf-tlabel">Orange</span>
+        </button>
+      </div>
+      <a href="https://drive.google.com/file/d/1x-jn21TyL9bl3XYCeqxOfJsQTn0oQ3CN/view?usp=sharing" target="_blank" rel="noopener" class="pf-cta">Download Resume</a>
+      <button class="pf-burger" id="pfBurger" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<main id="main-content">
+
+<!-- BANNER -->
+<header class="cs-banner">
+  <nav aria-label="Breadcrumb" class="cs-breadcrumb">
+    <ol>
+      <li><a href="index.html">Home</a></li>
+      <li><span class="bc-sep">&#8250;</span></li>
+      <li><a href="index.html#work">Work</a></li>
+      <li><span class="bc-sep">&#8250;</span></li>
+      <li><span aria-current="page">AuraBed Case Study</span></li>
+    </ol>
+  </nav>
+  <h1 class="cs-banner-title">AuraBed &#8212; Hospital Operations &amp; Bed Management System</h1>
+  <div class="cs-banner-cols">
+
+    <!-- LEFT: Meta info + Outcome -->
+    <div>
+      <div class="cs-bm-row"><span class="cs-bm-label">Project Title :</span><span class="cs-bm-val">Real-Time Capacity Command Centre for a 280-Bed Hospital</span></div>
+      <div class="cs-bm-row"><span class="cs-bm-label">Business Goal :</span><span class="cs-bm-val">Eliminate manual bed tracking, reduce ED transfer delays, and give charge nurses real-time ward visibility</span></div>
+      <div class="cs-bm-row"><span class="cs-bm-label">Role :</span><span class="cs-bm-val">UX and UI Designer</span></div>
+      <div class="cs-bm-row"><span class="cs-bm-label">Year :</span><span class="cs-bm-val">2025&#8211;26</span></div>
+      <div class="cs-bm-row"><span class="cs-bm-label">Tools :</span><span class="cs-bm-val">Figma, Claude Design</span></div>
+      <div class="cs-banner-outcome">
+        <div class="cs-bm-label">Outcome :</div>
+        <ul class="cs-banner-bullets">
+          <li>Live bed board across ICU, Cardiac, Med/Surg &amp; Observation wards</li>
+          <li>AI-powered natural language bed matching — Command Bar</li>
+          <li>Predictive discharge timeline driven by EHR + RTLS feed</li>
+          <li>Housekeeping Kanban with automated room-ready notifications</li>
+          <li>ED Transfer triage with priority queuing and ETA tracking</li>
+          <li>Doctor schedule and capacity visibility on a single command centre</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- RIGHT: iMac mockup -->
+    <div class="cs-imac">
+      <div class="cs-imac-outer">
+        <div class="cs-imac-screen">
+          <img src="aurabed-thumbnail.png" alt="AuraBed Command Centre UI">
+        </div>
+      </div>
+      <div class="cs-imac-chin"></div>
+      <div class="cs-imac-neck"></div>
+      <div class="cs-imac-foot"></div>
+    </div>
+
+  </div>
+</header>
+
+<!-- OUTCOMES RIBBON -->
+<div class="cs-ribbon" role="region" aria-label="Project Outcomes">
+  <div class="cs-ribbon-grid">
+
+    <div class="cs-ribbon-cell">
+      <div class="cs-kpi-ring">
+        <svg width="90" height="90" viewBox="0 0 90 90">
+          <circle cx="45" cy="45" r="38" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="7"/>
+          <circle cx="45" cy="45" r="38" fill="none" stroke="#1F9D6B" stroke-width="7"
+            stroke-dasharray="143.4 238.9" stroke-linecap="round"/>
+        </svg>
+        <div class="cs-kpi-center">
+          <div class="cs-kpi-num">40%</div>
+          <div class="cs-kpi-unit">FASTER</div>
+        </div>
+      </div>
+      <div class="cs-ribbon-label">ED Transfer Time Reduced</div>
+      <div class="cs-ribbon-desc">Bed assignment decisions that previously took 20+ minutes via phone now resolved in under 12 min with live availability data</div>
+    </div>
+
+    <div class="cs-ribbon-cell">
+      <div class="cs-kpi-ring">
+        <svg width="90" height="90" viewBox="0 0 90 90">
+          <circle cx="45" cy="45" r="38" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="7"/>
+          <circle cx="45" cy="45" r="38" fill="none" stroke="#E8B23A" stroke-width="7"
+            stroke-dasharray="190 238.9" stroke-linecap="round"/>
+        </svg>
+        <div class="cs-kpi-center">
+          <div class="cs-kpi-num">280</div>
+          <div class="cs-kpi-unit">BEDS LIVE</div>
+        </div>
+      </div>
+      <div class="cs-ribbon-label">Full Ward Visibility</div>
+      <div class="cs-ribbon-desc">All 280 beds across 4 ward types visible in real-time — status, isolation flags, telemetry, and cleaning state in one board</div>
+    </div>
+
+    <div class="cs-ribbon-cell">
+      <div class="cs-kpi-ring">
+        <svg width="90" height="90" viewBox="0 0 90 90">
+          <circle cx="45" cy="45" r="38" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="7"/>
+          <circle cx="45" cy="45" r="38" fill="none" stroke="#00ACEE" stroke-width="7"
+            stroke-dasharray="167 238.9" stroke-linecap="round"/>
+        </svg>
+        <div class="cs-kpi-center">
+          <div class="cs-kpi-num">68<span style="font-size:.8rem">m</span></div>
+          <div class="cs-kpi-unit">AVG TURN</div>
+        </div>
+      </div>
+      <div class="cs-ribbon-label">Bed Turnaround Tracked</div>
+      <div class="cs-ribbon-desc">Discharge-to-clean-to-ready cycle now measured and surfaced — housekeeping queue auto-populated from EHR discharge orders</div>
+    </div>
+
+    <div class="cs-ribbon-cell">
+      <div class="cs-kpi-ring">
+        <svg width="90" height="90" viewBox="0 0 90 90">
+          <circle cx="45" cy="45" r="38" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="7"/>
+          <circle cx="45" cy="45" r="38" fill="none" stroke="#E8B23A" stroke-width="7"
+            stroke-dasharray="238.9 0" stroke-linecap="round"/>
+        </svg>
+        <div class="cs-kpi-center">
+          <div class="cs-kpi-num" style="font-size:1rem;">AI</div>
+          <div class="cs-kpi-unit">MATCH</div>
+        </div>
+      </div>
+      <div class="cs-ribbon-label">Intelligent Bed Matching</div>
+      <div class="cs-ribbon-desc">Command Bar lets staff query beds in plain language — isolation, ventilator, step-down — matched by proximity, readiness &amp; acuity</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- OVERVIEW -->
+<section class="cs-sec alt" aria-label="Project Overview">
+  <div class="cs-sec-label">Project Concept</div>
+  <div class="cs-overview">
+    <div class="cs-what">
+      <h3>The Problem</h3>
+      <p><strong>Bed status was managed on whiteboards and Excel.</strong> Charge nurses had no real-time view of which beds were ready, cleaning, or on hold. <strong>ED transfers were delayed</strong> by 15–25 minutes because availability was checked via phone calls across wards. <strong>Housekeeping was reactive</strong> — rooms sat unoccupied between discharge and cleaning notification because there was no automated trigger. <strong>No single system connected</strong> the ED, ward staff, housekeeping, and bed management into one operational view.</p>
+
+      <div style="margin-top:1.5rem;display:flex;flex-direction:column;gap:.65rem;">
+        <div style="display:flex;gap:.75rem;align-items:flex-start;">
+          <span style="flex-shrink:0;width:20px;height:20px;background:var(--cs-red-bg);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;color:#D24A43;margin-top:1px;">&#10007;</span>
+          <p style="margin:0;font-size:.9rem;color:var(--ink-mid);line-height:1.65;"><strong style="color:var(--ink);">No real-time bed board</strong> &#8212; staff used paper charts and phone calls; bed status was stale by the time it reached the ED</p>
+        </div>
+        <div style="display:flex;gap:.75rem;align-items:flex-start;">
+          <span style="flex-shrink:0;width:20px;height:20px;background:var(--cs-red-bg);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;color:#D24A43;margin-top:1px;">&#10007;</span>
+          <p style="margin:0;font-size:.9rem;color:var(--ink-mid);line-height:1.65;"><strong style="color:var(--ink);">ED transfer delays</strong> &#8212; no system to accept or route inbound ambulance cases; charge nurses had to manually locate isolation + ventilator-capable beds</p>
+        </div>
+        <div style="display:flex;gap:.75rem;align-items:flex-start;">
+          <span style="flex-shrink:0;width:20px;height:20px;background:var(--cs-red-bg);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;color:#D24A43;margin-top:1px;">&#10007;</span>
+          <p style="margin:0;font-size:.9rem;color:var(--ink-mid);line-height:1.65;"><strong style="color:var(--ink);">Housekeeping lag</strong> &#8212; room turnover averaged 90+ minutes; no automated trigger from discharge order to cleaning task assignment</p>
+        </div>
+        <div style="display:flex;gap:.75rem;align-items:flex-start;">
+          <span style="flex-shrink:0;width:20px;height:20px;background:var(--cs-red-bg);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;color:#D24A43;margin-top:1px;">&#10007;</span>
+          <p style="margin:0;font-size:.9rem;color:var(--ink-mid);line-height:1.65;"><strong style="color:var(--ink);">Siloed departments</strong> &#8212; ED, ward charge nurses, housekeeping, and bed management each worked from separate tools with no shared operational context</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="cs-did">
+      <h3>What I Designed</h3>
+      <div class="cs-did-list">
+        <div class="cs-did-row">
+          <div class="cs-did-alpha">A</div>
+          <div class="cs-did-body">
+            <strong>Live Bed Board — Command Centre</strong>
+            <span>A real-time grid of all 280 beds across ICU/NICU, Cardiac, Med/Surg, and Observation — colour-coded by status, filterable by isolation, telemetry, and ward. Updates via EHR + RTLS feed.</span>
+          </div>
+        </div>
+        <div class="cs-did-row">
+          <div class="cs-did-alpha">B</div>
+          <div class="cs-did-body">
+            <strong>AI Command Bar — Natural Language Bed Matching</strong>
+            <span>Staff can query "ICU isolation + ventilator available now" in plain text. The system scores and ranks matching beds by proximity, readiness, and patient acuity criteria.</span>
+          </div>
+        </div>
+        <div class="cs-did-row">
+          <div class="cs-did-alpha">C</div>
+          <div class="cs-did-body">
+            <strong>ED Transfer Triage Panel</strong>
+            <span>Incoming ED cases are queued with priority level, ETA, and bed requirement. Charge nurses receive a one-tap assignment flow with urgent alert escalation for Level 1 trauma.</span>
+          </div>
+        </div>
+        <div class="cs-did-row">
+          <div class="cs-did-alpha">D</div>
+          <div class="cs-did-body">
+            <strong>Predictive Discharge Timeline</strong>
+            <span>EHR signals — lab results, PT clearance, pharmacy — feed a confidence-scored discharge prediction per patient, giving housekeeping a 2–4 hour advance window to prepare.</span>
+          </div>
+        </div>
+        <div class="cs-did-row">
+          <div class="cs-did-alpha">E</div>
+          <div class="cs-did-body">
+            <strong>Housekeeping Task Board</strong>
+            <span>Discharge triggers auto-create cleaning tasks assigned to the nearest available housekeeper. Status flows Queued → Active → Inspection → Done, surfaced on the command centre.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESEARCH STATS -->
+<section class="cs-sec grey" aria-label="Research &amp; Discovery">
+  <div class="cs-sec-label">Research &amp; Discovery</div>
+  <div class="cs-sec-title">What the data revealed</div>
+  <div class="cs-sec-sub">Contextual inquiry sessions with charge nurses, ED physicians, and housekeeping supervisors across two hospital sites surfaced four critical operational breakdowns.</div>
+
+  <div class="cs-stats-grid">
+    <div class="cs-stat-bar-card alert">
+      <div class="cs-stat-k">ED Wait Extension</div>
+      <div class="cs-stat-n red">68%</div>
+      <div class="cs-bar-track"><div class="cs-bar-fill red" style="width:68%"></div></div>
+      <div class="cs-stat-l">of ED patients waited &gt;15 min extra for a bed due to unavailable real-time ward data</div>
+    </div>
+    <div class="cs-stat-bar-card warn">
+      <div class="cs-stat-k">Manual Bed Tracking</div>
+      <div class="cs-stat-n warn">82%</div>
+      <div class="cs-bar-track"><div class="cs-bar-fill warn" style="width:82%"></div></div>
+      <div class="cs-stat-l">of charge nurses still used whiteboards or phone calls to check bed availability across wards</div>
+    </div>
+    <div class="cs-stat-bar-card">
+      <div class="cs-stat-k">Housekeeping Lag</div>
+      <div class="cs-stat-n">90<span style="font-size:1.1rem;font-weight:600">min</span></div>
+      <div class="cs-bar-track"><div class="cs-bar-fill" style="width:75%"></div></div>
+      <div class="cs-stat-l">average room turnaround time — 35 min of which was notification delay before cleaning even started</div>
+    </div>
+    <div class="cs-stat-bar-card alert">
+      <div class="cs-stat-k">Missed Discharge Windows</div>
+      <div class="cs-stat-n red">54%</div>
+      <div class="cs-bar-track"><div class="cs-bar-fill red" style="width:54%"></div></div>
+      <div class="cs-stat-l">of predictable discharges were not actioned within the optimal window, extending bed hold time unnecessarily</div>
+    </div>
+  </div>
+
+  <div class="cs-insights-grid">
+    <div class="cs-insight-card">
+      <div class="cs-insight-num">01</div>
+      <div class="cs-insight-body">
+        <strong>Charge nurses context-switch constantly</strong>
+        <p>They fielded 12–18 phone calls per shift about bed availability — time that should be spent on patient care. A single visible board would eliminate most of those calls.</p>
+      </div>
+    </div>
+    <div class="cs-insight-card">
+      <div class="cs-insight-num">02</div>
+      <div class="cs-insight-body">
+        <strong>ED physicians distrust verbal bed confirmations</strong>
+        <p>Beds confirmed over the phone were often already assigned to someone else by the time the patient arrived. Real-time lock-and-assign was non-negotiable.</p>
+      </div>
+    </div>
+    <div class="cs-insight-card">
+      <div class="cs-insight-num">03</div>
+      <div class="cs-insight-body">
+        <strong>Housekeeping supervisors have no system visibility</strong>
+        <p>They received discharge notifications via radio or verbal handoff — often late. An automated task queue tied to EHR discharge orders would halve their average response time.</p>
+      </div>
+    </div>
+    <div class="cs-insight-card">
+      <div class="cs-insight-num">04</div>
+      <div class="cs-insight-body">
+        <strong>Isolation and ventilator requirements are the hardest to match</strong>
+        <p>Specialty bed requirements (neg. pressure, telemetry, ventilator) were checked manually against a printed ward list. An AI-assisted query layer was identified as the highest-value feature.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="cs-insight">
+    "By the time I get the bed number from the ward, it's already been taken. I need to see what's actually free right now, not what was free 10 minutes ago." — ED Physician, contextual interview
+  </div>
+</section>
+
+<!-- USER TYPES + ROLES -->
+<section class="cs-sec alt" aria-label="User Types and Roles">
+  <div class="cs-sec-label">Users &amp; Roles</div>
+  <div class="cs-sec-title">Who uses AuraBed</div>
+  <div class="cs-sec-sub">Four operational roles drive AuraBed — each with distinct decision-making scope, visibility needs, and system touchpoints across the hospital hierarchy.</div>
+
+  <div class="cs-user-roles-grid" style="grid-template-columns:repeat(4,1fr);">
+    <div class="cs-ur-card">
+      <div class="cs-ur-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>
+        </svg>
+      </div>
+      <div class="cs-ur-type">Hospital Admin</div>
+      <div class="cs-ur-desc">Oversees hospital-wide occupancy, capacity utilisation, and strategic bed planning. Needs high-level dashboards showing real-time census, turnaround trends, and ward-level KPIs to make policy decisions.</div>
+      <div class="cs-ur-roles-row">
+        <span class="cs-ur-role-chip primary">Strategic</span>
+        <span class="cs-ur-role-chip">Census View</span>
+        <span class="cs-ur-role-chip">KPI Reporting</span>
+      </div>
+    </div>
+
+    <div class="cs-ur-card">
+      <div class="cs-ur-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+          <path d="M16 3.5C17.5 4.5 18 6 18 8"/>
+        </svg>
+      </div>
+      <div class="cs-ur-type">Departmental Head</div>
+      <div class="cs-ur-desc">Manages bed allocation and doctor scheduling within their department. Needs ward-level occupancy, discharge predictions, and physician availability to coordinate daily rounds and admissions planning.</div>
+      <div class="cs-ur-roles-row">
+        <span class="cs-ur-role-chip primary">Managerial</span>
+        <span class="cs-ur-role-chip">Ward Oversight</span>
+        <span class="cs-ur-role-chip">Schedule View</span>
+      </div>
+    </div>
+
+    <div class="cs-ur-card">
+      <div class="cs-ur-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+        </svg>
+      </div>
+      <div class="cs-ur-type">Operation Executive</div>
+      <div class="cs-ur-desc">Coordinates real-time bed assignments, ED transfer requests, and inter-ward movements. Primary user of the Command Centre — needs live bed board, incoming transfer queue, and urgent alert management.</div>
+      <div class="cs-ur-roles-row">
+        <span class="cs-ur-role-chip primary">Primary User</span>
+        <span class="cs-ur-role-chip">Bed Assignment</span>
+        <span class="cs-ur-role-chip">Transfer Flow</span>
+      </div>
+    </div>
+
+    <div class="cs-ur-card">
+      <div class="cs-ur-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </svg>
+      </div>
+      <div class="cs-ur-type">Supervisor</div>
+      <div class="cs-ur-desc">Manages on-ground housekeeping and room turnaround tasks. Needs automated task creation on discharge, team assignment, and real-time status tracking — Queued, Active, Inspection, Done — across all wards.</div>
+      <div class="cs-ur-roles-row">
+        <span class="cs-ur-role-chip primary">Operational</span>
+        <span class="cs-ur-role-chip">Task Queue</span>
+        <span class="cs-ur-role-chip">Status Tracking</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORKFLOW COMPARE -->
+<section class="cs-sec grey" aria-label="Workflow Before and After">
+  <div class="cs-sec-label">Workflow Design</div>
+  <div class="cs-sec-title">Before vs. After — ED Transfer Flow</div>
+  <div class="cs-sec-sub">The old flow required 5 manual touchpoints over phone and radio before a bed could be confirmed. The redesigned flow reduces it to 2 system-driven steps with real-time lock.</div>
+
+  <div class="cs-flow-compare">
+    <div class="cs-flow-col">
+      <div class="cs-flow-col-head bad">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="8" r="7"/><path d="M5 8l2 2 4-4" stroke-width="0"/><path d="M5 5l6 6M11 5l-6 6"/></svg>
+        Before — Manual Process
+      </div>
+      <div class="cs-flow-steps">
+        <div class="cs-flow-step bad">
+          <span class="cs-flow-step-icon">1</span>
+          <div><strong>ED nurse calls charge nurse by phone</strong><span>Describes patient need verbally — ward, isolation type, ventilator requirement</span></div>
+        </div>
+        <div class="cs-flow-step bad">
+          <span class="cs-flow-step-icon">2</span>
+          <div><strong>Charge nurse checks paper board or whiteboard</strong><span>Walks to ward board or checks printed list — often 5–8 min delay</span></div>
+        </div>
+        <div class="cs-flow-step bad">
+          <span class="cs-flow-step-icon">3</span>
+          <div><strong>Bed verbally confirmed over phone</strong><span>No system lock — bed may be taken by another assignment before patient arrives</span></div>
+        </div>
+        <div class="cs-flow-step bad">
+          <span class="cs-flow-step-icon">4</span>
+          <div><strong>Housekeeping notified by radio or verbal</strong><span>Often delayed 20–35 min after discharge order was placed</span></div>
+        </div>
+        <div class="cs-flow-step bad">
+          <span class="cs-flow-step-icon">5</span>
+          <div><strong>Patient transported — bed sometimes unavailable</strong><span>Re-routing required; patient waits in corridor or ED bay</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cs-flow-col">
+      <div class="cs-flow-col-head good">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="8" r="7"/><path d="M5 8l2 2 4-4"/></svg>
+        After — AuraBed System
+      </div>
+      <div class="cs-flow-steps">
+        <div class="cs-flow-step good">
+          <span class="cs-flow-step-icon">1</span>
+          <div><strong>ED raises transfer request in AuraBed</strong><span>Specifies clinical criteria — system instantly surfaces matching available beds with readiness ETA</span></div>
+        </div>
+        <div class="cs-flow-step good">
+          <span class="cs-flow-step-icon">2</span>
+          <div><strong>Charge nurse accepts via one-tap in Command Centre</strong><span>Bed is system-locked immediately — no double-assignment risk</span></div>
+        </div>
+        <div class="cs-flow-step good">
+          <span class="cs-flow-step-icon">3</span>
+          <div><strong>Housekeeping task auto-created on discharge order</strong><span>Nearest available housekeeper is notified instantly — no radio, no wait</span></div>
+        </div>
+        <div class="cs-flow-step good">
+          <span class="cs-flow-step-icon">4</span>
+          <div><strong>Patient transferred with confirmed, ready bed</strong><span>ETA, bed number, and ward visible to ED team throughout — zero corridor waits</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DESIGN DECISIONS -->
+<section class="cs-sec alt" aria-label="Design Decisions">
+  <div class="cs-sec-label">Design Decisions</div>
+  <div class="cs-sec-title">Key choices and why</div>
+  <div class="cs-sec-sub">Each decision was driven by field research and the principle that critical clinical tools must have zero ambiguity — information has to be immediately readable under high-stress conditions.</div>
+
+  <div class="cs-decisions">
+    <div class="cs-decision">
+      <div class="cs-decision-ico">&#127973;</div>
+      <div class="cs-decision-body">
+        <strong>Colour-coded bed status over text labels</strong>
+        <p>Status was encoded purely in colour (occupied, available, cleaning, isolation, step-down) so charge nurses can read the entire ward at a glance without scanning text — critical for high-pressure decisions.</p>
+      </div>
+    </div>
+    <div class="cs-decision">
+      <div class="cs-decision-ico">&#128269;</div>
+      <div class="cs-decision-body">
+        <strong>Natural language Command Bar for bed matching</strong>
+        <p>Rather than building a complex filter UI that requires multiple interactions, a single text input lets staff query in clinical language. Reduces cognitive load when matching specialty requirements under time pressure.</p>
+      </div>
+    </div>
+    <div class="cs-decision">
+      <div class="cs-decision-ico">&#9888;</div>
+      <div class="cs-decision-body">
+        <strong>Urgent alert as the highest-priority UI element</strong>
+        <p>Priority 1 ambulance inbound events surface as a persistent, red-left-bordered banner above all other widgets — not a notification bell. The action (Assign Task / Notify) is always reachable without modal dismissal.</p>
+      </div>
+    </div>
+    <div class="cs-decision">
+      <div class="cs-decision-ico">&#128203;</div>
+      <div class="cs-decision-body">
+        <strong>Predictive discharge confidence scores</strong>
+        <p>Instead of binary discharge flags, each patient shows a probability score (54%–92%) derived from EHR signals. This lets housekeeping pre-schedule and charge nurses plan reassignment hours ahead of actual discharge.</p>
+      </div>
+    </div>
+    <div class="cs-decision">
+      <div class="cs-decision-ico">&#128200;</div>
+      <div class="cs-decision-body">
+        <strong>Ward-tab filtering rather than full-page navigation</strong>
+        <p>Charge nurses manage one ward at a time but need to jump quickly. Tab-based ward switching with persistent summary stats eliminates full-page loads and keeps operational context intact between views.</p>
+      </div>
+    </div>
+    <div class="cs-decision">
+      <div class="cs-decision-ico">&#128336;</div>
+      <div class="cs-decision-body">
+        <strong>Doctor schedule in calendar week format</strong>
+        <p>A horizontal time-band calendar (vs. a list) lets charge nurses cross-reference physician availability against expected discharge windows — enabling smarter morning rounds scheduling without separate systems.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="cs-consid">
+    <div class="cs-consid-card">
+      <h4>Accessibility</h4>
+      <p>Colour coding is always supplemented with icons and text labels — no status relies on colour alone. Font sizes are set for legibility on wall-mounted screens at 2–3 m distance.</p>
+    </div>
+    <div class="cs-consid-card">
+      <h4>Data Latency</h4>
+      <p>All bed statuses display a "last synced" timestamp. Stale data (&gt;60s) triggers a visual warning — clinical staff must always know if the view is live or potentially delayed.</p>
+    </div>
+    <div class="cs-consid-card">
+      <h4>Role-Based Views</h4>
+      <p>The same underlying data is filtered and presented differently for ED physicians (bed matching priority), charge nurses (ward overview), and housekeeping (task queue) — one system, three contexts.</p>
+    </div>
+    <div class="cs-consid-card">
+      <h4>EHR Integration</h4>
+      <p>Discharge orders, isolation flags, lab results, and transport booking data all flow in via EHR API — AuraBed is a read + action layer, not a data entry system, minimising dual-entry errors.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WIREFRAMES -->
+<section class="cs-sec grey" aria-label="Wireframes">
+  <div class="cs-sec-label">Wireframes</div>
+  <div class="cs-sec-title">Information architecture &amp; layout exploration</div>
+  <div class="cs-sec-sub">Low-fidelity wireframes validated the core layout hierarchy before committing to visual design. Priority was given to information density and scanability over aesthetics.</div>
+
+  <div class="cs-wf-grid">
+    <div class="cs-wf-block">
+      <h4>Command Centre — Bed Board</h4>
+      <div class="cs-wf">
+        <div class="cs-wf-bar">
+          <div class="cs-wf-bar-logo"></div>
+          <div class="cs-wf-bar-nav"><span></span><span></span><span></span></div>
+          <div class="cs-wf-bar-avatar"></div>
+        </div>
+        <div class="cs-wf-body">
+          <div class="cs-wf-side">
+            <div class="cs-wf-side-logo"></div>
+            <div class="cs-wf-nav active"></div>
+            <div class="cs-wf-nav"></div>
+            <div class="cs-wf-nav"></div>
+            <div class="cs-wf-nav"></div>
+          </div>
+          <div class="cs-wf-main">
+            <div class="cs-wf-kpis g6" style="margin-bottom:8px;">
+              <div class="cs-wf-kpi"><div class="n"></div><div class="l"></div></div>
+              <div class="cs-wf-kpi"><div class="n"></div><div class="l"></div></div>
+              <div class="cs-wf-kpi"><div class="n"></div><div class="l"></div></div>
+              <div class="cs-wf-kpi"><div class="n"></div><div class="l"></div></div>
+              <div class="cs-wf-kpi"><div class="n"></div><div class="l"></div></div>
+              <div class="cs-wf-kpi"><div class="n"></div><div class="l"></div></div>
+            </div>
+            <!-- Bed grid simulation -->
+            <div style="background:var(--divider);border:1px solid var(--border);border-radius:5px;padding:6px;">
+              <div class="cs-wf-bed-grid">
+                <div class="cs-wf-bed occ"></div><div class="cs-wf-bed occ"></div><div class="cs-wf-bed avail"></div>
+                <div class="cs-wf-bed clean"></div><div class="cs-wf-bed occ"></div><div class="cs-wf-bed avail"></div>
+                <div class="cs-wf-bed occ"></div><div class="cs-wf-bed avail"></div><div class="cs-wf-bed occ"></div>
+                <div class="cs-wf-bed occ"></div><div class="cs-wf-bed clean"></div><div class="cs-wf-bed avail"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cs-wf-block">
+      <h4>AI Command Bar — Bed Matching</h4>
+      <div class="cs-wf">
+        <div class="cs-wf-bar">
+          <div class="cs-wf-bar-logo"></div>
+          <div class="cs-wf-bar-nav"><span></span><span></span></div>
+          <div class="cs-wf-bar-avatar"></div>
+        </div>
+        <div class="cs-wf-body">
+          <div class="cs-wf-main" style="padding:8px;">
+            <!-- Search bar -->
+            <div style="background:var(--white);border:2px solid #00ACEE;border-radius:6px;padding:7px 10px;margin-bottom:8px;display:flex;gap:6px;align-items:center;">
+              <div style="flex:1;height:8px;background:var(--border);border-radius:2px;"></div>
+              <div style="width:14px;height:14px;border-radius:3px;background:#00ACEE;opacity:.4;"></div>
+            </div>
+            <!-- Result rows -->
+            <div class="cs-wf-tbl">
+              <div class="cs-wf-tbl-head c4"><div class="cs-wf-th"></div><div class="cs-wf-th"></div><div class="cs-wf-th"></div><div class="cs-wf-th"></div></div>
+              <div class="cs-wf-tr c4" style="background:rgba(31,157,107,.08)"><div class="cs-wf-td sg"></div><div class="cs-wf-td"></div><div class="cs-wf-td sg"></div><div class="cs-wf-td sg"></div></div>
+              <div class="cs-wf-tr c4"><div class="cs-wf-td"></div><div class="cs-wf-td"></div><div class="cs-wf-td sy"></div><div class="cs-wf-td sy"></div></div>
+              <div class="cs-wf-tr c4"><div class="cs-wf-td"></div><div class="cs-wf-td"></div><div class="cs-wf-td sy"></div><div class="cs-wf-td"></div></div>
+              <div class="cs-wf-tr c4"><div class="cs-wf-td sr"></div><div class="cs-wf-td"></div><div class="cs-wf-td"></div><div class="cs-wf-td sr"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cs-wf-block">
+      <h4>Housekeeping Task Board</h4>
+      <div class="cs-wf">
+        <div class="cs-wf-bar">
+          <div class="cs-wf-bar-logo"></div>
+          <div class="cs-wf-bar-nav"><span></span><span></span></div>
+          <div class="cs-wf-bar-avatar"></div>
+        </div>
+        <div class="cs-wf-body">
+          <div class="cs-wf-main">
+            <!-- HK stats row -->
+            <div class="cs-wf-kpis g4" style="margin-bottom:8px;">
+              <div class="cs-wf-kpi"><div class="n" style="background:#c87100"></div><div class="l"></div></div>
+              <div class="cs-wf-kpi"><div class="n"></div><div class="l"></div></div>
+              <div class="cs-wf-kpi"><div class="n" style="background:#9e9e9e"></div><div class="l"></div></div>
+              <div class="cs-wf-kpi"><div class="n" style="background:#1F9D6B"></div><div class="l"></div></div>
+            </div>
+            <div class="cs-wf-tbl">
+              <div class="cs-wf-tbl-head c4"><div class="cs-wf-th"></div><div class="cs-wf-th"></div><div class="cs-wf-th"></div><div class="cs-wf-th"></div></div>
+              <div class="cs-wf-tr c4"><div class="cs-wf-td sy"></div><div class="cs-wf-td"></div><div class="cs-wf-td sy"></div><div class="cs-wf-td"></div></div>
+              <div class="cs-wf-tr c4"><div class="cs-wf-td"></div><div class="cs-wf-td sg"></div><div class="cs-wf-td"></div><div class="cs-wf-td sg"></div></div>
+              <div class="cs-wf-tr c4"><div class="cs-wf-td sr"></div><div class="cs-wf-td sr"></div><div class="cs-wf-td"></div><div class="cs-wf-td"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cs-wf-block">
+      <h4>Predictive Discharge Timeline</h4>
+      <div class="cs-wf">
+        <div class="cs-wf-bar">
+          <div class="cs-wf-bar-logo"></div>
+          <div class="cs-wf-bar-nav"><span></span><span></span></div>
+          <div class="cs-wf-bar-avatar"></div>
+        </div>
+        <div class="cs-wf-body">
+          <div class="cs-wf-main">
+            <!-- Timeline bars -->
+            <div style="display:flex;flex-direction:column;gap:6px;padding:4px 0;">
+              <div style="display:flex;align-items:center;gap:6px;">
+                <div style="width:28px;height:6px;background:#9e9e9e;border-radius:2px;flex-shrink:0;"></div>
+                <div style="flex:1;height:14px;background:rgba(31,157,107,.25);border-radius:3px;border:1px solid rgba(31,157,107,.3);"></div>
+                <div style="width:22px;height:6px;background:#1F9D6B;border-radius:2px;flex-shrink:0;opacity:.7;"></div>
+              </div>
+              <div style="display:flex;align-items:center;gap:6px;">
+                <div style="width:28px;height:6px;background:#9e9e9e;border-radius:2px;flex-shrink:0;"></div>
+                <div style="flex:1;height:14px;background:rgba(200,113,0,.18);border-radius:3px;border:1px solid rgba(200,113,0,.25);"></div>
+                <div style="width:22px;height:6px;background:#c87100;border-radius:2px;flex-shrink:0;opacity:.7;"></div>
+              </div>
+              <div style="display:flex;align-items:center;gap:6px;">
+                <div style="width:28px;height:6px;background:#9e9e9e;border-radius:2px;flex-shrink:0;"></div>
+                <div style="flex:1;height:14px;background:rgba(200,113,0,.18);border-radius:3px;border:1px solid rgba(200,113,0,.25);"></div>
+                <div style="width:22px;height:6px;background:#c87100;border-radius:2px;flex-shrink:0;opacity:.7;"></div>
+              </div>
+              <div style="display:flex;align-items:center;gap:6px;">
+                <div style="width:28px;height:6px;background:#9e9e9e;border-radius:2px;flex-shrink:0;"></div>
+                <div style="flex:1;height:14px;background:rgba(74,85,104,.12);border-radius:3px;border:1px solid rgba(74,85,104,.18);"></div>
+                <div style="width:22px;height:6px;background:#9e9e9e;border-radius:2px;flex-shrink:0;opacity:.7;"></div>
+              </div>
+              <div style="display:flex;align-items:center;gap:6px;">
+                <div style="width:28px;height:6px;background:#9e9e9e;border-radius:2px;flex-shrink:0;"></div>
+                <div style="flex:1;height:14px;background:rgba(200,113,0,.18);border-radius:3px;border:1px solid rgba(200,113,0,.25);"></div>
+                <div style="width:22px;height:6px;background:#c87100;border-radius:2px;flex-shrink:0;opacity:.7;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LIVE PROTOTYPE -->
+<section class="cs-sec alt" aria-label="Live UI Prototype">
+  <div class="cs-sec-label">Live Prototype</div>
+  <div class="cs-sec-title">Explore the full UI</div>
+  <div class="cs-sec-sub">The interactive prototype covers all three screens — Command Centre, AI Command Bar, and Housekeeping Board — with live state, filtering, and bed assignment flows.</div>
+
+  <div class="cs-proto-wrap">
+    <div class="cs-proto-text">
+      <h3>AuraBed Command Centre</h3>
+      <p>A fully interactive UI prototype built in HTML, CSS, and JavaScript — no static mockup. Explore live bed status, filter by ward, trigger the urgent alert flow, and query the AI Command Bar with real search interactions.</p>
+      <div>
+        <a href="AuraBed.dc.html" target="_blank" rel="noopener" class="cs-proto-btn">
+          &#9654;&nbsp; Open Live Prototype
+        </a>
+        <a href="AuraBed.dc.html" target="_blank" rel="noopener" class="cs-proto-btn-outline">
+          Full screen &#8599;
+        </a>
+      </div>
+    </div>
+    <div class="cs-proto-preview">
+      <img src="aurabed-thumbnail.png" alt="AuraBed Command Centre — live UI preview">
+    </div>
+  </div>
+</section>
+
+<!-- VISUAL DESIGN SYSTEM -->
+<section class="cs-sec grey" aria-label="Visual Design System">
+  <div class="cs-sec-label">Visual Design System</div>
+  <div class="cs-sec-title">Typography &amp; colour</div>
+  <div class="cs-sec-sub">A clinical-grade palette — high contrast, status-safe, and readable at distance. Typography uses Manrope exclusively for density without sacrificing legibility.</div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;">
+
+    <!-- Typography -->
+    <div>
+      <div class="cs-type-fam">Manrope — Primary Typeface</div>
+      <div class="cs-type-row">
+        <span class="cs-type-lbl">Display / Hero</span>
+        <span style="font-size:2rem;font-weight:800;color:var(--ink);line-height:1;">87.4%</span>
+      </div>
+      <div class="cs-type-row">
+        <span class="cs-type-lbl">Section heading</span>
+        <span style="font-size:1.3rem;font-weight:700;color:var(--ink);">Command Centre</span>
+      </div>
+      <div class="cs-type-row">
+        <span class="cs-type-lbl">Widget label</span>
+        <span style="font-size:1rem;font-weight:600;color:var(--ink);">Live Bed Board</span>
+      </div>
+      <div class="cs-type-row">
+        <span class="cs-type-lbl">Body / meta</span>
+        <span style="font-size:.85rem;font-weight:400;color:var(--ink-mid);">Occupancy by ward type · 280 beds · real-time EHR</span>
+      </div>
+      <div class="cs-type-row">
+        <span class="cs-type-lbl">Micro label</span>
+        <span style="font-size:.72rem;font-weight:600;color:var(--ink-light);letter-spacing:.06em;text-transform:uppercase;">STATUS KEY</span>
+      </div>
+
+      <div class="cs-type-fam" style="margin-top:1.5rem;">IBM Plex Mono — Data &amp; Metrics</div>
+      <div class="cs-type-row">
+        <span class="cs-type-lbl">KPI number</span>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:1.4rem;font-weight:500;color:var(--ink);">68 min</span>
+      </div>
+      <div class="cs-type-row">
+        <span class="cs-type-lbl">Bed ID / code</span>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:.88rem;font-weight:400;color:var(--ink-mid);">ICU-07 · 3-North</span>
+      </div>
+    </div>
+
+    <!-- Colours -->
+    <div>
+      <div class="cs-type-fam">Status &amp; Brand Palette</div>
+      <div class="cs-colors">
+        <div class="cs-color">
+          <div class="cs-color-sw" style="background:#00ACEE;"></div>
+          <div class="cs-color-hex">#00ACEE</div>
+          <div class="cs-color-nm">Hospital Blue — Primary brand</div>
+        </div>
+        <div class="cs-color">
+          <div class="cs-color-sw" style="background:#0080B8;"></div>
+          <div class="cs-color-hex">#0080B8</div>
+          <div class="cs-color-nm">Deep Blue — Dark UI &amp; text</div>
+        </div>
+        <div class="cs-color">
+          <div class="cs-color-sw" style="background:#ed1b24;"></div>
+          <div class="cs-color-hex">#ed1b24</div>
+          <div class="cs-color-nm">Alert Red — Urgent / P1</div>
+        </div>
+        <div class="cs-color">
+          <div class="cs-color-sw" style="background:#00832e;"></div>
+          <div class="cs-color-hex">#00832e</div>
+          <div class="cs-color-nm">Ready Green — Available bed</div>
+        </div>
+        <div class="cs-color">
+          <div class="cs-color-sw" style="background:#c87100;"></div>
+          <div class="cs-color-hex">#c87100</div>
+          <div class="cs-color-nm">Amber — Cleaning / pending</div>
+        </div>
+        <div class="cs-color">
+          <div class="cs-color-sw" style="background:#7355a8;"></div>
+          <div class="cs-color-hex">#7355a8</div>
+          <div class="cs-color-nm">Purple — Isolation flag</div>
+        </div>
+        <div class="cs-color">
+          <div class="cs-color-sw" style="background:#0a0a0a;border:1px solid #e0e0e0;"></div>
+          <div class="cs-color-hex">#0a0a0a</div>
+          <div class="cs-color-nm">Near Black — Primary ink</div>
+        </div>
+        <div class="cs-color">
+          <div class="cs-color-sw" style="background:#f7f8fa;border:1px solid #e0e0e0;"></div>
+          <div class="cs-color-hex">#f7f8fa</div>
+          <div class="cs-color-nm">Surface — Widget background</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="pf-footer">
+  <div class="pf-footer-inner">
+    <span class="pf-footer-name">Apurva Deshpande</span>
+    <a href="index.html#work" class="pf-footer-back">&#8592; Back to all work</a>
+    <span class="pf-footer-copy">&copy; 2026 · For demonstration only, not a medical device</span>
+  </div>
+</footer>
+
+<script>
+// Theme
+function setTheme(t){
+  document.documentElement.setAttribute('data-theme', t==='navy'?'navy':'');
+  document.getElementById('pfBtnNavy').classList.toggle('active', t==='navy');
+  document.getElementById('pfBtnOrange').classList.toggle('active', t==='orange');
+  try{localStorage.setItem('pf-theme',t);}catch(e){}
+}
+(function(){
+  var s=null;try{s=localStorage.getItem('pf-theme');}catch(e){}
+  setTheme(s==='navy'?'navy':'orange');
+})();
+
+// Nav shadow
+var nav=document.getElementById('pfNav');
+window.addEventListener('scroll',function(){nav.classList.toggle('nav-shadow',window.scrollY>10);},{passive:true});
+
+// Mobile menu
+var burger=document.getElementById('pfBurger'), links=document.getElementById('pfLinks');
+burger.addEventListener('click',function(){
+  var open=links.classList.toggle('open');
+  burger.setAttribute('aria-expanded',open);
+});
+</script>
+</body>
+</html>
