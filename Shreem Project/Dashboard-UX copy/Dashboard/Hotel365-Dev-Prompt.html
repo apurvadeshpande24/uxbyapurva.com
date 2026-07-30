@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hotel365 — Master Development Prompt</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --orange: #E8670A;
+    --orange-light: #FF8533;
+    --orange-glow: rgba(232, 103, 10, 0.15);
+    --charcoal: #1A1A1A;
+    --charcoal-mid: #252525;
+    --charcoal-soft: #2E2E2E;
+    --charcoal-border: #3A3A3A;
+    --white: #FFFFFF;
+    --off-white: #F5F0EB;
+    --muted: #8A8A8A;
+    --light-text: #CCCCCC;
+    --section-bg: #1E1E1E;
+    --code-bg: #141414;
+    --success: #2ECC71;
+    --warning: #F39C12;
+    --danger: #E74C3C;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--charcoal);
+    color: var(--light-text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.75;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 32px 80px;
+  }
+
+  /* HEADER */
+  .doc-header {
+    padding: 60px 0 48px;
+    border-bottom: 1px solid var(--charcoal-border);
+    margin-bottom: 56px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    font-weight: 900;
+    letter-spacing: -1px;
+  }
+  .logo .hotel { color: #FFFFFF; }
+  .logo .num { color: var(--orange); }
+
+  .doc-tagline {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--orange);
+  }
+
+  .doc-meta {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+
+  .doc-meta span {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+  }
+
+  .doc-meta strong { color: var(--light-text); }
+
+  /* TOC */
+  .toc {
+    background: var(--section-bg);
+    border: 1px solid var(--charcoal-border);
+    border-left: 3px solid var(--orange);
+    border-radius: 8px;
+    padding: 32px 36px;
+    margin-bottom: 56px;
+  }
+
+  .toc h2 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 20px;
+  }
+
+  .toc ol {
+    list-style: decimal;
+    padding-left: 20px;
+    columns: 2;
+    column-gap: 48px;
+  }
+
+  .toc li {
+    font-size: 13.5px;
+    color: var(--light-text);
+    margin-bottom: 6px;
+    break-inside: avoid;
+  }
+
+  .toc a {
+    color: var(--light-text);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .toc a:hover { color: var(--orange); }
+
+  /* SECTIONS */
+  section {
+    margin-bottom: 60px;
+  }
+
+  .section-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 8px;
+  }
+
+  h2.section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 24px;
+    border-bottom: 1px solid var(--charcoal-border);
+    padding-bottom: 16px;
+  }
+
+  h3 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--white);
+    margin: 28px 0 12px;
+  }
+
+  h3.subsection {
+    font-size: 14px;
+    color: var(--orange-light);
+    font-weight: 500;
+    margin-top: 24px;
+    letter-spacing: 0.3px;
+  }
+
+  p {
+    margin-bottom: 14px;
+    color: var(--light-text);
+  }
+
+  /* CODE BLOCKS */
+  .code-block {
+    background: var(--code-bg);
+    border: 1px solid var(--charcoal-border);
+    border-radius: 8px;
+    padding: 24px 28px;
+    margin: 20px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    line-height: 1.9;
+    color: #D4D4D4;
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  .code-block .comment { color: #6A9955; }
+  .code-block .key { color: var(--orange-light); }
+  .code-block .val { color: #9CDCFE; }
+  .code-block .str { color: #CE9178; }
+  .code-block .section-header { color: var(--orange); font-weight: 700; }
+
+  /* CALLOUT BOXES */
+  .callout {
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 20px 0;
+    font-size: 14px;
+    line-height: 1.7;
+    border-left: 4px solid;
+  }
+
+  .callout.info {
+    background: rgba(41, 182, 246, 0.07);
+    border-color: #29B6F6;
+    color: #B3E5FC;
+  }
+
+  .callout.warning {
+    background: rgba(255, 152, 0, 0.07);
+    border-color: var(--orange);
+    color: #FFCC80;
+  }
+
+  .callout.success {
+    background: rgba(46, 204, 113, 0.07);
+    border-color: var(--success);
+    color: #A8E6CF;
+  }
+
+  .callout strong { color: white; font-weight: 600; display: block; margin-bottom: 4px; }
+
+  /* FEATURE CARDS */
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    margin: 24px 0;
+  }
+
+  .feature-card {
+    background: var(--section-bg);
+    border: 1px solid var(--charcoal-border);
+    border-radius: 10px;
+    padding: 22px 24px;
+    transition: border-color 0.2s;
+  }
+
+  .feature-card:hover { border-color: var(--orange); }
+
+  .feature-card .icon {
+    font-size: 22px;
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  .feature-card h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+
+  .feature-card p {
+    font-size: 13px;
+    color: var(--muted);
+    margin: 0;
+  }
+
+  /* BADGE PILLS */
+  .badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+    margin: 2px;
+  }
+
+  .badge.priority-1 { background: rgba(231, 76, 60, 0.2); color: #FF8A80; border: 1px solid rgba(231,76,60,0.4); }
+  .badge.priority-2 { background: rgba(232, 103, 10, 0.2); color: #FFAB40; border: 1px solid rgba(232,103,10,0.4); }
+  .badge.priority-3 { background: rgba(46, 204, 113, 0.15); color: #69F0AE; border: 1px solid rgba(46,204,113,0.3); }
+  .badge.tech { background: rgba(100, 181, 246, 0.1); color: #90CAF9; border: 1px solid rgba(100,181,246,0.25); }
+
+  /* TABLES */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 13.5px;
+  }
+
+  th {
+    background: var(--charcoal-soft);
+    color: var(--orange);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--charcoal-border);
+  }
+
+  td {
+    padding: 11px 16px;
+    border-bottom: 1px solid rgba(58,58,58,0.5);
+    color: var(--light-text);
+    vertical-align: top;
+  }
+
+  tr:hover td { background: rgba(232, 103, 10, 0.03); }
+
+  /* PROMPT BLOCK — the actual copyable mega-prompt */
+  .prompt-block {
+    background: var(--code-bg);
+    border: 1px solid var(--charcoal-border);
+    border-top: 3px solid var(--orange);
+    border-radius: 0 0 10px 10px;
+    padding: 36px 40px;
+    margin: 0;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13.5px;
+    line-height: 1.85;
+    color: var(--light-text);
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  .prompt-header {
+    background: var(--charcoal-soft);
+    border: 1px solid var(--charcoal-border);
+    border-bottom: none;
+    border-radius: 10px 10px 0 0;
+    padding: 14px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .prompt-header span {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--orange);
+  }
+
+  .prompt-block .ph { color: var(--orange-light); font-weight: 600; }
+  .prompt-block .pc { color: #6A9955; font-style: italic; }
+  .prompt-block .pk { color: #9CDCFE; }
+
+  /* DIVIDER */
+  .divider {
+    height: 1px;
+    background: var(--charcoal-border);
+    margin: 48px 0;
+  }
+
+  ul.spec-list {
+    padding-left: 20px;
+    margin: 12px 0;
+  }
+
+  ul.spec-list li {
+    margin-bottom: 8px;
+    color: var(--light-text);
+    font-size: 14px;
+  }
+
+  ul.spec-list li::marker { color: var(--orange); }
+
+  @media (max-width: 700px) {
+    .toc ol { columns: 1; }
+    .feature-grid { grid-template-columns: 1fr; }
+    body { padding: 0 18px 60px; }
+    .prompt-block { padding: 24px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="doc-header">
+  <div class="doc-tagline">Master Development Brief</div>
+  <div class="logo"><span class="hotel">HOTEL</span><span class="num">365</span></div>
+  <p style="color:var(--muted); font-size:14px; max-width:560px; margin-top:4px;">
+    AI-Powered Hospitality Operations Platform — Proactive Task Engine, KPI Dashboard &amp; Alert Intelligence System
+  </p>
+  <div class="doc-meta">
+    <span><strong>Prepared for:</strong> Shreem Capital / IQ Innovation Hub</span>
+    <span><strong>Stack:</strong> HTML · CSS · JavaScript (Vanilla / Next.js ready)</span>
+    <span><strong>Date:</strong> March 2026</span>
+    <span><strong>Status:</strong> Ready for Development</span>
+  </div>
+</header>
+
+<nav class="toc">
+  <h2>Document Contents</h2>
+  <ol>
+    <li><a href="#overview">Project Overview &amp; Vision</a></li>
+    <li><a href="#brand">Brand Identity &amp; Design System</a></li>
+    <li><a href="#layout">Page Layout &amp; Navigation</a></li>
+    <li><a href="#kpi">KPI Dashboard Module</a></li>
+    <li><a href="#task-engine">Task Engine — Core Module</a></li>
+    <li><a href="#alerts">Alert &amp; Notification Center</a></li>
+    <li><a href="#personas">Role-Based Views &amp; Personas</a></li>
+    <li><a href="#data">Data &amp; Mock Data Structure</a></li>
+    <li><a href="#ux">UX Principles &amp; Interaction Design</a></li>
+    <li><a href="#tech">Tech Stack &amp; Implementation Notes</a></li>
+    <li><a href="#prompt">THE MASTER PROMPT — Copy &amp; Use</a></li>
+  </ol>
+</nav>
+
+
+<!-- ═══════════════════════════════════════════════ -->
+<section id="overview">
+  <div class="section-label">01 — Project Overview</div>
+  <h2 class="section-title">Vision &amp; Platform Purpose</h2>
+
+  <p>
+    Hotel365 is an AI-powered hospitality operations control platform for hotel management companies overseeing multiple branded properties (Hilton, IHG, Marriott, etc.). The platform's central innovation is a <strong style="color:white">Proactive Task Engine</strong> — it automatically converts operational exceptions, KPI breaches, and anomalies into tracked, prioritized, assigned tasks. Staff are notified via in-app comments and alerts, eliminating the current reliance on manual Excel-based 365 reports.
+  </p>
+
+  <div class="callout warning">
+    <strong>Core Mission Statement</strong>
+    Replace the daily manual grind of 29 check sheets, Excel workbooks and fragmented WhatsApp notifications with a single, intelligent, role-aware command center that proactively surfaces what needs attention — before revenue leaks.
+  </div>
+
+  <h3>Primary User Personas</h3>
+  <div class="feature-grid">
+    <div class="feature-card">
+      <span class="icon">🏢</span>
+      <h4>Portfolio Owner / Management Company</h4>
+      <p>Shreem Capital executives. Needs bird's-eye view across all properties. Revenue leakage dashboard, consolidated KPIs, compliance status, AI recommendations.</p>
+    </div>
+    <div class="feature-card">
+      <span class="icon">🏨</span>
+      <h4>General Manager (On-Property)</h4>
+      <p>Day-to-day hotel operations. Real-time exception alerts, Top 7 priority task list, rate integrity monitoring, overtime risk, actionable daily operations view.</p>
+    </div>
+    <div class="feature-card">
+      <span class="icon">👥</span>
+      <h4>India Corporate Support Team</h4>
+      <p>10-person team currently doing manual 365 data entry. Exception queue for review, AI-validated reports, reduced turnaround from hours to minutes.</p>
+    </div>
+    <div class="feature-card">
+      <span class="icon">🛎️</span>
+      <h4>Department Heads (F&amp;B, Housekeeping, Front Desk)</h4>
+      <p>Department-level task views. Assigned task completion, escalation visibility, comment threads, due-date notifications.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════ -->
+<section id="brand">
+  <div class="section-label">02 — Brand Identity</div>
+  <h2 class="section-title">Design System &amp; Visual Language</h2>
+
+  <h3>Logo Treatment</h3>
+  <p>The logo must read <strong style="color:white">"Hotel365"</strong> or <strong style="color:white">"HOTEL365"</strong> — rendered as a typographic mark, not an icon. The word <em>Hotel</em> is in pure white (#FFFFFF), and <em>365</em> is in Royal Orange (#E8670A). Use a classy serif or high-contrast display font (e.g. Playfair Display, Canela, or similar editorial serif). The number 365 can optionally use a bolder weight than "Hotel" for visual emphasis.</p>
+
+  <div class="code-block"><span class="comment">/* HOTEL365 DESIGN TOKEN SYSTEM */</span>
+
+<span class="key">--color-primary:</span>        <span class="str">#E8670A</span>;   <span class="comment">/* Royal Orange — CTAs, tags, accents */</span>
+<span class="key">--color-primary-light:</span>  <span class="str">#FF8533</span>;   <span class="comment">/* Orange hover / glow states */</span>
+<span class="key">--color-primary-glow:</span>   <span class="str">rgba(232,103,10,0.15)</span>; <span class="comment">/* Subtle background wash */</span>
+
+<span class="key">--color-bg:</span>             <span class="str">#111111</span>;   <span class="comment">/* True dark base */</span>
+<span class="key">--color-surface:</span>        <span class="str">#1A1A1A</span>;   <span class="comment">/* Card / panel backgrounds */</span>
+<span class="key">--color-surface-raised:</span> <span class="str">#222222</span>;   <span class="comment">/* Elevated cards */</span>
+<span class="key">--color-border:</span>         <span class="str">#2E2E2E</span>;   <span class="comment">/* Subtle separator lines */</span>
+
+<span class="key">--color-text-primary:</span>   <span class="str">#FFFFFF</span>;   <span class="comment">/* Headlines, KPI values */</span>
+<span class="key">--color-text-secondary:</span> <span class="str">#CCCCCC</span>;   <span class="comment">/* Body copy */</span>
+<span class="key">--color-text-muted:</span>     <span class="str">#7A7A7A</span>;   <span class="comment">/* Labels, metadata */</span>
+
+<span class="comment">/* STATUS SYSTEM */</span>
+<span class="key">--status-critical:</span>      <span class="str">#E74C3C</span>;   <span class="comment">/* Task overdue / revenue at risk */</span>
+<span class="key">--status-high:</span>          <span class="str">#E8670A</span>;   <span class="comment">/* High priority — orange */</span>
+<span class="key">--status-medium:</span>        <span class="str">#F39C12</span>;   <span class="comment">/* Medium priority — amber */</span>
+<span class="key">--status-low:</span>           <span class="str">#3498DB</span>;   <span class="comment">/* Low priority — blue */</span>
+<span class="key">--status-done:</span>          <span class="str">#2ECC71</span>;   <span class="comment">/* Completed — green */</span>
+<span class="key">--status-blocked:</span>       <span class="str">#9B59B6</span>;   <span class="comment">/* Blocked — purple */</span>
+
+<span class="comment">/* TYPOGRAPHY */</span>
+<span class="key">--font-display:</span>  <span class="str">'Playfair Display', Georgia, serif</span>;   <span class="comment">/* Logo, headings */</span>
+<span class="key">--font-body:</span>     <span class="str">'DM Sans', 'Inter', sans-serif</span>;        <span class="comment">/* All UI text */</span>
+<span class="key">--font-mono:</span>     <span class="str">'JetBrains Mono', monospace</span>;           <span class="comment">/* Values, codes */</span></div>
+
+  <h3>Visual Principles</h3>
+  <ul class="spec-list">
+    <li><strong style="color:white">Dark-first UI:</strong> Charcoal black (#111) base. The dark theme communicates authority, reduces eye strain for long operational shifts, and makes orange accents pop.</li>
+    <li><strong style="color:white">Orange as signal:</strong> Orange is reserved for interactive elements (CTAs, badges, links) and high-attention items (critical alerts, revenue numbers). Never use it decoratively.</li>
+    <li><strong style="color:white">Information hierarchy:</strong> Big KPI numbers in white. Supporting context in #CCC. Timestamps, labels in #7A7A7A. This 3-tier system guides the eye without clutter.</li>
+    <li><strong style="color:white">Micro-border discipline:</strong> Cards have 1px #2E2E2E borders. Active/hover states shift to orange border. No drop shadows — use borders to define space.</li>
+    <li><strong style="color:white">Compact density:</strong> Hospitality GMs scan fast. Use 14px body text, 32-36px KPI numbers. Tables are dense but breathable with 8px row padding.</li>
+  </ul>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════ -->
+<section id="layout">
+  <div class="section-label">03 — Page Layout</div>
+  <h2 class="section-title">Navigation &amp; Layout Architecture</h2>
+
+  <h3>Left Sidebar — Fixed Navigation</h3>
+  <p>Width: 240px fixed. Contains the Hotel365 logo at top, property selector dropdown, and the full navigation hierarchy. Collapsed to 56px icon rail on mobile.</p>
+
+  <div class="code-block"><span class="section-header">SIDEBAR NAVIGATION STRUCTURE</span>
+
+<span class="comment">// Property Selector (dropdown at top)</span>
+▼  Hotel Indigo Las Colinas          <span class="comment">← active property</span>
+   Hampton Inn DFW
+   DoubleTree Irving
+   Holiday Inn Express              <span class="comment">← 7 properties total</span>
+
+<span class="section-header">📋 REPORTS</span>
+   Report Upload
+   Uploaded Reports
+   365 Daily Reports
+
+<span class="section-header">📊 DASHBOARDS</span>
+   ● Hotel Overview                 <span class="comment">← main KPI dashboard</span>
+   Portfolio View
+   Budgeting
+   Forecast
+   Labor Analytics
+   On The Books
+
+<span class="section-header">✅ TASK ENGINE</span>                        <span class="comment">← PRIMARY MODULE</span>
+   ● My Tasks
+   All Tasks
+   By Department
+   Overdue
+   Closed
+
+<span class="section-header">🔔 ALERTS &amp; NOTIFICATIONS</span>
+   Alert Center
+   Notification Feed
+   Escalations
+
+<span class="section-header">🔄 RECONCILIATION</span>
+   Accounting
+   OTA &amp; CLC
+
+<span class="section-header">⚙️ TOOLS</span>
+   User Management
+   Change Log
+   Email Settings
+   Event Calendar
+   Bank Accounts</div>
+
+  <h3>Top Bar</h3>
+  <p>Height: 56px. Contains: breadcrumb (Home / Hotel Overview / Property Name), date selector (03/04/2026), Daily | MTD | YTD tab switcher, toggle switch for "Live Data" mode, and a notification bell with red badge count. User avatar with initials on far right.</p>
+
+  <h3>Main Content Area</h3>
+  <p>Flexible grid. Starts with KPI row (3-column metric strip), then splits into a 60/40 two-column layout: left column for Task Engine, right column for Alerts/Notifications feed and 30-Day OTB chart.</p>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════ -->
+<section id="kpi">
+  <div class="section-label">04 — KPI Dashboard</div>
+  <h2 class="section-title">Key Performance Indicators Module</h2>
+
+  <p>The KPI strip replicates and enhances the metrics shown in the reference screenshot. Each metric card shows the current value, a colored variance badge vs. Last Year Same Day, and a subtle sparkline trend. Clicking any card drills down into a detailed chart modal.</p>
+
+  <h3>KPI Metrics to Display</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Metric</th>
+        <th>Full Name</th>
+        <th>Format</th>
+        <th>Variance Color Logic</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Rooms Sold</td><td>Total rooms occupied</td><td>Integer</td><td>Green if ↑, Red if ↓</td></tr>
+      <tr><td>Gross Revenue</td><td>Total property revenue</td><td>$XX,XXX.XX</td><td>Green if ↑ vs LYSD &amp; Budget</td></tr>
+      <tr><td>Room Revenue</td><td>Revenue from room sales only</td><td>$XX,XXX.XX</td><td>Green if ↑</td></tr>
+      <tr><td>Other Revenue</td><td>Parking, gift shop, etc.</td><td>$XXX.XX</td><td>Green/Red vs LYSD</td></tr>
+      <tr><td>F&amp;B Revenue</td><td>Food &amp; Beverage</td><td>$X,XXX.XX</td><td>Green if ↑</td></tr>
+      <tr><td>Occupancy %</td><td>Rooms sold / rooms available</td><td>XX.XX%</td><td>Green if ↑ vs Budget</td></tr>
+      <tr><td>ADR</td><td>Average Daily Rate</td><td>$XXX.XX</td><td>Green if ↑</td></tr>
+      <tr><td>RevPAR</td><td>Revenue Per Available Room</td><td>$XXX.XX</td><td>Green if ↑</td></tr>
+      <tr><td>No Show</td><td>Reservations not arrived</td><td>Integer</td><td>Red if &gt; threshold</td></tr>
+      <tr><td>OoO</td><td>Out of Order rooms</td><td>Integer</td><td>Red if &gt; 0</td></tr>
+      <tr><td>Comp Rooms</td><td>Complimentary rooms</td><td>Integer</td><td>Orange if &gt; limit</td></tr>
+      <tr><td>Arrival Rooms</td><td>Expected check-ins today</td><td>Integer</td><td>Neutral</td></tr>
+      <tr><td>Departure Rooms</td><td>Expected check-outs today</td><td>Integer</td><td>Neutral</td></tr>
+      <tr><td>In-House Guests</td><td>Current guests on property</td><td>Integer</td><td>Green if occupancy high</td></tr>
+      <tr><td>GOPPAR</td><td>Gross Operating Profit / Avail Room</td><td>$XXX.XX</td><td>Green if ↑ vs Budget</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Variance Tabs</h3>
+  <p>Below the KPI strip, show three comparison tabs as pill buttons:</p>
+  <ul class="spec-list">
+    <li><strong style="color:#4FC3F7">Last Year Same Day (LYSD)</strong> — default selected, highlighted in blue</li>
+    <li><strong style="color:white">Budget Variance</strong> — vs. planned budget</li>
+    <li><strong style="color:white">2024 Variance</strong> — full prior year comparison</li>
+  </ul>
+
+  <h3>30-Day OTB Forecast Chart</h3>
+  <p>A dual-axis line chart in the right column showing the next 30 days. Red line = ADR ($), Blue area = Occupancy (%). Use Chart.js with a dark theme. Include tab sub-navigation: "OTB &amp; Forecast" | "Revenue" | "Pickup". Show OTB Date label at chart top.</p>
+
+  <div class="callout info">
+    <strong>Implementation Note</strong>
+    All KPI values should be driven by a <code>mockData.js</code> object so the entire dashboard can be repopulated with real data by swapping one import. Use <code>animateCounter(from, to, duration)</code> JS function to animate numbers on page load.
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════ -->
+<section id="task-engine">
+  <div class="section-label">05 — Task Engine</div>
+  <h2 class="section-title">Proactive Task Engine — Core Module</h2>
+
+  <div class="callout warning">
+    <strong>This is the #1 Priority Feature</strong>
+    Every operational signal, exception, anomaly, and action item flows through the Task Engine. The platform's core moat is the Autonomous Execution Engine: Signal → Task → Completion → Impact → Learning.
+  </div>
+
+  <h3>Task Card Anatomy</h3>
+  <p>Each task must render as a card or list row containing the following fields:</p>
+
+  <div class="code-block"><span class="section-header">TASK CARD FIELDS</span>
+
+<span class="key">taskId:</span>          <span class="str">"TSK-0042"</span>               <span class="comment">// Unique ID, monospaced font</span>
+<span class="key">title:</span>           <span class="str">"Resolve High Balance Folio — Room 614"</span>
+<span class="key">description:</span>     <span class="str">"Balance of $2,847 exceeds threshold. Contact Acme Corp AR."</span>
+<span class="key">priority:</span>        <span class="str">"CRITICAL" | "HIGH" | "MEDIUM" | "LOW"</span>
+<span class="key">status:</span>          <span class="str">"Pending" | "Accepted" | "In Progress" | "Blocked" | "Done" | "Escalated"</span>
+<span class="key">source:</span>          <span class="str">"High Balance Report" | "PMS Alert" | "GM Standup" | "Rate Check" | ...</span>
+<span class="key">department:</span>      <span class="str">"Front Desk" | "F&amp;B" | "Housekeeping" | "Finance" | "Management"</span>
+<span class="key">assignedTo:</span>      <span class="str">"A.Angel" | "J.Rodriguez" | "GM"</span>
+<span class="key">dueBy:</span>           <span class="str">"2:00 PM Today"</span>             <span class="comment">// Show relative time if &lt; 2hrs</span>
+<span class="key">noiImpact:</span>       <span class="str">"$2,847"</span>                    <span class="comment">// NOI $ at risk — drives priority</span>
+<span class="key">createdAt:</span>       <span class="str">"09:14 AM"</span>
+<span class="key">createdBy:</span>       <span class="str">"AI Engine"</span>
+<span class="key">property:</span>        <span class="str">"LRDIN"</span>                     <span class="comment">// Property code</span>
+<span class="key">comments:</span>        <span class="str">[ CommentObject ]</span>           <span class="comment">// See comment schema below</span>
+<span class="key">evidence:</span>        <span class="str">"Link to source report/email"</span>
+<span class="key">tags:</span>            <span class="str">["Revenue Leak", "AR", "Urgent"]</span></div>
+
+  <h3>Task Views — Three Modes</h3>
+
+  <h3 class="subsection">A. Top 7 Priority View (GM Default)</h3>
+  <p>A ranked list of the 7 highest-impact tasks for today. Sort by NOI Impact descending. Each item shows: rank number (1-7 in orange circle), task title, NOI at risk, assignee avatar, due time countdown, and status pill. One-click "Accept" / "Mark Done" / "Escalate" actions inline.</p>
+
+  <h3 class="subsection">B. Kanban Board View</h3>
+  <p>Columns: <span class="badge priority-1">Pending</span> <span class="badge priority-2">In Progress</span> <span class="badge tech">Blocked</span> <span class="badge priority-3">Done</span>. Drag-and-drop cards between columns (use HTML5 drag API or CSS pointer events). Each column shows count badge and total NOI at risk. Cards are color-left-bordered by priority.</p>
+
+  <h3 class="subsection">C. List / Agenda View</h3>
+  <p>Time-grouped list (Morning / Afternoon / Evening / Overdue). Compact rows with inline quick-action buttons. Sortable by: Due Time, NOI Impact, Department, Assignee. Search bar with real-time filter.</p>
+
+  <h3>Task Sources — Auto-Generation Logic</h3>
+  <p>The UI must show a "Source" badge on every task indicating which of the following 10+ signals created it:</p>
+  <ul class="spec-list">
+    <li><strong style="color:white">Operations 365 Reports</strong> — 29 daily check sheets (Zero-rate rooms, High Balance, Guest Ledger, Adjustments, Void Tickets, etc.)</li>
+    <li><strong style="color:white">PMS Data Feed</strong> — Rate parity breaches, No-Show spikes, OoO room anomalies</li>
+    <li><strong style="color:white">GM Daily Standup</strong> — Voice/text input converted to tasks</li>
+    <li><strong style="color:white">Labor Analytics</strong> — Overtime threshold breaches, timecard discrepancies, schedule mismatches</li>
+    <li><strong style="color:white">F&amp;B Monitoring</strong> — Open checks over 30min, void tickets above threshold, missing banquet postings</li>
+    <li><strong style="color:white">Accounts Receivable</strong> — Aging report exceptions, high-balance folios, chargeback alerts</li>
+    <li><strong style="color:white">Marriott Bonvoy / Loyalty</strong> — Certificate upload failures, points optimization opportunities</li>
+    <li><strong style="color:white">Rate Integrity</strong> — OTA rate parity violations ($500/day brand penalty exposure)</li>
+    <li><strong style="color:white">Procurement (Reeco)</strong> — Purchase anomalies, unapproved orders</li>
+    <li><strong style="color:white">Housekeeping Audit</strong> — Supervisor checklist exceptions, maintenance flags</li>
+  </ul>
+
+  <h3>Comment &amp; Notification Thread</h3>
+  <p>Each task has an expandable comment thread — similar to Slack or GitHub Issues. This is where staff communicate about the task, attach evidence, and record resolution notes.</p>
+
+  <div class="code-block"><span class="section-header">COMMENT OBJECT SCHEMA</span>
+
+{
+  <span class="key">commentId:</span>   <span class="str">"CMT-001"</span>,
+  <span class="key">taskId:</span>      <span class="str">"TSK-0042"</span>,
+  <span class="key">author:</span>      <span class="str">"A.Angel"</span>,
+  <span class="key">role:</span>        <span class="str">"Front Desk Manager"</span>,
+  <span class="key">avatar:</span>      <span class="str">"AA"</span>,   <span class="comment">// initials fallback</span>
+  <span class="key">timestamp:</span>   <span class="str">"09:47 AM"</span>,
+  <span class="key">type:</span>        <span class="str">"comment" | "status_change" | "system" | "escalation"</span>,
+  <span class="key">text:</span>        <span class="str">"Called Acme Corp billing. They will wire by EOD."</span>,
+  <span class="key">attachments:</span> <span class="str">[ ]</span>
+}</div>
+
+  <h3>Comment Thread UI Rules</h3>
+  <ul class="spec-list">
+    <li>System messages (auto-generated: "Task created by AI Engine from High Balance Report") appear as pill-style lines in muted text, not full comment bubbles.</li>
+    <li>Status changes render as timeline events: orange dot on a vertical line with "Status changed: Pending → In Progress by A.Angel at 09:47"</li>
+    <li>Human comments render as chat bubbles — user's own messages on right (orange bubble), others on left (dark bubble).</li>
+    <li>Input box at bottom with @mention support (type @ to suggest team members), emoji, and attachment icon.</li>
+    <li>Unread comment count shown as red badge on task card.</li>
+  </ul>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════ -->
+<section id="alerts">
+  <div class="section-label">06 — Alerts</div>
+  <h2 class="section-title">Alert &amp; Notification Center</h2>
+
+  <h3>Guest Folio Issues Panel</h3>
+  <p>Replicates the "Guest Folio Issues" panel from the reference screenshot. Yellow-highlighted alert rows for exceptions like Card-Refund, RoomCharge-Adjustment. Each row shows: alert type, guest name, room number, amount, staff who posted, timestamp, and action icons (info ℹ️, edit ✏️). Rows are color-coded: yellow for warnings, red for critical, green for resolved.</p>
+
+  <h3>Notification Feed (Right Panel)</h3>
+  <p>A live-scrolling notification feed in the right panel. Notifications are grouped into categories:</p>
+  <ul class="spec-list">
+    <li><span class="badge priority-1">🔴 Critical Alert</span> — Immediate action required (rate parity breach, brand penalty at risk)</li>
+    <li><span class="badge priority-2">🟠 Task Assigned</span> — New task auto-generated and assigned to you</li>
+    <li><span class="badge priority-3">🟢 Task Completed</span> — A task you were watching was resolved</li>
+    <li><span class="badge tech">💬 Comment</span> — Someone replied in a task you're participating in</li>
+    <li><span class="badge tech">📈 KPI Alert</span> — Occupancy/ADR fell below threshold vs. forecast</li>
+    <li><span class="badge tech">⏰ Escalation</span> — Task overdue, escalated to next level</li>
+  </ul>
+
+  <h3>Alert Bell (Top Bar)</h3>
+  <p>Bell icon in top nav with animated red badge showing unread count. Clicking opens a slide-in drawer (not a full page) with the last 20 notifications, grouped by Today / Yesterday / Earlier. Each notification has a one-click "Mark Resolved" button.</p>
+
+  <div class="callout success">
+    <strong>Delight Detail</strong>
+    When a critical alert arrives, animate a subtle orange pulse ring around the bell icon for 3 seconds. Use CSS keyframes: @keyframes pulse-ring. This catches peripheral attention without being jarring.
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════ -->
+<section id="personas">
+  <div class="section-label">07 — Role-Based Views</div>
+  <h2 class="section-title">Persona-Specific Dashboard Configurations</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Role</th>
+        <th>Default Landing</th>
+        <th>Key Panels Shown</th>
+        <th>Hidden/Restricted</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong style="color:white">Portfolio Owner</strong></td>
+        <td>Portfolio View</td>
+        <td>All properties KPI grid, Revenue leakage %, AI recommendations, Compliance status</td>
+        <td>Individual task assignment details</td>
+      </tr>
+      <tr>
+        <td><strong style="color:white">General Manager</strong></td>
+        <td>Hotel Overview</td>
+        <td>Top 7 Tasks, KPI strip, Guest Folio Issues, 30-Day OTB, Notifications</td>
+        <td>Financial reporting (read-only)</td>
+      </tr>
+      <tr>
+        <td><strong style="color:white">India Support Team</strong></td>
+        <td>365 Daily Reports</td>
+        <td>Exception queue, Report upload, Validation status, Data pipeline health</td>
+        <td>Financial targets / budget</td>
+      </tr>
+      <tr>
+        <td><strong style="color:white">Department Head</strong></td>
+        <td>My Tasks</td>
+        <td>Department task list, Comment threads, Escalation panel, Team assignments</td>
+        <td>Other department tasks (read-only)</td>
+      </tr>
+      <tr>
+        <td><strong style="color:white">Front Desk Staff</strong></td>
+        <td>My Tasks</td>
+        <td>Assigned tasks only, Guest folio guidance, Pre-auth alerts</td>
+        <td>Financial KPIs, Portfolio view</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>Implement a role selector in the top bar (for demo purposes) that instantly re-renders the dashboard with the correct panels and data for each persona. Use a simple <code>currentRole</code> state variable to show/hide modules.</p>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════ -->
+<section id="data">
+  <div class="section-label">08 — Data Structure</div>
+  <h2 class="section-title">Mock Data Architecture</h2>
+
+  <p>All data must live in a single <code>mockData.js</code> file imported at the top of the HTML. This allows the demo to function as a fully working prototype that's trivially swappable for a real API.</p>
+
+  <div class="code-block"><span class="section-header">MOCK DATA STRUCTURE — mockData.js</span>
+
+<span class="key">const mockData</span> = {
+
+  <span class="comment">// Active property context</span>
+  <span class="key">property:</span> {
+    <span class="key">id:</span>       <span class="str">"LRDIN"</span>,
+    <span class="key">name:</span>     <span class="str">"Hotel Indigo Las Colinas"</span>,
+    <span class="key">brand:</span>    <span class="str">"IHG"</span>,
+    <span class="key">rooms:</span>    151,
+    <span class="key">date:</span>     <span class="str">"03/04/2026"</span>
+  },
+
+  <span class="comment">// Daily KPI snapshot</span>
+  <span class="key">kpis:</span> {
+    <span class="key">roomsSold:</span>      { value: 114, variance_lysd: -39, variance_budget: -18 },
+    <span class="key">grossRevenue:</span>   { value: 29300.44, variance_lysd: -3679.43, variance_budget: -1205.44 },
+    <span class="key">roomRevenue:</span>    { value: 24802.66, variance_lysd: -2305.44 },
+    <span class="key">otherRevenue:</span>   { value: 698.19, variance_lysd: 216.77 },
+    <span class="key">fnbRevenue:</span>     { value: 3799.59 },
+    <span class="key">occupancy:</span>      { value: 75.50, variance_lysd: -23.96 },
+    <span class="key">adr:</span>            { value: 217.57, variance_lysd: -56.99 },
+    <span class="key">revpar:</span>         { value: 164.27, variance_lysd: -68.13 },
+    <span class="key">noShow:</span>         { value: 0 },
+    <span class="key">ooo:</span>            { value: 0 },
+    <span class="key">compRooms:</span>      { value: 0 },
+    <span class="key">arrivalRooms:</span>   { value: 41, variance: -42 },
+    <span class="key">departureRooms:</span> { value: 50, variance: -55 },
+    <span class="key">inHouseGuests:</span>  { value: 125, variance: -104 }
+  },
+
+  <span class="comment">// Task Engine — sample tasks</span>
+  <span class="key">tasks:</span> [
+    {
+      <span class="key">id:</span> <span class="str">"TSK-0001"</span>, <span class="key">priority:</span> <span class="str">"CRITICAL"</span>,
+      <span class="key">title:</span> <span class="str">"Resolve High Balance — Room 614 (Acme Corp)"</span>,
+      <span class="key">noiImpact:</span> <span class="str">"$2,847"</span>, <span class="key">status:</span> <span class="str">"Pending"</span>,
+      <span class="key">department:</span> <span class="str">"Front Desk"</span>, <span class="key">assignedTo:</span> <span class="str">"A.Angel"</span>, <span class="key">dueBy:</span> <span class="str">"2:00 PM"</span>,
+      <span class="key">source:</span> <span class="str">"High Balance Report"</span>,
+      <span class="key">comments:</span> []
+    },
+    {
+      <span class="key">id:</span> <span class="str">"TSK-0002"</span>, <span class="key">priority:</span> <span class="str">"CRITICAL"</span>,
+      <span class="key">title:</span> <span class="str">"Rate Parity Breach — OTA showing $189 vs. BAR $229"</span>,
+      <span class="key">noiImpact:</span> <span class="str">"$500+/day"</span>, <span class="key">status:</span> <span class="str">"Pending"</span>,
+      <span class="key">department:</span> <span class="str">"Revenue"</span>, <span class="key">assignedTo:</span> <span class="str">"GM"</span>, <span class="key">dueBy:</span> <span class="str">"ASAP"</span>,
+      <span class="key">source:</span> <span class="str">"Rate Check Daily"</span>
+    },
+    {
+      <span class="key">id:</span> <span class="str">"TSK-0003"</span>, <span class="key">priority:</span> <span class="str">"HIGH"</span>,
+      <span class="key">title:</span> <span class="str">"Card Refund Review — Yongbok Kim Room 422 ($12.99)"</span>,
+      <span class="key">noiImpact:</span> <span class="str">"$12.99"</span>, <span class="key">status:</span> <span class="str">"In Progress"</span>,
+      <span class="key">department:</span> <span class="str">"Front Desk"</span>, <span class="key">assignedTo:</span> <span class="str">"AORDONIO"</span>, <span class="key">dueBy:</span> <span class="str">"5:00 PM"</span>,
+      <span class="key">source:</span> <span class="str">"Guest Folio Exception"</span>
+    },
+    {
+      <span class="key">id:</span> <span class="str">"TSK-0004"</span>, <span class="key">priority:</span> <span class="str">"HIGH"</span>,
+      <span class="key">title:</span> <span class="str">"Marriott Bonvoy Cert Upload — 3 Pending Certificates"</span>,
+      <span class="key">noiImpact:</span> <span class="str">"$680"</span>, <span class="key">status:</span> <span class="str">"Pending"</span>,
+      <span class="key">department:</span> <span class="str">"Front Desk"</span>, <span class="key">assignedTo:</span> <span class="str">"J.Rodriguez"</span>, <span class="key">dueBy:</span> <span class="str">"11:00 AM"</span>,
+      <span class="key">source:</span> <span class="str">"Marriott Bonvoy"</span>
+    },
+    {
+      <span class="key">id:</span> <span class="str">"TSK-0005"</span>, <span class="key">priority:</span> <span class="str">"MEDIUM"</span>,
+      <span class="key">title:</span> <span class="str">"Open Check Alert — Table 7 Open 45 Minutes"</span>,
+      <span class="key">noiImpact:</span> <span class="str">"$134"</span>, <span class="key">status:</span> <span class="str">"Accepted"</span>,
+      <span class="key">department:</span> <span class="str">"F&amp;B"</span>, <span class="key">assignedTo:</span> <span class="str">"F&amp;B Manager"</span>, <span class="key">dueBy:</span> <span class="str">"10:30 AM"</span>,
+      <span class="key">source:</span> <span class="str">"Open Checks"</span>
+    },
+    {
+      <span class="key">id:</span> <span class="str">"TSK-0006"</span>, <span class="key">priority:</span> <span class="str">"MEDIUM"</span>,
+      <span class="key">title:</span> <span class="str">"Timecard Discrepancy — J.Smith 2.5 hrs overtime"</span>,
+      <span class="key">noiImpact:</span> <span class="str">"$87"</span>, <span class="key">status:</span> <span class="str">"Pending"</span>,
+      <span class="key">department:</span> <span class="str">"HR"</span>, <span class="key">assignedTo:</span> <span class="str">"HR Manager"</span>, <span class="key">dueBy:</span> <span class="str">"EOD"</span>,
+      <span class="key">source:</span> <span class="str">"Labor Analytics"</span>
+    },
+    {
+      <span class="key">id:</span> <span class="str">"TSK-0007"</span>, <span class="key">priority:</span> <span class="str">"LOW"</span>,
+      <span class="key">title:</span> <span class="str">"Procurement Anomaly — Reeco Order #4492 unverified"</span>,
+      <span class="key">noiImpact:</span> <span class="str">"$245"</span>, <span class="key">status:</span> <span class="str">"Blocked"</span>,
+      <span class="key">department:</span> <span class="str">"Procurement"</span>, <span class="key">assignedTo:</span> <span class="str">"Operations"</span>, <span class="key">dueBy:</span> <span class="str">"EOD"</span>,
+      <span class="key">source:</span> <span class="str">"Reeco Procurement"</span>
+    }
+  ],
+
+  <span class="comment">// Guest folio exceptions</span>
+  <span class="key">folioIssues:</span> [
+    { <span class="key">type:</span> <span class="str">"Card-Refund"</span>,          <span class="key">guest:</span> <span class="str">"Yongbok Kim"</span>,    <span class="key">room:</span> <span class="str">"422"</span>, <span class="key">amount:</span> 12.99,  <span class="key">postedBy:</span> <span class="str">"AORDONIO@DFWEJ"</span>, <span class="key">severity:</span> <span class="str">"warning"</span> },
+    { <span class="key">type:</span> <span class="str">"Card-Refund"</span>,          <span class="key">guest:</span> <span class="str">"Rachael Brady"</span>,  <span class="key">room:</span> <span class="str">"220"</span>, <span class="key">amount:</span> 25.98,  <span class="key">postedBy:</span> <span class="str">"A.ANGEL@DFWEJ"</span>,   <span class="key">severity:</span> <span class="str">"warning"</span> },
+    { <span class="key">type:</span> <span class="str">"RoomCharge-Adjustment"</span>, <span class="key">guest:</span> <span class="str">"David Badger"</span>,  <span class="key">room:</span> <span class="str">"421"</span>, <span class="key">amount:</span> 246.05, <span class="key">postedBy:</span> <span class="str">"A.ANGEL@DFWEJ"</span>,   <span class="key">severity:</span> <span class="str">"critical"</span> }
+  ]
+};</div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════ -->
+<section id="ux">
+  <div class="section-label">09 — UX Principles</div>
+  <h2 class="section-title">UX &amp; Interaction Design Standards</h2>
+
+  <h3>The 3-Second Rule</h3>
+  <p>A GM walking their property must be able to answer the question <em>"What needs my attention right now?"</em> within 3 seconds of opening the app. This drives every layout decision: Top 7 tasks must be visible above the fold, critical alerts must use color to create involuntary attention, and the most important KPI (Occupancy vs. Goal) must be readable without scrolling.</p>
+
+  <h3>Interaction Standards</h3>
+  <ul class="spec-list">
+    <li><strong style="color:white">Hover states:</strong> Cards shift border-color to orange on hover. Subtle transform: translateY(-1px). Transition: 150ms ease.</li>
+    <li><strong style="color:white">Click feedback:</strong> Buttons scale to 0.97 on mousedown. Transition: 80ms.</li>
+    <li><strong style="color:white">Loading states:</strong> Use skeleton screens (animated dark-to-darker gradient pulse) not spinners. Skeleton blocks mirror the shape of actual content.</li>
+    <li><strong style="color:white">Empty states:</strong> If no tasks in a column, show a minimal illustration + "No tasks in this status. You're on top of it." in orange italic text.</li>
+    <li><strong style="color:white">Toast notifications:</strong> Slide in from bottom-right. Auto-dismiss after 4 seconds. Green for success, orange for warning, red for error. Never stack more than 3.</li>
+    <li><strong style="color:white">Responsive:</strong> Sidebar collapses to icon rail at &lt;900px. KPI grid becomes 2 columns at &lt;768px and 1 column at &lt;480px. Task Kanban switches to vertical scrollable columns on mobile.</li>
+  </ul>
+
+  <h3>Anti-Patterns to Avoid (from Competitor Analysis)</h3>
+  <ul class="spec-list">
+    <li>❌ No information overload — show relevant data for current role only, not everything at once</li>
+    <li>❌ No buried value props — surface the dollar impact of every task and alert upfront</li>
+    <li>❌ No generic loading spinners — use skeleton screens</li>
+    <li>❌ No flat hierarchy in notifications — group and badge by urgency level</li>
+    <li>❌ No tooltips-only mobile experience — all interactive elements must work with touch</li>
+    <li>❌ No purple gradients, Inter/Roboto fonts, or typical SaaS aesthetics</li>
+  </ul>
+
+  <h3>Accessibility</h3>
+  <ul class="spec-list">
+    <li>All interactive elements must have keyboard focus rings (orange outline, 2px offset)</li>
+    <li>Color is never the only signal — all status badges also include text or icon</li>
+    <li>Minimum tap target size: 44x44px on mobile</li>
+    <li>ARIA labels on all icon-only buttons</li>
+  </ul>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════ -->
+<section id="tech">
+  <div class="section-label">10 — Technical Spec</div>
+  <h2 class="section-title">Tech Stack &amp; Implementation Notes</h2>
+
+  <table>
+    <thead>
+      <tr><th>Layer</th><th>Choice</th><th>Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Language</td><td>HTML5 + Vanilla JS (ES6+)</td><td>No framework required for HTML prototype; all logic in &lt;script&gt; tags or separate .js files</td></tr>
+      <tr><td>Styling</td><td>CSS Custom Properties + Flexbox/Grid</td><td>No Tailwind needed for HTML; use CSS variables for the design token system above</td></tr>
+      <tr><td>Charts</td><td>Chart.js (CDN: cdnjs.cloudflare.com)</td><td>Dark theme, responsive, canvas-based</td></tr>
+      <tr><td>Icons</td><td>Lucide Icons (CDN) or inline SVG</td><td>Consistent, sharp 24px icons. No emoji as UI icons.</td></tr>
+      <tr><td>Fonts</td><td>Google Fonts CDN</td><td>Playfair Display (logo/headings) + DM Sans (body) + JetBrains Mono (values)</td></tr>
+      <tr><td>Data</td><td>mockData.js object</td><td>All state in one object; no localStorage, no external API calls in v1</td></tr>
+      <tr><td>Drag &amp; Drop</td><td>HTML5 Drag API</td><td>For Kanban board column task movement</td></tr>
+      <tr><td>Animations</td><td>CSS keyframes + JS requestAnimationFrame</td><td>Counter animations, pulse alerts, skeleton loaders</td></tr>
+    </tbody>
+  </table>
+
+  <h3>File Structure</h3>
+  <div class="code-block">hotel365/
+├── index.html              <span class="comment">← Main dashboard (Hotel Overview)</span>
+├── mockData.js             <span class="comment">← All mock data in one file</span>
+├── styles/
+│   ├── tokens.css          <span class="comment">← CSS variables (colors, fonts, spacing)</span>
+│   ├── layout.css          <span class="comment">← Sidebar, topbar, grid</span>
+│   ├── components.css      <span class="comment">← Cards, badges, tables, forms</span>
+│   └── animations.css      <span class="comment">← Keyframes, transitions</span>
+├── js/
+│   ├── kpis.js             <span class="comment">← KPI render + counter animation</span>
+│   ├── tasks.js            <span class="comment">← Task Engine (render, filter, drag)</span>
+│   ├── alerts.js           <span class="comment">← Notification feed + bell</span>
+│   ├── charts.js           <span class="comment">← Chart.js configurations</span>
+│   └── utils.js            <span class="comment">← formatCurrency, relativeTime, etc.</span>
+└── pages/
+    ├── portfolio.html       <span class="comment">← Portfolio overview (multi-property)</span>
+    ├── tasks-all.html       <span class="comment">← Full task management view</span>
+    └── reports.html         <span class="comment">← 365 Reports upload interface</span></div>
+
+  <div class="callout info">
+    <strong>Single-File Option</strong>
+    For a fully self-contained demo, all the above can be embedded in a single HTML file with &lt;style&gt; and &lt;script&gt; tags. Use &lt;!-- SECTION: KPI --&gt; comments as internal dividers. This is ideal for sharing a clickable prototype without a server.
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════ -->
+<div class="divider"></div>
+
+<section id="prompt">
+  <div class="section-label">11 — The Master Prompt</div>
+  <h2 class="section-title">Copy-Ready Development Prompt</h2>
+
+  <p style="margin-bottom: 24px; color: var(--muted);">
+    Copy the entire block below and paste it directly to your AI coding assistant, Cursor, Claude, or GPT-4o. It is self-contained and includes all context needed to generate a fully functional, styled, single-file HTML prototype.
+  </p>
+
+  <div class="prompt-header">
+    <span>Master Development Prompt — Hotel365 Dashboard</span>
+    <span style="color:var(--muted); font-size:11px; letter-spacing:0; text-transform:none;">~2,200 words</span>
+  </div>
+
+<div class="prompt-block">
+<span class="ph">ROLE:</span> You are a senior Next.js / HTML developer with 15+ years of experience in hospitality SaaS, combined with UX expertise for operations-critical dashboards. You write production-grade, pixel-perfect code with meticulous attention to visual hierarchy and interaction design.
+
+<span class="ph">PROJECT:</span> Build a fully functional, single-file HTML web application for Hotel365 — an AI-powered hotel operations management platform. This is the flagship dashboard used daily by General Managers, Hotel Portfolio Owners, and Department Heads at multi-property hotel management companies.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+<span class="ph">BRAND IDENTITY — NON-NEGOTIABLE</span>
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Logo: Typographic mark only. "Hotel" in pure white (#FFFFFF), "365" in Royal Orange (#E8670A). Use Playfair Display Bold or similar editorial serif. No icon, no gradient, no shadow on logo.
+
+Color System:
+  Primary Orange:    #E8670A  (CTAs, priority badges, active nav, accents)
+  Orange Hover:      #FF8533
+  Background:        #111111  (true dark)
+  Surface:           #1A1A1A  (cards, panels)
+  Elevated Surface:  #222222  (modals, tooltips)
+  Border:            #2E2E2E  (card borders, dividers)
+  Text Primary:      #FFFFFF  (headlines, KPI values)
+  Text Secondary:    #CCCCCC  (body copy, descriptions)
+  Text Muted:        #7A7A7A  (labels, timestamps, metadata)
+  Status Critical:   #E74C3C  (overdue tasks, revenue at risk)
+  Status High:       #E8670A  (high priority)
+  Status Medium:     #F39C12  (amber warning)
+  Status Low:        #3498DB  (informational)
+  Status Done:       #2ECC71  (completed)
+  Status Blocked:    #9B59B6  (purple)
+
+Typography:
+  Display/Logo:  Playfair Display (Google Fonts CDN)
+  Body:          DM Sans (Google Fonts CDN)
+  Monospace:     JetBrains Mono (Google Fonts CDN)
+  Body size: 14px, Line height: 1.7
+  KPI values: 28-36px, font-weight: 700, font-family: DM Sans
+
+Visual Rules:
+  - Dark theme only. Charcoal black background.
+  - Orange is signal, not decoration. Use ONLY for interactive/actionable items.
+  - Cards: 1px #2E2E2E border, 8px border-radius, no box-shadow.
+  - Hover state: border transitions to #E8670A, translateY(-1px), 150ms ease.
+  - No Inter, Roboto, Arial, or purple gradients. No generic SaaS aesthetics.
+  - Information density: compact but breathable. 14px row height in tables.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+<span class="ph">PAGE LAYOUT</span>
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Structure: Three-zone layout:
+  1. Fixed left sidebar (240px) — navigation + property selector
+  2. Fixed top bar (56px) — breadcrumb, date, tabs, notifications, user
+  3. Scrollable main content area (fills remaining space)
+
+LEFT SIDEBAR contains:
+  - Hotel365 logo (top, 20px padding)
+  - Property selector dropdown: "Hotel Indigo Las Colinas ▾" (active), list of 6 other hotels
+  - Navigation sections:
+    • REPORTS: Report Upload, Uploaded Reports, 365 Daily Reports
+    • DASHBOARDS: Hotel Overview (active, orange highlight), Portfolio, Budgeting, Forecast, Labor Analytics, On The Books
+    • TASK ENGINE: My Tasks, All Tasks, By Department, Overdue, Closed
+    • ALERTS: Alert Center, Notification Feed, Escalations
+    • RECONCILIATION: Accounting, OTA & CLC
+    • TOOLS: User Management, Change Log, Email Settings, Event Calendar, Bank Accounts
+  - Bottom: User avatar with initials (JG), name "Jiger P.", role "General Manager"
+  - Section labels in 10px, 3px letter-spacing, uppercase, orange (#E8670A)
+  - Active nav item: orange left border (3px), slight orange background tint
+
+TOP BAR contains (left to right):
+  - Hamburger menu icon (sidebar toggle)
+  - Breadcrumb: Home / Hotel Overview (Hotel Indigo Las Colinas)
+  - Date pill input: "03/04/2026" (editable, shows calendar on click)
+  - Spacer (flex-grow)
+  - Period tabs: Daily | MTD | YTD (pill buttons, Daily active = orange fill)
+  - Live data toggle switch (green = on)
+  - Bell icon with red badge "4"
+  - User avatar circle "JP" in orange
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+<span class="ph">MODULE 1: KPI DASHBOARD STRIP</span>
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Render a 3-column grid of KPI metric cards at the top of the main area. Each card has:
+  - Metric label (12px, muted, uppercase, letter-spacing: 1.5px)
+  - Value (28-32px, white, DM Sans Bold)
+  - Variance badge: colored pill showing delta vs Last Year Same Day
+    • Positive delta = green badge, "+" prefix
+    • Negative delta = red badge
+  - Left border accent (3px): green for positive, orange for neutral, red for negative
+
+KPI Cards to render (use this exact mock data):
+  Rooms Sold:       114  variance: -39 (red)
+  Gross Revenue:    $29,300.44  variance: -$3,679.43 (red)
+  Room Revenue:     $24,802.66  variance: -$2,305.44 (red)
+  Other Revenue:    $698.19  variance: +$216.77 (green)
+  F&B Revenue:      $3,799.59  (no variance shown)
+  Occupancy:        75.50%  variance: -23.96% (red)
+  ADR:              $217.57  variance: -$56.99 (red)
+  RevPAR:           $164.27  variance: -$68.13 (red)
+  No Show:          0
+  OoO:              0
+  Comp Rooms:       0
+  Arrival Rooms:    41  variance: -42 (red)
+  Departure Rooms:  50  variance: -55 (red)
+  In-House Guests:  125  variance: -104 (red)
+
+Below KPI grid: three tab buttons (pill style, horizontal):
+  [Last Year Same Day Variance 03/05/2025] [Budget Variance] [2024 Variance]
+  First tab active = filled orange. Others = dark outline.
+
+Animate all numeric KPI values counting up from 0 on page load using requestAnimationFrame counter animation (800ms duration, ease-out easing).
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+<span class="ph">MODULE 2: TASK ENGINE (PRIMARY FEATURE)</span>
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+This is the most important section. Place it prominently — left 60% of the lower content area.
+
+TASK ENGINE HEADER:
+  - Title: "Task Engine" in 18px bold white
+  - Sub-label: "AI-Generated · Proactive Alerts" in 12px orange italic
+  - Three view toggle buttons: [Top 7] [Kanban] [List] — pill buttons, Top 7 default active
+  - Filter bar: Department dropdown (All / Front Desk / F&B / Housekeeping / Finance / HR) + Status dropdown + Search input (placeholder: "Search tasks...")
+  - Stats row: "7 Active  |  3 Critical  |  $4,672 NOI at Risk  |  2 Overdue" in small muted text
+
+TOP 7 VIEW (default active view):
+  Render 7 ranked task rows. Each row contains:
+  - Rank badge: orange circle with number 1-7
+  - Priority indicator dot (critical=red, high=orange, medium=amber, low=blue)
+  - Task title (14px white bold)
+  - Source badge (small pill: "High Balance Report", "Rate Check", etc.) in muted gray
+  - NOI Impact: orange bold text "$2,847"
+  - Assignee avatar circle with initials + name
+  - Due time: relative ("Due in 2h 14m" in orange if <3hrs, gray if plenty of time, red if overdue)
+  - Status pill badge
+  - Action buttons: [✓ Accept] [→ Reassign] [⚑ Escalate] — appear on hover
+
+  Tasks to render:
+  1. CRITICAL | "Resolve High Balance — Room 614 (Acme Corp)" | $2,847 | A.Angel | Due 2:00 PM | Pending | Source: High Balance Report
+  2. CRITICAL | "Rate Parity Breach — OTA $189 vs BAR $229" | $500+/day | GM | Due ASAP | Pending | Source: Rate Check Daily
+  3. HIGH | "Card Refund Review — Yongbok Kim Rm 422 ($12.99)" | $12.99 | AORDONIO | Due 5:00 PM | In Progress | Source: Guest Folio Exception
+  4. HIGH | "Marriott Bonvoy Cert Upload — 3 Pending Certs" | $680 | J.Rodriguez | Due 11:00 AM | Pending | Source: Marriott Bonvoy
+  5. MEDIUM | "Open Check Alert — Table 7 Open 45 Minutes" | $134 | F&B Manager | Due 10:30 AM | Accepted | Source: Open Checks
+  6. MEDIUM | "Timecard Discrepancy — J.Smith 2.5 hrs OT" | $87 | HR Manager | Due EOD | Pending | Source: Labor Analytics
+  7. LOW | "Procurement Anomaly — Reeco Order #4492" | $245 | Operations | Due EOD | Blocked | Source: Reeco Procurement
+
+KANBAN VIEW (hidden by default, shown when [Kanban] tab clicked):
+  Four columns: Pending | In Progress | Blocked | Done
+  Each column: header with count badge + total NOI, dark surface background.
+  Task cards: condensed cards with left color-border by priority, title, NOI impact, assignee avatar, due time.
+  Drag-and-drop using HTML5 drag API (dragstart, dragover, drop events). Visual drop indicator (dashed orange border on target column).
+
+TASK DETAIL DRAWER (slides in from right on task click):
+  Full-width at mobile, 480px width drawer at desktop. Contains:
+  - Full task header (title, ID badge "TSK-0001", priority badge, status badge)
+  - Details section: Source, Department, Assignee, Due By, NOI Impact, Created By (AI Engine), Created At
+  - "Evidence" section: link or attachment to source report
+  - COMMENT THREAD section (the core notification/collaboration feature):
+    • System message (pill style): "Task auto-created by AI Engine · 09:00 AM · Source: High Balance Report"
+    • System timeline event: "Assigned to A.Angel · 09:01 AM"
+    • Human comment bubble (left aligned, dark bubble): "A.Angel — 09:47 AM: Called Acme Corp billing department. They confirmed wire transfer will arrive by EOD. Awaiting confirmation."
+    • System event: "Status changed: Pending → In Progress · A.Angel · 09:47 AM"
+    • Unread comment input box at bottom: placeholder "@mention or type a comment..." with [Send] button in orange, attachment icon, emoji icon
+  - Action footer: [✓ Mark Done] [→ Reassign] [⚑ Escalate] [✕ Close Task] buttons
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+<span class="ph">MODULE 3: GUEST FOLIO ISSUES PANEL</span>
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Below the variance tabs, render a "Guest Folio Issues for 03/04/2026" panel. Title bar with: label, table-view icon, print icon, settings icon.
+
+Yellow-tinted rows for each exception (border-left: 3px solid #F39C12):
+  Row 1: Card-Refund · Yongbok Kim · Room 422 · Amount: $12.99 · Posted by: AORDONIO@DFWEJ · [ℹ] [✏]
+  Row 2: Card-Refund · Rachael Brady · Room 220 · Amount: $25.98 · Posted by: A.ANGEL@DFWEJ · [ℹ] [✏]
+  Row 3: RoomCharge-Adjustment · David Badger · Room 421 · Amount: $246.05 · Posted by: A.ANGEL@DFWEJ · [ℹ] [✏] (red tint, critical)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+<span class="ph">MODULE 4: 30-DAY FORECAST CHART (right panel)</span>
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Right 40% panel. Header: "Next 30 Days" with sub-tabs: [OTB & Forecast] [Revenue] [Pickup].
+OTB Date label: "OTB Date: 03/05/2026"
+
+Chart.js dual-axis line chart:
+  - X-axis: dates (Mar 5 to Apr 4)
+  - Y-axis left: ADR in $ (range $150-$280)
+  - Y-axis right: Occupancy % (range 40-100%)
+  - Red line: ADR values (slightly jagged, realistic hotel pattern — higher weekends)
+  - Blue filled area: Occupancy % (semi-transparent fill rgba(52, 152, 219, 0.15))
+  - Dark chart background (#141414), grid lines #2E2E2E, white axis labels
+  - Tooltip: dark card showing both ADR and Occupancy for hovered date
+  - Legend: "ADR ($)" red, "Occupancy (%)" blue
+
+Generate realistic mock data: weekday occupancy ~65-75%, weekend ~85-92%. ADR weekday ~$195-215, weekend ~$240-265.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+<span class="ph">MODULE 5: NOTIFICATION BELL &amp; ALERT DRAWER</span>
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Bell icon in top bar. Red badge with count "4". CSS pulse animation (subtle orange ring, 2s loop) when count > 0.
+
+Clicking bell: toggles a slide-in drawer from right edge (320px width, full height).
+Drawer title: "Alerts & Notifications" with [Mark All Read] button.
+
+Notifications grouped: TODAY / EARLIER
+  Today:
+    🔴 CRITICAL ALERT — Rate parity breach detected. OTA showing $40 below BAR. Estimated daily loss: $500+. — 09:02 AM
+    🟠 NEW TASK — "High Balance Folio Room 614" auto-created from daily report. Assigned to A.Angel — 09:00 AM
+    💬 COMMENT — A.Angel replied in TSK-0003: "Processed refund, awaiting guest confirmation" — 08:45 AM
+    📈 KPI ALERT — Occupancy at 75.5%, tracking 23.96% below LYSD. ADR also below. GM action suggested. — 06:30 AM
+  Earlier (collapsed):
+    ✅ COMPLETED — TSK-1821: Zero Rate Room 201 resolved by J.Rodriguez — Yesterday 11:30 PM
+
+Each notification: colored icon, bold title, description, timestamp, [Resolve] button on hover.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+<span class="ph">INTERACTIONS &amp; ANIMATIONS</span>
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Counter animations: All KPI numbers animate 0 → final value on page load. Duration: 800ms. Easing: ease-out. Use requestAnimationFrame.
+
+2. Task drawer: slides in from right with transform: translateX(100%) → translateX(0). Duration: 250ms, cubic-bezier(0.4, 0, 0.2, 1).
+
+3. Notification drawer: same slide behavior from right.
+
+4. Task status change: when clicking [Accept] on a task, the status badge transitions color with a brief scale pulse (transform: scale(1.2) → 1.0, 200ms).
+
+5. Kanban drag-and-drop: dragged card has opacity: 0.5 + slight rotate(2deg). Drop target column shows dashed orange border.
+
+6. Hover on nav items: left border animates width from 0 to 3px (200ms).
+
+7. Page load: stagger the KPI cards appearing with animation-delay (0ms, 60ms, 120ms...).
+
+8. Alert bell pulse: @keyframes pulse-ring { 0% { box-shadow: 0 0 0 0 rgba(232,103,10,0.6) } 70% { box-shadow: 0 0 0 8px transparent } 100% { box-shadow: 0 0 0 0 transparent } }
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+<span class="ph">TECHNICAL REQUIREMENTS</span>
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+- Single HTML file with embedded &lt;style&gt; and &lt;script&gt; blocks
+- All mock data in a const mockData = {} object at top of &lt;script&gt;
+- Chart.js loaded from CDN: https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js
+- Google Fonts: Playfair Display (700, 900) + DM Sans (300, 400, 500, 600) + JetBrains Mono
+- Lucide Icons: https://unpkg.com/lucide@latest/dist/umd/lucide.min.js
+- No jQuery, no external CSS frameworks
+- Fully responsive: works at 1440px (desktop), 1024px (laptop), 768px (tablet), 375px (mobile)
+- Sidebar collapses to icon rail (&lt;240px) on screens &lt;900px
+- All interactive elements keyboard accessible
+- No localStorage usage
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+<span class="ph">DELIVERABLE</span>
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Produce a single, complete, working hotel365-dashboard.html file.
+The file must:
+  ✓ Render correctly when opened directly in Chrome without a server
+  ✓ Show all 5 modules (KPI, Task Engine, Folio Issues, 30-Day Chart, Alerts)
+  ✓ Task Engine: Top 7 view working, Kanban view toggleable, task drawer opening on click with full comment thread
+  ✓ Notification bell drawer working (open/close toggle)
+  ✓ All KPI counter animations running on load
+  ✓ Chart.js 30-day forecast chart rendering with real-looking dual data
+  ✓ Guest folio issues panel with color-coded rows
+  ✓ All navigation items present (non-functional links are acceptable)
+  ✓ Hotel365 logo correct (Hotel in white, 365 in #E8670A, Playfair Display)
+  ✓ Fully responsive down to 375px mobile width
+  ✓ Zero console errors
+
+The result should look like a premium, $50K/year SaaS product. Not a template. Not a demo. A real tool that a hotel GM would trust with their revenue.
+</div>
+</section>
+
+<div class="divider"></div>
+
+<footer style="padding: 32px 0; color: var(--muted); font-size: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: gap;">
+  <div>
+    <span class="logo" style="font-size:18px; font-family:'Playfair Display', serif; font-weight:900;">
+      <span style="color:#fff">HOTEL</span><span style="color:#E8670A">365</span>
+    </span>
+    <span style="margin-left: 16px;">Master Development Brief — March 2026</span>
+  </div>
+  <div>IQ Innovation Hub LLP · Shreem Capital</div>
+</footer>
+
+</body>
+</html>

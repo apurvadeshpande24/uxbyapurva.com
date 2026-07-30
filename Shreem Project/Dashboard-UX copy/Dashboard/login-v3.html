@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RevGuard — Sign In</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  /* Page background gradient — coral top-left → deep magenta bottom-right */
+  --page-from:#E8896A;
+  --page-to:#B52860;
+
+  /* Left panel warm gradient — golden-yellow → orange */
+  --panel-from:#FBCF6B;
+  --panel-mid:#F5A04A;
+  --panel-to:#EF7040;
+
+  /* UI */
+  --white:#FFFFFF;
+  --field-bg:#F0F1F6;
+  --field-bg-focus:#E8EAFF;
+  --text-primary:#1A1D2E;
+  --text-secondary:#4A4E66;
+  --text-muted:#9398B0;
+  --error:#DC2626;
+  --success:#059669;
+  --border-focus:rgba(239,112,64,0.45);
+  --font:'Manrope',sans-serif;
+}
+
+html,body{
+  height:100%;
+  font-family:var(--font);
+  font-size:14px;
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ── PAGE BACKGROUND ── */
+.page{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:32px 20px;
+  background: radial-gradient(ellipse at 20% 10%, #F09070 0%, #D94080 55%, #9B2060 100%);
+  position:relative;
+  overflow:hidden;
+}
+/* Subtle page bg texture circles */
+.page::before{
+  content:'';
+  position:absolute;
+  top:-160px;left:-120px;
+  width:480px;height:480px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.07);
+  pointer-events:none;
+}
+.page::after{
+  content:'';
+  position:absolute;
+  bottom:-200px;right:-100px;
+  width:560px;height:560px;
+  border-radius:50%;
+  background:rgba(0,0,0,0.06);
+  pointer-events:none;
+}
+
+/* ── CARD ── */
+.card{
+  display:flex;
+  width:100%;
+  max-width:880px;
+  min-height:520px;
+  border-radius:24px;
+  overflow:hidden;
+  box-shadow:0 32px 80px rgba(0,0,0,0.28),0 8px 24px rgba(0,0,0,0.16);
+  position:relative;
+  z-index:1;
+  animation:cardIn 500ms cubic-bezier(.4,0,.2,1) forwards;
+}
+@keyframes cardIn{
+  from{opacity:0;transform:translateY(24px) scale(0.98)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+
+/* ── LEFT BRAND PANEL ── */
+.brand{
+  width:46%;
+  flex-shrink:0;
+  background:linear-gradient(145deg, var(--panel-from) 0%, var(--panel-mid) 50%, var(--panel-to) 100%);
+  padding:44px 40px;
+  display:flex;
+  flex-direction:column;
+  position:relative;
+  overflow:hidden;
+}
+
+/* Large decorative circle — bleeds to the right */
+.brand-circle{
+  position:absolute;
+  width:360px;height:360px;
+  border-radius:50%;
+  background:linear-gradient(145deg, #F9C05A 0%, #EF7040 70%);
+  right:-100px;
+  top:50%;
+  transform:translateY(-50%);
+  opacity:0.9;
+  filter:blur(0px);
+}
+/* Inner glow ring */
+.brand-circle::after{
+  content:'';
+  position:absolute;
+  inset:20px;
+  border-radius:50%;
+  background:linear-gradient(145deg, rgba(255,255,255,0.18) 0%, transparent 60%);
+}
+
+/* Logo */
+.brand-logo{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  position:relative;z-index:1;
+}
+.brand-logo-icon{
+  width:40px;height:40px;
+  background:rgba(255,255,255,0.25);
+  backdrop-filter:blur(8px);
+  border:1.5px solid rgba(255,255,255,0.4);
+  border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:16px;color:#fff;
+  letter-spacing:-0.5px;flex-shrink:0;
+}
+.brand-logo-text{
+  font-size:20px;font-weight:800;color:#fff;letter-spacing:-0.3px;
+}
+.brand-logo-text span{color:rgba(255,255,255,0.75)}
+
+/* Headline block */
+.brand-body{
+  margin-top:auto;
+  margin-bottom:auto;
+  position:relative;z-index:1;
+  padding-top:32px;
+}
+.brand-eyebrow{
+  font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;
+  color:rgba(255,255,255,0.7);margin-bottom:12px;
+}
+.brand-headline{
+  font-size:28px;font-weight:800;color:#fff;
+  line-height:1.25;letter-spacing:-0.4px;
+  margin-bottom:14px;
+  text-shadow:0 2px 12px rgba(0,0,0,0.12);
+}
+.brand-sub{
+  font-size:13px;color:rgba(255,255,255,0.72);
+  line-height:1.65;max-width:220px;
+  font-weight:400;
+}
+
+/* Feature list */
+.brand-features{
+  position:relative;z-index:1;
+  margin-top:32px;
+  display:flex;flex-direction:column;gap:10px;
+}
+.brand-feat{
+  display:flex;align-items:center;gap:9px;
+}
+.brand-feat-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:rgba(255,255,255,0.7);flex-shrink:0;
+}
+.brand-feat-text{
+  font-size:12px;font-weight:500;color:rgba(255,255,255,0.75);
+}
+
+/* ── RIGHT FORM PANEL ── */
+.form-panel{
+  flex:1;
+  background:var(--white);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:44px 44px 32px;
+  overflow-y:auto;
+}
+
+.form-inner{
+  width:100%;
+  max-width:320px;
+}
+
+/* View transitions */
+.view{display:none;animation:viewIn 280ms ease forwards}
+.view.active{display:block}
+@keyframes viewIn{
+  from{opacity:0;transform:translateY(8px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* Avatar (login view top) */
+.avatar-wrap{
+  display:flex;justify-content:center;margin-bottom:18px;
+}
+.avatar-circle-lg{
+  width:70px;height:70px;border-radius:50%;
+  background:linear-gradient(145deg,#E8EAF6,#C5C8DB);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 16px rgba(0,0,0,0.10);
+}
+
+/* Headings */
+.form-tagline{
+  font-size:14px;color:var(--text-secondary);
+  text-align:center;font-weight:500;
+  margin-bottom:22px;
+}
+.form-title{
+  font-size:22px;font-weight:800;
+  color:var(--text-primary);letter-spacing:-0.4px;
+  margin-bottom:4px;
+}
+.form-sub{
+  font-size:13px;color:var(--text-muted);
+  margin-bottom:24px;line-height:1.55;
+}
+.form-sub a{color:var(--panel-to);font-weight:600;text-decoration:none}
+.form-sub a:hover{text-decoration:underline}
+
+/* Alert banner */
+.alert{
+  display:none;padding:10px 13px;
+  border-radius:10px;font-size:12px;font-weight:500;
+  margin-bottom:14px;align-items:center;gap:8px;
+}
+.alert.show{display:flex}
+.alert-error{background:#FEF2F2;border:1px solid #FECACA;color:#B91C1C}
+.alert-success{background:#F0FDF4;border:1px solid #BBF7D0;color:#065F46}
+
+/* Social buttons */
+.social-btns{display:flex;flex-direction:column;gap:9px;margin-bottom:20px}
+.social-btn{
+  width:100%;
+  display:flex;align-items:center;justify-content:center;gap:9px;
+  padding:11px 14px;
+  border:1.5px solid #E4E7EF;
+  border-radius:50px;
+  background:#FAFBFF;
+  font-family:var(--font);font-size:13px;font-weight:600;
+  color:var(--text-secondary);cursor:pointer;
+  transition:border-color 150ms,box-shadow 150ms,background 150ms;
+}
+.social-btn:hover{
+  border-color:var(--panel-to);
+  box-shadow:0 2px 12px rgba(239,112,64,0.12);
+  background:#FFF8F5;
+}
+
+/* Divider */
+.divider{
+  display:flex;align-items:center;gap:10px;margin-bottom:20px;
+}
+.divider-line{flex:1;height:1px;background:#ECEEF5}
+.divider-text{font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;white-space:nowrap}
+
+/* Fields — pill style */
+.field-group{margin-bottom:13px;position:relative}
+.field-pill{
+  width:100%;
+  display:flex;align-items:center;gap:10px;
+  padding:12px 18px;
+  border-radius:50px;
+  background:var(--field-bg);
+  border:1.5px solid transparent;
+  transition:border-color 150ms,background 150ms,box-shadow 150ms;
+}
+.field-pill:focus-within{
+  border-color:var(--panel-mid);
+  background:var(--white);
+  box-shadow:0 0 0 3px rgba(245,160,74,0.14);
+}
+.field-pill.error{
+  border-color:var(--error);
+  box-shadow:0 0 0 3px rgba(220,38,38,0.08);
+}
+.field-pill.success{
+  border-color:var(--success);
+  box-shadow:0 0 0 3px rgba(5,150,105,0.08);
+}
+.field-icon{
+  color:var(--text-muted);flex-shrink:0;
+  display:flex;align-items:center;
+  transition:color 150ms;
+}
+.field-pill:focus-within .field-icon{color:var(--panel-mid)}
+.field-input{
+  flex:1;border:none;outline:none;background:transparent;
+  font-family:var(--font);font-size:13px;font-weight:500;
+  color:var(--text-primary);
+}
+.field-input::placeholder{color:var(--text-muted);font-weight:400}
+.field-eye{
+  background:none;border:none;cursor:pointer;padding:0;
+  color:var(--text-muted);display:flex;align-items:center;
+  transition:color 150ms;flex-shrink:0;
+}
+.field-eye:hover{color:var(--panel-to)}
+
+/* Field error text */
+.field-msg{font-size:11px;font-weight:500;margin-top:5px;padding-left:18px;display:none}
+.field-msg.show{display:block}
+.field-msg.error-msg{color:var(--error)}
+.field-msg.success-msg{color:var(--success)}
+
+/* Remember row */
+.form-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;padding:0 4px}
+.checkbox-wrap{display:flex;align-items:center;gap:7px;cursor:pointer}
+.checkbox-wrap input[type=checkbox]{width:15px;height:15px;accent-color:var(--panel-to);cursor:pointer}
+.checkbox-label{font-size:12px;color:var(--text-secondary);font-weight:500}
+.forgot-link{font-size:12px;font-weight:600;color:var(--panel-to);text-decoration:none;cursor:pointer;transition:opacity 150ms}
+.forgot-link:hover{opacity:0.75}
+
+/* Primary gradient button */
+.btn-primary{
+  width:100%;padding:14px 24px;
+  background:linear-gradient(90deg, var(--panel-from), var(--panel-to));
+  color:#fff;border:none;border-radius:50px;
+  font-family:var(--font);font-size:14px;font-weight:700;
+  cursor:pointer;
+  box-shadow:0 6px 20px rgba(239,112,64,0.38),0 2px 8px rgba(239,112,64,0.2);
+  transition:box-shadow 150ms,transform 80ms,filter 150ms;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  letter-spacing:0.2px;
+  position:relative;overflow:hidden;
+}
+.btn-primary::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(255,255,255,0.14) 0%,transparent 100%);
+  pointer-events:none;border-radius:inherit;
+}
+.btn-primary:hover{
+  filter:brightness(1.06);
+  box-shadow:0 10px 28px rgba(239,112,64,0.48),0 3px 10px rgba(239,112,64,0.24);
+}
+.btn-primary:active{transform:scale(0.985)}
+.btn-primary:disabled{
+  filter:none;
+  background:linear-gradient(90deg,#D4C0A8,#C8A898);
+  box-shadow:none;cursor:not-allowed;transform:none;
+}
+.btn-spinner{
+  width:16px;height:16px;
+  border:2.5px solid rgba(255,255,255,0.35);
+  border-top-color:#fff;border-radius:50%;
+  animation:spin 600ms linear infinite;display:none;flex-shrink:0;
+}
+.btn-primary.loading .btn-spinner{display:block}
+.btn-primary.loading .btn-text{display:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Ghost / secondary button */
+.btn-ghost{
+  width:100%;padding:13px 24px;
+  background:transparent;
+  border:1.5px solid #E4E7EF;
+  border-radius:50px;
+  font-family:var(--font);font-size:13px;font-weight:600;
+  color:var(--text-secondary);cursor:pointer;
+  transition:border-color 150ms,background 150ms;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  margin-top:10px;
+}
+.btn-ghost:hover{border-color:var(--panel-to);background:#FFF8F5;color:var(--panel-to)}
+
+/* Back link */
+.back-link{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:12px;font-weight:600;color:var(--text-muted);
+  cursor:pointer;margin-bottom:20px;
+  transition:color 150ms;text-decoration:none;
+}
+.back-link:hover{color:var(--panel-to)}
+
+/* Password strength */
+.strength-wrap{margin-top:8px;padding:0 4px;display:none}
+.strength-bars{display:flex;gap:4px;margin-bottom:5px}
+.strength-bar{flex:1;height:3px;border-radius:2px;background:#ECEEF5;transition:background 250ms}
+.strength-label{font-size:11px;font-weight:600;color:var(--text-muted);transition:color 250ms}
+.strength-0 .strength-bar{background:#ECEEF5}
+.strength-1 .strength-bar:nth-child(1){background:var(--error)}
+.strength-2 .strength-bar:nth-child(-n+2){background:#F59E0B}
+.strength-3 .strength-bar:nth-child(-n+3){background:#3B82F6}
+.strength-4 .strength-bar{background:var(--success)}
+
+/* Success view */
+.success-ring{
+  width:68px;height:68px;border-radius:50%;
+  background:linear-gradient(145deg,#FCD57A,#EF7040);
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 20px;
+  box-shadow:0 8px 24px rgba(239,112,64,0.35);
+}
+.text-center{text-align:center}
+
+/* Privacy note */
+.privacy-note{
+  margin-top:20px;padding-top:16px;
+  border-top:1px solid #ECEEF5;
+  font-size:11px;color:var(--text-muted);
+  line-height:1.7;text-align:center;
+}
+.privacy-note a{color:var(--panel-to);font-weight:600;text-decoration:none}
+.privacy-note a:hover{text-decoration:underline}
+
+/* Privacy modal */
+.modal-overlay{
+  position:fixed;inset:0;
+  background:rgba(30,10,50,0.45);
+  backdrop-filter:blur(6px);
+  display:none;align-items:flex-end;justify-content:center;
+  z-index:1000;padding:20px;
+}
+.modal-overlay.open{display:flex}
+.modal-sheet{
+  background:#fff;border-radius:20px 20px 16px 16px;
+  max-width:660px;width:100%;max-height:80vh;
+  display:flex;flex-direction:column;
+  box-shadow:0 -12px 48px rgba(0,0,0,0.18);
+  animation:sheetUp 280ms cubic-bezier(.4,0,.2,1) forwards;
+}
+@keyframes sheetUp{
+  from{opacity:0;transform:translateY(40px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.modal-hdr{
+  display:flex;align-items:flex-start;justify-content:space-between;
+  padding:20px 24px 16px;border-bottom:1px solid #ECEEF5;flex-shrink:0;
+}
+.modal-title{font-size:15px;font-weight:700;color:var(--text-primary)}
+.modal-date{font-size:11px;color:var(--text-muted);margin-top:2px}
+.modal-close{
+  width:30px;height:30px;border:none;
+  background:#F0F1F6;border-radius:8px;cursor:pointer;
+  color:var(--text-muted);display:flex;align-items:center;justify-content:center;
+  transition:background 150ms;flex-shrink:0;
+}
+.modal-close:hover{background:#E4E7EF;color:var(--text-primary)}
+.modal-body{
+  overflow-y:auto;padding:20px 24px 28px;
+  font-size:13px;color:var(--text-secondary);line-height:1.75;
+}
+.modal-body h3{
+  font-size:12px;font-weight:700;color:var(--text-primary);
+  margin:18px 0 6px;text-transform:uppercase;letter-spacing:0.5px;
+}
+.modal-body h3:first-child{margin-top:0}
+.modal-body p{margin-bottom:10px}
+.modal-body ul{padding-left:18px;margin-bottom:10px}
+.modal-body ul li{margin-bottom:4px}
+
+/* Responsive */
+@media(max-width:740px){
+  .brand{display:none}
+  .card{border-radius:20px}
+  .form-panel{padding:40px 28px 28px}
+}
+@media(max-width:400px){
+  .form-panel{padding:32px 20px 24px}
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <div class="card">
+
+    <!-- ── LEFT BRAND PANEL ── -->
+    <div class="brand">
+      <div class="brand-circle"></div>
+
+      <div class="brand-logo">
+        <div class="brand-logo-icon">H</div>
+        <div class="brand-logo-text">Hotel<span>365</span></div>
+      </div>
+
+      <div class="brand-body">
+        <div class="brand-eyebrow">Hospitality Intelligence</div>
+        <h1 class="brand-headline">Welcome to<br>RevGuard!</h1>
+        <p class="brand-sub">AI-powered operations for multi-property hotel management.</p>
+
+        <div class="brand-features">
+          <div class="brand-feat"><div class="brand-feat-dot"></div><span class="brand-feat-text">Live Revenue &amp; RevPAR Dashboard</span></div>
+          <div class="brand-feat"><div class="brand-feat-dot"></div><span class="brand-feat-text">AI-Powered Task Engine</span></div>
+          <div class="brand-feat"><div class="brand-feat-dot"></div><span class="brand-feat-text">Revenue Leak Radar</span></div>
+          <div class="brand-feat"><div class="brand-feat-dot"></div><span class="brand-feat-text">Multi-Property Portfolio View</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── RIGHT FORM PANEL ── -->
+    <div class="form-panel">
+      <div class="form-inner">
+
+        <!-- ─────── VIEW: LOGIN ─────── -->
+        <div class="view active" id="view-login">
+
+          <div class="avatar-wrap">
+            <div class="avatar-circle-lg">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#9398B0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+          </div>
+          <p class="form-tagline">Sign in below to get started.</p>
+
+          <div class="alert alert-error" id="login-alert">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <span id="login-alert-msg"></span>
+          </div>
+
+          <!-- Email field -->
+          <div class="field-group">
+            <div class="field-pill" id="pill-email">
+              <span class="field-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              </span>
+              <input class="field-input" id="login-email" type="email" placeholder="E-mail Address"
+                autocomplete="email" oninput="clearAlert('login-alert')">
+            </div>
+          </div>
+
+          <!-- Password field -->
+          <div class="field-group">
+            <div class="field-pill" id="pill-pass">
+              <span class="field-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              </span>
+              <input class="field-input" id="login-password" type="password" placeholder="Your Password"
+                autocomplete="current-password" oninput="clearAlert('login-alert')"
+                onkeydown="if(event.key==='Enter')submitLogin()">
+              <button class="field-eye" type="button" onclick="togglePwd('login-password',this)" tabindex="-1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label class="checkbox-wrap">
+              <input type="checkbox" id="rememberMe">
+              <span class="checkbox-label">Keep me logged in</span>
+            </label>
+            <a class="forgot-link" onclick="showView('view-forgot-email')">Forgot password?</a>
+          </div>
+
+          <button class="btn-primary" id="login-btn" onclick="submitLogin()">
+            <div class="btn-spinner"></div>
+            <span class="btn-text">Login</span>
+          </button>
+
+          <div class="divider" style="margin-top:18px">
+            <div class="divider-line"></div>
+            <span class="divider-text">or</span>
+            <div class="divider-line"></div>
+          </div>
+
+          <div class="social-btns" style="margin-bottom:0">
+            <button class="social-btn" onclick="socialLogin('google')">
+              <svg width="16" height="16" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/></svg>
+              Continue with Google
+            </button>
+            <button class="social-btn" onclick="socialLogin('microsoft')">
+              <svg width="16" height="16" viewBox="0 0 18 18"><rect x="1" y="1" width="7.5" height="7.5" fill="#F25022"/><rect x="9.5" y="1" width="7.5" height="7.5" fill="#7FBA00"/><rect x="1" y="9.5" width="7.5" height="7.5" fill="#00A4EF"/><rect x="9.5" y="9.5" width="7.5" height="7.5" fill="#FFB900"/></svg>
+              Continue with Microsoft
+            </button>
+          </div>
+
+          <div class="privacy-note">
+            By signing in you agree to our
+            <a href="#" onclick="openPolicy(event)">Privacy Policy</a>
+            &amp;
+            <a href="#" onclick="openPolicy(event)">Terms of Service</a>
+          </div>
+        </div><!-- /#view-login -->
+
+
+        <!-- ─────── VIEW: FORGOT — ENTER EMAIL ─────── -->
+        <div class="view" id="view-forgot-email">
+          <a class="back-link" onclick="showView('view-login')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            Back to Sign In
+          </a>
+
+          <h2 class="form-title">Forgot Password?</h2>
+          <p class="form-sub">Enter your registered email and we'll send you a reset link.</p>
+
+          <div class="alert alert-error" id="forgot-alert">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <span id="forgot-alert-msg"></span>
+          </div>
+
+          <div class="field-group">
+            <div class="field-pill">
+              <span class="field-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              </span>
+              <input class="field-input" id="forgot-email" type="email"
+                placeholder="E-mail Address" autocomplete="email"
+                onkeydown="if(event.key==='Enter')submitForgotEmail()">
+            </div>
+          </div>
+
+          <button class="btn-primary" id="forgot-email-btn" onclick="submitForgotEmail()">
+            <div class="btn-spinner"></div>
+            <span class="btn-text">Send Reset Link</span>
+          </button>
+
+          <div class="privacy-note">
+            Reset links expire after 60 minutes.
+            <a href="#" onclick="openPolicy(event)">Privacy Policy</a>
+          </div>
+        </div><!-- /#view-forgot-email -->
+
+
+        <!-- ─────── VIEW: FORGOT — NEW PASSWORD ─────── -->
+        <div class="view" id="view-forgot-new">
+          <a class="back-link" onclick="showView('view-forgot-email')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            Back
+          </a>
+
+          <h2 class="form-title">New Password</h2>
+          <p class="form-sub">Resetting password for <strong id="reset-email-display" style="color:var(--panel-to)"></strong></p>
+
+          <div class="alert alert-error" id="reset-alert">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <span id="reset-alert-msg"></span>
+          </div>
+
+          <div class="field-group">
+            <div class="field-pill">
+              <span class="field-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              </span>
+              <input class="field-input" id="new-password" type="password"
+                placeholder="New Password (min 8 chars)" autocomplete="new-password"
+                oninput="checkStrength(this.value)">
+              <button class="field-eye" type="button" onclick="togglePwd('new-password',this)" tabindex="-1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+            <div class="strength-wrap" id="strength-wrap">
+              <div class="strength-bars" id="strength-bars">
+                <div class="strength-bar"></div><div class="strength-bar"></div>
+                <div class="strength-bar"></div><div class="strength-bar"></div>
+              </div>
+              <span class="strength-label" id="strength-label"></span>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <div class="field-pill" id="pill-confirm">
+              <span class="field-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </span>
+              <input class="field-input" id="confirm-password" type="password"
+                placeholder="Confirm Password" autocomplete="new-password"
+                oninput="checkConfirm()"
+                onkeydown="if(event.key==='Enter')submitNewPassword()">
+            </div>
+            <div class="field-msg error-msg" id="confirm-msg">Passwords do not match</div>
+          </div>
+
+          <button class="btn-primary" id="reset-btn" onclick="submitNewPassword()">
+            <div class="btn-spinner"></div>
+            <span class="btn-text">Update Password</span>
+          </button>
+        </div><!-- /#view-forgot-new -->
+
+
+        <!-- ─────── VIEW: RESET SUCCESS ─────── -->
+        <div class="view" id="view-reset-success">
+          <div class="text-center" style="padding:8px 0">
+            <div class="success-ring">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <h2 class="form-title" style="text-align:center">Password Updated!</h2>
+            <p class="form-sub" style="text-align:center;margin-bottom:28px">
+              Your new password is saved.<br>Sign in with your new credentials.
+            </p>
+            <button class="btn-primary" onclick="showView('view-login')" style="max-width:240px;margin:0 auto">
+              <span class="btn-text">Back to Login</span>
+            </button>
+          </div>
+        </div><!-- /#view-reset-success -->
+
+      </div><!-- /.form-inner -->
+    </div><!-- /.form-panel -->
+
+  </div><!-- /.card -->
+</div><!-- /.page -->
+
+
+<!-- ── PRIVACY MODAL ── -->
+<div class="modal-overlay" id="policy-modal" onclick="closePolicy(event)">
+  <div class="modal-sheet" onclick="event.stopPropagation()">
+    <div class="modal-hdr">
+      <div>
+        <div class="modal-title">Privacy Policy &amp; Terms of Service</div>
+        <div class="modal-date">Effective March 1, 2026 · Updated March 16, 2026</div>
+      </div>
+      <button class="modal-close" onclick="closePolicy()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <h3>1. Who We Are</h3>
+      <p>RevGuard is a hospitality intelligence platform operated by Shreem Technologies Inc., providing multi-property hotel management software including revenue dashboards, task engines, and operational analytics.</p>
+      <h3>2. Data We Collect</h3>
+      <ul>
+        <li><strong>Account data:</strong> name, email, job title, property affiliation</li>
+        <li><strong>Usage data:</strong> features used, session duration, browser type</li>
+        <li><strong>Operational data:</strong> PMS exports, revenue figures, task records</li>
+        <li><strong>Device data:</strong> IP address, device type, OS (security logging only)</li>
+      </ul>
+      <h3>3. How We Use Your Data</h3>
+      <ul>
+        <li>To provide, maintain, and improve the RevGuard platform</li>
+        <li>To authenticate identity and prevent unauthorised access</li>
+        <li>To generate AI-powered insights and proactive alerts</li>
+        <li>To send security alerts and support communications</li>
+      </ul>
+      <h3>4. Google &amp; Microsoft SSO</h3>
+      <p>When using SSO, we receive your email, display name, and profile picture from the provider. We never store your SSO passwords. You may revoke access via your Google or Microsoft account settings at any time.</p>
+      <h3>5. Security</h3>
+      <p>All data is encrypted in transit (TLS 1.3) and at rest (AES-256). Passwords are hashed using bcrypt (cost ≥ 12). We undergo annual SOC 2 Type II audits.</p>
+      <h3>6. Data Sharing</h3>
+      <p>We do not sell your data. We may share with service providers under strict agreements, or when required by law.</p>
+      <h3>7. Your Rights</h3>
+      <p>You have the right to access, correct, delete, or export your data. Contact privacy@revguard.io for any requests. EU/UK users may also contact their local DPA.</p>
+      <h3>8. Cookies</h3>
+      <p>We use strictly necessary session cookies for authentication and optional analytics cookies. Manage preferences in account settings.</p>
+      <h3>Contact</h3>
+      <p>privacy@revguard.io · Shreem Technologies Inc., 100 Main Street, Dallas TX 75201</p>
+    </div>
+  </div>
+</div>
+
+
+<script>
+// ── Mock user store (shared with login.html via localStorage) ──
+const DEFAULT_USER = { email:'demo@revguard.io', password:'RevGuard!' };
+const USERS_KEY = 'rg_users';
+
+function getUsers(){ try{ return JSON.parse(localStorage.getItem(USERS_KEY))||{}; }catch{ return{}; } }
+function setUserPassword(email,pwd){ const u=getUsers(); u[email.toLowerCase()]=pwd; localStorage.setItem(USERS_KEY,JSON.stringify(u)); }
+function resolvePassword(email){ const u=getUsers(); const s=u[email.toLowerCase()]; if(s)return s; if(email.toLowerCase()===DEFAULT_USER.email)return DEFAULT_USER.password; return null; }
+function userExists(email){ const u=getUsers(); const e=email.toLowerCase(); return e===DEFAULT_USER.email||u[e]!==undefined; }
+
+// ── Views ──
+function showView(id){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  const el=document.getElementById(id);
+  if(el){ el.classList.remove('active'); void el.offsetWidth; el.classList.add('active'); }
+}
+
+// ── Password visibility ──
+function togglePwd(inputId,btn){
+  const inp=document.getElementById(inputId);
+  const isText=inp.type==='text';
+  inp.type=isText?'password':'text';
+  btn.innerHTML=isText
+    ?`<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`
+    :`<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>`;
+}
+
+// ── Utilities ──
+function isValidEmail(e){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
+function setLoading(btn,on){ btn.classList.toggle('loading',on); btn.disabled=on; }
+function clearAlert(id){ document.getElementById(id).classList.remove('show'); }
+function showAlert(alertId,msgId,msg){
+  document.getElementById(msgId).textContent=msg;
+  document.getElementById(alertId).classList.add('show');
+}
+
+// ── Login ──
+function submitLogin(){
+  const email=document.getElementById('login-email').value.trim();
+  const password=document.getElementById('login-password').value;
+  const btn=document.getElementById('login-btn');
+  clearAlert('login-alert');
+  if(!email){ showAlert('login-alert','login-alert-msg','Please enter your email address.'); return; }
+  if(!isValidEmail(email)){ showAlert('login-alert','login-alert-msg','Please enter a valid email address.'); return; }
+  if(!password){ showAlert('login-alert','login-alert-msg','Please enter your password.'); return; }
+  setLoading(btn,true);
+  setTimeout(()=>{
+    setLoading(btn,false);
+    const stored=resolvePassword(email);
+    if(stored===null){ showAlert('login-alert','login-alert-msg','No account found with that email address.'); return; }
+    if(stored!==password){ showAlert('login-alert','login-alert-msg','Incorrect password. Please try again.'); return; }
+    window.location.href='hotel365-dashboard.html';
+  },900);
+}
+
+// ── Social login ──
+function socialLogin(provider){
+  const label=provider==='google'?'Google':'Microsoft';
+  alert(`Redirecting to ${label} authentication…\n\n(In production this would initiate the OAuth 2.0 flow)`);
+}
+
+// ── Forgot password — step 1 ──
+let resetEmail='';
+function submitForgotEmail(){
+  const email=document.getElementById('forgot-email').value.trim();
+  const btn=document.getElementById('forgot-email-btn');
+  clearAlert('forgot-alert');
+  if(!email){ showAlert('forgot-alert','forgot-alert-msg','Please enter your email address.'); return; }
+  if(!isValidEmail(email)){ showAlert('forgot-alert','forgot-alert-msg','Please enter a valid email address.'); return; }
+  setLoading(btn,true);
+  setTimeout(()=>{
+    setLoading(btn,false);
+    resetEmail=email;
+    const users=getUsers();
+    if(!users[email.toLowerCase()]&&email.toLowerCase()!==DEFAULT_USER.email){
+      setUserPassword(email,'TempPass123!');
+    }
+    document.getElementById('reset-email-display').textContent=email;
+    showView('view-forgot-new');
+  },800);
+}
+
+// ── Forgot password — step 2 ──
+function checkStrength(value){
+  const wrap=document.getElementById('strength-wrap');
+  const bars=document.getElementById('strength-bars');
+  const label=document.getElementById('strength-label');
+  if(!value){ wrap.style.display='none'; return; }
+  wrap.style.display='block';
+  let score=0;
+  if(value.length>=8) score++;
+  if(/[A-Z]/.test(value)) score++;
+  if(/[0-9]/.test(value)) score++;
+  if(/[^A-Za-z0-9]/.test(value)) score++;
+  bars.className=`strength-bars strength-${score}`;
+  const labels=['','Weak','Fair','Good','Strong'];
+  const colors=['','#DC2626','#F59E0B','#3B82F6','#059669'];
+  label.textContent=labels[score]||'';
+  label.style.color=colors[score]||'';
+}
+
+function checkConfirm(){
+  const np=document.getElementById('new-password').value;
+  const cp=document.getElementById('confirm-password').value;
+  const msg=document.getElementById('confirm-msg');
+  const pill=document.getElementById('pill-confirm');
+  if(cp&&np!==cp){ msg.classList.add('show'); pill.classList.add('error'); pill.classList.remove('success'); }
+  else{ msg.classList.remove('show'); pill.classList.remove('error'); if(cp&&np===cp) pill.classList.add('success'); }
+}
+
+function submitNewPassword(){
+  const np=document.getElementById('new-password').value;
+  const cp=document.getElementById('confirm-password').value;
+  const btn=document.getElementById('reset-btn');
+  clearAlert('reset-alert');
+  if(!np){ showAlert('reset-alert','reset-alert-msg','Please enter a new password.'); return; }
+  if(np.length<8){ showAlert('reset-alert','reset-alert-msg','Password must be at least 8 characters.'); return; }
+  if(np!==cp){ showAlert('reset-alert','reset-alert-msg','Passwords do not match.'); return; }
+  setLoading(btn,true);
+  setTimeout(()=>{
+    setLoading(btn,false);
+    setUserPassword(resetEmail,np);
+    document.getElementById('login-email').value=resetEmail;
+    document.getElementById('login-password').value='';
+    showView('view-reset-success');
+  },700);
+}
+
+// ── Privacy modal ──
+function openPolicy(e){ if(e)e.preventDefault(); document.getElementById('policy-modal').classList.add('open'); document.body.style.overflow='hidden'; }
+function closePolicy(e){
+  if(e&&e.target!==document.getElementById('policy-modal'))return;
+  document.getElementById('policy-modal').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',e=>{ if(e.key==='Escape')closePolicy(); });
+</script>
+</body>
+</html>
