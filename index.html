@@ -129,9 +129,12 @@
   .skill-group { margin-bottom: 2rem; }
   .skill-group-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-light); margin-bottom: 1rem; }
   .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-  .skill-tag { background: var(--divider); color: var(--ink); font-size: 0.8rem; font-weight: 400; padding: 0.35rem 0.85rem; border-radius: 2rem; border: 1px solid var(--border); }
-  .skill-tag.primary { background: var(--ink); color: #fff; border-color: var(--ink); }
-  .skill-tag.accent { background: var(--brand-light); color: var(--brand); border-color: rgba(26,63,111,0.2); }
+  .skill-tag { background: var(--divider); color: var(--ink); font-size: 0.8rem; font-weight: 400; padding: 0.35rem 0.85rem; border-radius: 2rem; border: 1px solid var(--border); position: relative; }
+  .skill-tag.primary { background: var(--ink); color: #fff; border-color: var(--ink); cursor: default; }
+  .skill-tag.accent { background: var(--brand-light); color: var(--brand); border-color: rgba(26,63,111,0.2); cursor: default; }
+  .skill-tag[data-tooltip]::after { content: attr(data-tooltip); position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%); background: var(--ink); color: #fff; font-size: 0.7rem; font-weight: 500; line-height: 1.4; white-space: normal; width: 200px; padding: 7px 10px; border-radius: 7px; pointer-events: none; opacity: 0; transition: opacity 0.18s; z-index: 99; text-align: center; }
+  .skill-tag[data-tooltip]::before { content: ''; position: absolute; bottom: calc(100% + 3px); left: 50%; transform: translateX(-50%); border: 5px solid transparent; border-top-color: var(--ink); pointer-events: none; opacity: 0; transition: opacity 0.18s; z-index: 99; }
+  .skill-tag[data-tooltip]:hover::after, .skill-tag[data-tooltip]:hover::before { opacity: 1; }
   .tools-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
   .tool-pill { background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 0.7rem 0.9rem; display: flex; align-items: center; gap: 0.6rem; font-size: 0.82rem; font-weight: 500; }
   .tool-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
@@ -155,7 +158,7 @@
   .metric-key { font-size: 0.7rem; color: var(--ink-light); font-weight: 400; }
   .project-arrow { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.8rem; font-weight: 600; color: var(--brand); margin-top: 0.75rem; }
   .project-tools { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.6rem; }
-  .project-tool { font-size: 0.68rem; font-weight: 600; color: var(--ink-light); background: var(--divider); border: 1px solid var(--border); padding: 0.2rem 0.55rem; border-radius: 4px; }
+  .project-tool { font-size: 0.75rem; font-weight: 400; color: var(--brand); background: var(--brand-light); border: 1px solid rgba(240,119,40,0.18); padding: 0.3rem 0.8rem; border-radius: 2rem; }
 
   /* EXPERIENCE */
   .exp-list { display: flex; flex-direction: column; }
@@ -168,6 +171,14 @@
   .exp-points { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
   .exp-points li { font-size: 0.85rem; color: var(--ink-mid); line-height: 1.65; padding-left: 1rem; position: relative; font-weight: 400; }
   .exp-points li::before { content: '—'; position: absolute; left: 0; color: var(--ink-light); }
+  /* Sub-timeline for split roles */
+  .sub-timeline { display: flex; flex-direction: column; gap: 0; margin-top: 0.25rem; border-left: 2px solid var(--border); padding-left: 1.25rem; position: relative; }
+  .sub-node { position: relative; padding-bottom: 1.75rem; }
+  .sub-node:last-child { padding-bottom: 0; }
+  .sub-node::before { content: ''; position: absolute; left: calc(-1.25rem - 5px - 1px); top: 0.35rem; width: 10px; height: 10px; border-radius: 50%; background: var(--white); border: 2px solid var(--brand); }
+  .sub-node:last-child::before { background: var(--brand); }
+  .sub-node-date { font-size: 0.72rem; color: var(--ink-light); font-weight: 500; margin-bottom: 0.2rem; }
+  .sub-node-role { font-size: 1rem; color: var(--ink); font-weight: 500; margin-bottom: 0.5rem; }
 
   /* CONTACT */
   .contact-band { background: var(--ink); padding: 5rem clamp(1.25rem, 5%, 5rem); }
@@ -300,11 +311,12 @@
       <span class="nav-logo-sub">Senior UX/UI Designer &amp; Product Designer</span>
     </a>
     <ul class="nav-links" id="navLinks">
+      <li><a href="#hero">Home</a></li>
       <li><a href="#process">Design Process</a></li>
       <li><a href="#work">Work</a></li>
       <li><a href="#skills">Skills</a></li>
       <li><a href="#experience">Professional Experience</a></li>
-      <li class="nav-cta-mobile"><a href="https://drive.google.com/file/d/1x-jn21TyL9bl3XYCeqxOfJsQTn0oQ3CN/view?usp=sharing" target="_blank" rel="noopener">Download Resume</a></li>
+      <li class="nav-cta-mobile"><a href="https://drive.google.com/file/d/1V-nIMoi0Y0Y8MIoq41pW9RYLA4hHSJny/view?usp=sharing" target="_blank" rel="noopener">Download Resume</a></li>
     </ul>
     <div class="nav-right">
       <div class="theme-switcher" role="group" aria-label="Choose colour theme">
@@ -315,7 +327,7 @@
           <span class="theme-dot" style="background:#F07728;"></span><span class="theme-label">Orange</span>
         </button>
       </div>
-      <a href="https://drive.google.com/file/d/1x-jn21TyL9bl3XYCeqxOfJsQTn0oQ3CN/view?usp=sharing" target="_blank" rel="noopener" class="nav-cta">Download Resume</a>
+      <a href="https://drive.google.com/file/d/1V-nIMoi0Y0Y8MIoq41pW9RYLA4hHSJny/view?usp=sharing" target="_blank" rel="noopener" class="nav-cta">Download Resume</a>
       <button class="nav-hamburger" id="hamburger" aria-label="Toggle navigation" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
@@ -327,7 +339,7 @@
 
 <!-- HERO -->
 <div class="hero-wrapper">
-  <div class="hero">
+  <div class="hero" id="hero">
     <div class="hero-left">
       <div class="hero-tag">Open to opportunities &middot; Pune</div>
       <div class="anim-hero" aria-label="I design for">
@@ -335,8 +347,8 @@
         <span class="anim-word-wrap"><span id="animWord">Insurance</span></span>
       </div>
       <p class="hero-role">Senior UX/UI Designer &amp; Product Designer</p>
-      <p class="hero-bio" style="margin-bottom:0.7rem;">6.5+ years designing enterprise digital products across Insurance, Healthcare, SaaS, and Digital Commerce. I turn complex workflows into clear, accessible experiences — grounded in HCD, Nielsen's Heuristics, and measurable outcomes.</p>
-      <p style="font-size:0.82rem;font-weight:600;color:var(--ink-mid);margin-bottom:2.2rem;line-height:1.6;">Completed HFI CUA successfully &middot; Available for Pune based, full-time opportunities</p>
+      <p class="hero-bio" style="margin-bottom:0.7rem;">6 years designing enterprise digital products across Insurance, Healthcare, SaaS, and Digital Commerce. I turn complex workflows into clear, accessible experiences — grounded in HCD, Nielsen's Heuristics, and measurable outcomes.</p>
+      <p style="font-size:0.82rem;font-weight:600;color:var(--brand);margin-bottom:2.2rem;line-height:1.6;">Completed HFI CUA successfully &middot; Available for Pune based, full-time opportunities</p>
       <div class="hero-actions">
         <a href="#work" class="btn-primary">View case studies</a>
         <a href="#contact" class="btn-outline">Get in touch</a>
@@ -349,7 +361,7 @@
     </div>
     <div class="stat-row">
       <div class="stat-box">
-        <div class="stat-num">6.5<sup>+</sup></div>
+        <div class="stat-num">6</div>
         <div class="stat-label">Years of experience</div>
       </div>
       <div class="stat-box">
@@ -452,7 +464,7 @@
 
     <!-- Featured project -->
     <a href="FinTech-Case-Study.html" class="project-card featured">
-      <div class="project-thumb" style="overflow:hidden;height:280px;background:#07111F;">
+      <div class="project-thumb" style="overflow:hidden;aspect-ratio:16/9;background:#f0f4f8;">
         <img src="fintech-dashboard.png" alt="Enterprise Procurement & Financial Workflow Platform Dashboard" style="width:100%;height:100%;object-fit:cover;object-position:top center;display:block;" onerror="this.style.display='none'">
       </div>
       <div class="project-body">
@@ -564,11 +576,11 @@
       <div class="skill-group">
         <div class="skill-group-label">UX Strategy &amp; Research</div>
         <div class="skill-tags">
-          <span class="skill-tag primary">User Journey Mapping</span>
-          <span class="skill-tag primary">Information Architecture</span>
-          <span class="skill-tag primary">Heuristic Analysis</span>
-          <span class="skill-tag accent">Usability Evaluation</span>
-          <span class="skill-tag accent">Interaction Design</span>
+          <span class="skill-tag primary" data-tooltip="Core superpower — forms the backbone of my UX practice across every project">User Journey Mapping</span>
+          <span class="skill-tag primary" data-tooltip="Core superpower — forms the backbone of my UX practice across every project">Information Architecture</span>
+          <span class="skill-tag primary" data-tooltip="Core superpower — forms the backbone of my UX practice across every project">Heuristic Analysis</span>
+          <span class="skill-tag accent" data-tooltip="HFI Certified — validated through Human Factors International (HFI) certification">Usability Evaluation</span>
+          <span class="skill-tag accent" data-tooltip="HFI Certified — validated through Human Factors International (HFI) certification">Interaction Design</span>
           <span class="skill-tag">Wireframing &amp; Prototyping</span>
           <span class="skill-tag">Task Flow Optimisation</span>
         </div>
@@ -611,7 +623,7 @@
           <span class="skill-tag">Insurance</span>
           <span class="skill-tag">Healthcare</span>
           <span class="skill-tag">SaaS / B2B</span>
-          <span class="skill-tag">Digital Commerce</span>
+          <span class="skill-tag">FinTech</span>
           <span class="skill-tag">Enterprise ERP</span>
           <span class="skill-tag">EdTech / LMS</span>
           <span class="skill-tag">Legal Services</span>
@@ -630,17 +642,30 @@
   <div class="exp-list">
 
     <div class="exp-item">
-      <div class="exp-date">Nov 2021 &ndash; Present<span>6.5+ yrs</span></div>
+      <div class="exp-date">Nov 2021 &ndash; Present<span>3+ yrs</span></div>
       <div class="exp-content">
-        <div class="exp-role">Senior UX/UI Designer</div>
         <div class="exp-company">IQ Innovation Hub LLP &middot; Pune</div>
-        <ul class="exp-points">
-          <li>Led end-to-end UX for a multilingual insurance web application, expanding user reach by 40% through improved accessibility.</li>
-          <li>Redesigned field survey iPad workflow, reducing task completion time by 60% via interaction flow restructuring.</li>
-          <li>Designed E-Invoicing and Supplier Portals to streamline procurement operations for enterprise stakeholders.</li>
-          <li>Collaborated with Product, Engineering, and Business teams in Agile sprints for scalable UI delivery.</li>
-          <li>Utilised AI-assisted design workflows to accelerate prototyping and reduce design-to-development turnaround.</li>
-        </ul>
+        <div class="sub-timeline">
+          <div class="sub-node">
+            <div class="sub-node-date">Jul 2023 – Present</div>
+            <div class="sub-node-role">Senior UX/UI Designer</div>
+            <ul class="exp-points">
+              <li>Led end-to-end UX for a multilingual insurance web application, expanding user reach by 40% through improved accessibility.</li>
+              <li>Redesigned field survey iPad workflow, reducing task completion time by 60% via interaction flow restructuring.</li>
+              <li>Designed E-Invoicing and Supplier Portals to streamline procurement operations for enterprise stakeholders.</li>
+              <li>Collaborated with Product, Engineering, and Business teams in Agile sprints for scalable UI delivery.</li>
+              <li>Utilised AI-assisted design workflows to accelerate prototyping and reduce design-to-development turnaround.</li>
+            </ul>
+          </div>
+          <div class="sub-node">
+            <div class="sub-node-date">Nov 2021 – Jun 2023</div>
+            <div class="sub-node-role">UX/UI Designer</div>
+            <ul class="exp-points">
+              <li>Designed end-to-end UX for enterprise SaaS products across FinTech, Healthcare, and Insurance domains.</li>
+              <li>Conducted user research, IA structuring, and wireframing to define product direction from early stages.</li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -659,15 +684,26 @@
     </div>
 
     <div class="exp-item">
-      <div class="exp-date">2012 &ndash; 2021<span>9 yrs</span></div>
+      <div class="exp-date">2012 &ndash; 2021<span>4.5 yrs + 4.5 yrs</span></div>
       <div class="exp-content">
-        <div class="exp-role">UX/UI Design Mentor &amp; Product Contributor</div>
         <div class="exp-company">EDIT Systems Pvt Ltd &middot; Pune</div>
-        <ul class="exp-points">
-          <li>Mentored 400+ aspiring designers in UX/UI principles aligned with industry practices.</li>
-          <li>Contributed to ERP and LMS product UX improvements.</li>
-          <li>Supported curriculum design and structured UX learning programs.</li>
-        </ul>
+        <div class="sub-timeline">
+          <div class="sub-node">
+            <div class="sub-node-date">Jun 2017 – Aug 2021</div>
+            <div class="sub-node-role">Product Design Consultant</div>
+            <ul class="exp-points">
+              <li>Consulted on UX improvements for in-house ERP and LMS products.</li>
+            </ul>
+          </div>
+          <div class="sub-node">
+            <div class="sub-node-date">Sep 2012 – May 2017</div>
+            <div class="sub-node-role">UX/UI Design Mentor</div>
+            <ul class="exp-points">
+              <li>Mentored 400+ aspiring designers in UX/UI principles aligned with industry practices.</li>
+              <li>Supported curriculum design and structured UX learning programs.</li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
 
