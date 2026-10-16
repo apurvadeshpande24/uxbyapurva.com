@@ -57,20 +57,8 @@
       border-bottom: 1px solid #dee3ea;
       background: #fff;
     }
-    .tcs-brand { display: flex; align-items: center; gap: 0.5rem; }
-    /* 2×2 grid of squares mimicking TCS logo mark */
-    .tcs-squares {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 2px;
-      width: 18px; height: 18px;
-    }
-    .tcs-squares span { border-radius: 1px; }
-    .tcs-squares span:nth-child(1) { background: #0033A0; }
-    .tcs-squares span:nth-child(2) { background: #0033A0; }
-    .tcs-squares span:nth-child(3) { background: #00AEEF; }
-    .tcs-squares span:nth-child(4) { background: #0082CA; }
-    .tcs-text { line-height: 1; }
-    .tcs-text .tcs-name   { font-size: 0.78rem; font-weight: 800; color: #0033A0; letter-spacing: 0.01em; }
-    .tcs-text .tcs-sub    { font-size: 0.44rem; font-weight: 500; color: #8a96a5; letter-spacing: 0.07em; text-transform: uppercase; margin-top: 1px; }
+    .tcs-brand { display: flex; align-items: center; }
+    .tcs-wordmark { font-size: 0.78rem; font-weight: 700; color: #0033A0; letter-spacing: 0.04em; text-transform: uppercase; }
     .hdr-tag { font-size: 0.58rem; font-weight: 600; color: #8a96a5; letter-spacing: 0.09em; text-transform: uppercase; }
 
     /* ─── 3-COLUMN BODY ─── */
@@ -86,7 +74,7 @@
 
     /* ─── SHARED ─── */
     .sec-lbl {
-      font-size: 0.62rem; font-weight: 700;
+      font-size: 0.62rem; font-weight: 800;
       letter-spacing: 0.04em; text-transform: uppercase;
       color: #2d3a4a; margin-bottom: 0.4rem; display: block;
     }
@@ -203,11 +191,7 @@
   <!-- PAGE HEADER -->
   <div class="pg-hdr">
     <div class="tcs-brand">
-      <div class="tcs-squares"><span></span><span></span><span></span><span></span></div>
-      <div class="tcs-text">
-        <div class="tcs-name">tcs</div>
-        <div class="tcs-sub">Tata Consultancy Services</div>
-      </div>
+      <div class="tcs-wordmark">Tata Consultancy Services</div>
     </div>
     <div class="hdr-tag">Team profile</div>
   </div>
