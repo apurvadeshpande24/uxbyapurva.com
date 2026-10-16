@@ -91,7 +91,10 @@
   .hero-photo-wrap { position: relative; width: 100%; max-width: 420px; }
   .hero-photo-wrap::after { content: ''; position: absolute; inset: -10px -10px 10px 10px; border-radius: 28px; border: 2px solid var(--brand); z-index: 0; transition: border-color 0.3s; }
   .hero-photo { position: relative; z-index: 1; width: 100%; aspect-ratio: 1 / 1; object-fit: cover; object-position: center top; border-radius: 20px; display: block; }
-  .stat-box { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 1.75rem 2rem; }
+  .stat-box { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 1.75rem 2rem; transition: border-color 0.2s, background 0.2s; cursor: default; }
+  .stat-box:hover { border-color: var(--brand); background: var(--brand-light); }
+  .stat-box:hover .stat-num { color: var(--brand); }
+  .stat-box:hover .stat-label { color: var(--brand); }
   .stat-num { font-size: 2.8rem; font-weight: 800; color: var(--ink); line-height: 1.1; }
   .stat-num sup { font-size: 1.5rem; font-weight: 700; vertical-align: super; line-height: 0; }
   .stat-label { font-size: 0.95rem; color: var(--ink-light); font-weight: 500; line-height: 1.3; margin-top: 0.4rem; }
@@ -166,7 +169,7 @@
   .exp-item:first-child { padding-top: 0; }
   .exp-date { font-size: 0.78rem; color: var(--ink-light); font-weight: 500; padding-top: 0.2rem; }
   .exp-date span { display: block; color: var(--ink-mid); font-weight: 500; font-size: 0.82rem; margin-top: 0.25rem; }
-  .exp-role { font-size: 1.2rem; color: var(--ink); margin-bottom: 0.2rem; font-weight: 500; }
+  .exp-role { font-size: 1rem; color: var(--ink); margin-bottom: 0.2rem; font-weight: 500; }
   .exp-company { font-size: 0.88rem; font-weight: 600; color: var(--brand); margin-bottom: 0.75rem; }
   .exp-points { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
   .exp-points li { font-size: 0.85rem; color: var(--ink-mid); line-height: 1.65; padding-left: 1rem; position: relative; font-weight: 400; }
@@ -650,6 +653,14 @@
   <div class="exp-list">
 
     <div class="exp-item">
+      <div class="exp-date">Aug 2026 &ndash; Present<span>Current</span></div>
+      <div class="exp-content">
+        <div class="exp-company">TCS Interactive Unit &middot; Tata Consultancy Services</div>
+        <div class="exp-role">Assistant Consultant</div>
+      </div>
+    </div>
+
+    <div class="exp-item">
       <div class="exp-date">Nov 2021 &ndash; Present<span>3+ yrs</span></div>
       <div class="exp-content">
         <div class="exp-company">IQ Innovation Hub LLP &middot; Pune</div>
@@ -680,8 +691,8 @@
     <div class="exp-item">
       <div class="exp-date">Aug 2021 &ndash; Nov 2021<span>3 months</span></div>
       <div class="exp-content">
-        <div class="exp-role">UX/UI Designer</div>
         <div class="exp-company">EBiz India Pvt Ltd &middot; Pune</div>
+        <div class="exp-role">UX/UI Designer</div>
         <ul class="exp-points">
           <li>Designed enterprise web platforms for healthcare and legal services domains.</li>
           <li>Developed hospital management system UX improving workflows for patient records and billing.</li>
@@ -766,7 +777,10 @@
           <div class="avail-pref-label">Preferences</div>
           <div class="avail-pref-text">Pune-based &middot; Full-time preferred &middot; Enterprise or product-led companies &middot; Cross-functional Agile teams</div>
         </div>
-        <a href="https://www.behance.net/apurvadeshpande" target="_blank" rel="noopener" class="btn-white">View Behance Portfolio</a>
+        <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
+          <a href="https://www.behance.net/apurvadeshpande" target="_blank" rel="noopener" class="btn-white">View Behance Portfolio</a>
+          <a href="apurva-profile.html" target="_blank" rel="noopener" class="btn-white">View One-Page Profile</a>
+        </div>
       </div>
     </div>
   </div>
