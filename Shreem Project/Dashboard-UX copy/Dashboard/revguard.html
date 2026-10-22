@@ -270,6 +270,41 @@ a{color:inherit;text-decoration:none}
 .outcome-key{font-size:0.8rem;font-weight:600;margin-bottom:0.3rem}
 .outcome-desc{font-size:0.78rem;color:var(--slate);line-height:1.55}
 
+/* ── MOBILE PROTOTYPE ── */
+.mobile-proto-section{
+  display:grid;grid-template-columns:1fr auto;gap:4rem;align-items:center;
+  background:var(--rg-dark);border-radius:20px;
+  padding:3rem 3rem 3rem 3.5rem;margin-top:1rem;
+}
+@media(max-width:900px){.mobile-proto-section{grid-template-columns:1fr;gap:2.5rem}}
+.mobile-proto-info .kicker{color:var(--rg-orange);margin-bottom:0.5rem}
+.mobile-proto-info h3{font-size:1.2rem;font-weight:800;color:#fff;letter-spacing:-0.3px;margin-bottom:1rem}
+.mobile-modules{list-style:none;margin-top:1rem;display:flex;flex-direction:column;gap:0.65rem}
+.mobile-modules li{display:flex;align-items:center;gap:0.75rem;font-size:0.875rem;color:rgba(255,255,255,0.65);line-height:1.5}
+.mobile-modules li .mn{font-family:var(--mono);font-size:10px;color:var(--rg-orange);width:20px;flex-shrink:0}
+.proto-open-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--rg-orange);color:var(--rg-dark);
+  font-size:0.8rem;font-weight:700;
+  padding:0.55rem 1.25rem;border-radius:8px;
+  text-decoration:none;margin-top:1.75rem;transition:opacity 0.2s;
+}
+.proto-open-btn:hover{opacity:0.88}
+.mobile-proto-device{
+  width:350px;height:690px;
+  overflow:hidden;border-radius:8px;flex-shrink:0;
+  position:relative;
+}
+.mobile-proto-device iframe{
+  width:500px;height:985px;border:none;
+  transform:scale(0.7);transform-origin:top left;
+  pointer-events:auto;
+}
+@media(max-width:900px){
+  .mobile-proto-device{width:100%;height:440px;}
+  .mobile-proto-device iframe{transform:scale(0.448);transform-origin:top left;width:500px;height:985px;}
+}
+
 /* ── FOOTER ── */
 .cs-footer{
   border-top:1px solid var(--divider);margin-top:5rem;
@@ -300,6 +335,7 @@ a{color:inherit;text-decoration:none}
       <a href="#context">Context</a>
       <a href="#design">Design</a>
       <a href="#screens">Screens</a>
+      <a href="#mobile">Mobile</a>
       <a href="#outcomes">Outcomes</a>
     </div>
   </div>
@@ -321,11 +357,11 @@ a{color:inherit;text-decoration:none}
     </div>
     <div class="meta-item">
       <div class="label">Platform</div>
-      <div class="value">Web App (Desktop)</div>
+      <div class="value">Web App · iOS Mobile</div>
     </div>
     <div class="meta-item">
       <div class="label">Deliverables</div>
-      <div class="value">Sign-in flow · Revenue dashboard</div>
+      <div class="value">Sign-in flow · Revenue dashboard · Mobile app</div>
     </div>
   </div>
 </div>
@@ -512,12 +548,44 @@ a{color:inherit;text-decoration:none}
   </div>
 </section>
 
+<!-- MOBILE PROTOTYPE -->
+<div class="perf-wrap"><div class="perf"><span>Mobile prototype</span></div></div>
+
+<section class="section" id="mobile">
+  <div class="section-head">
+    <div class="kicker">04 · Mobile prototype</div>
+    <h2>RevGuard on iOS — live interactive prototype</h2>
+    <p>The desktop intelligence platform extended to mobile — same data layer, redesigned for on-the-go decision-making. All five modules are live and tappable below.</p>
+  </div>
+
+  <div class="mobile-proto-section">
+    <div class="mobile-proto-info">
+      <div class="kicker">5 interactive modules</div>
+      <h3>Full prototype — tap and explore</h3>
+      <ul class="mobile-modules">
+        <li><span class="mn">01</span>Dashboard — ADR · RevPAR · Occupancy live</li>
+        <li><span class="mn">02</span>Revenue Details — Trend breakdowns &amp; forecasts</li>
+        <li><span class="mn">03</span>Operations — Housekeeping · Task engine</li>
+        <li><span class="mn">04</span>AI Insights — Predictive alerts &amp; recommendations</li>
+        <li><span class="mn">05</span>More — Team &amp; settings</li>
+      </ul>
+      <a href="../../../shreem-mobile/index.html" target="_blank" class="proto-open-btn">
+        Open full screen
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      </a>
+    </div>
+    <div class="mobile-proto-device">
+      <iframe src="../../../shreem-mobile/index.html" scrolling="no" title="RevGuard Mobile Prototype — Interactive"></iframe>
+    </div>
+  </div>
+</section>
+
 <!-- OUTCOMES -->
 <div class="perf-wrap"><div class="perf"><span>Outcomes</span></div></div>
 
 <section class="section" id="outcomes">
   <div class="section-head">
-    <div class="kicker">04 · Outcomes</div>
+    <div class="kicker">05 · Outcomes</div>
     <h2>From briefing to dev-ready handoff</h2>
     <p>RevGuard was delivered as fully functional HTML screens — both the sign-in flow and the dashboard — enabling the Shreem Technologies development team to begin backend integration immediately.</p>
   </div>
