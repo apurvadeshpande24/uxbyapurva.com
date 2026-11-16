@@ -145,16 +145,18 @@
   .process-arrow svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
   /* SKILLS */
-  .skills-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
-  .skill-group { margin-bottom: 2rem; }
-  .skill-group-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-light); margin-bottom: 1rem; }
-  .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-  .skill-tag { background: var(--divider); color: var(--ink); font-size: 0.8rem; font-weight: 400; padding: 0.35rem 0.85rem; border-radius: 2rem; border: 1px solid var(--border); position: relative; }
-  .skill-tag.primary { background: var(--ink); color: #fff; border-color: var(--ink); cursor: default; }
-  .skill-tag.accent { background: var(--brand-light); color: var(--brand); border-color: rgba(26,63,111,0.2); cursor: default; }
-  .skill-tag[data-tooltip]::after { content: attr(data-tooltip); position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%); background: var(--ink); color: #fff; font-size: 0.7rem; font-weight: 500; line-height: 1.4; white-space: normal; width: 200px; padding: 7px 10px; border-radius: 7px; pointer-events: none; opacity: 0; transition: opacity 0.18s; z-index: 99; text-align: center; }
-  .skill-tag[data-tooltip]::before { content: ''; position: absolute; bottom: calc(100% + 3px); left: 50%; transform: translateX(-50%); border: 5px solid transparent; border-top-color: var(--ink); pointer-events: none; opacity: 0; transition: opacity 0.18s; z-index: 99; }
-  .skill-tag[data-tooltip]:hover::after, .skill-tag[data-tooltip]:hover::before { opacity: 1; }
+  .skills-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 3rem; align-items: start; }
+  /* Numbered skill sections */
+  .skill-sections { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+  .skill-section-header { margin-bottom: 1.25rem; padding-bottom: 0.85rem; border-bottom: 2px solid var(--border); }
+  .skill-section-num { font-size: 1.6rem; font-weight: 800; color: var(--brand); line-height: 1; margin-bottom: 0.35rem; letter-spacing: -1px; }
+  .skill-section-title { font-size: 0.72rem; font-weight: 700; color: var(--ink); text-transform: uppercase; letter-spacing: 0.07em; line-height: 1.4; }
+  .skill-list { list-style: none; counter-reset: skill-counter; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.55rem; }
+  .skill-list li { counter-increment: skill-counter; display: flex; align-items: baseline; gap: 0.7rem; font-size: 0.875rem; color: var(--ink-mid); line-height: 1.5; }
+  .skill-list li::before { content: counter(skill-counter, decimal-leading-zero); font-size: 0.62rem; color: var(--brand); flex-shrink: 0; font-weight: 700; min-width: 1.4rem; font-family: monospace; opacity: 0.8; }
+  .skill-list li.core { color: var(--ink); font-weight: 600; }
+  .skill-list li.hfi { color: var(--ink); font-weight: 500; }
+  .skill-list li.hfi::after { content: ' ✦'; color: var(--brand); font-size: 0.6rem; vertical-align: middle; }
   .tools-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
   .tool-pill { background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 0.7rem 0.9rem; display: flex; align-items: center; gap: 0.6rem; font-size: 0.82rem; font-weight: 500; }
   .tool-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
@@ -239,6 +241,7 @@
 
   /* Tablet landscape & small desktop */
   @media (max-width: 1024px) {
+    .skill-sections { grid-template-columns: repeat(2, 1fr); }
     .process-grid { display: grid; grid-template-columns: repeat(3, 1fr); }
     .process-arrow { display: none; }
     .project-card.featured { grid-template-columns: 1fr 1fr; }
@@ -269,6 +272,7 @@
     .project-card.featured { grid-column: auto; grid-template-columns: 1fr; }
     .project-card.featured .project-thumb { min-height: 220px; }
     .skills-layout { grid-template-columns: 1fr; gap: 2rem; }
+    .skill-sections { grid-template-columns: 1fr; gap: 1.5rem; }
     .contact-inner { grid-template-columns: 1fr; gap: 2.5rem; }
     .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
     .footer-inner { flex-direction: column; gap: 0.5rem; text-align: center; }
@@ -658,38 +662,47 @@
   <div class="section-eyebrow">Skills</div>
   <h2 class="section-title">What I bring</h2>
   <div class="skills-layout">
-    <div>
-      <div class="skill-group">
-        <div class="skill-group-label">UX Strategy &amp; Research</div>
-        <div class="skill-tags">
-          <span class="skill-tag primary" data-tooltip="Core superpower — forms the backbone of my UX practice across every project">User Journey Mapping</span>
-          <span class="skill-tag primary" data-tooltip="Core superpower — forms the backbone of my UX practice across every project">Information Architecture</span>
-          <span class="skill-tag primary" data-tooltip="Core superpower — forms the backbone of my UX practice across every project">Heuristic Analysis</span>
-          <span class="skill-tag accent" data-tooltip="HFI Certified — validated through Human Factors International (HFI) certification">Usability Evaluation</span>
-          <span class="skill-tag accent" data-tooltip="HFI Certified — validated through Human Factors International (HFI) certification">Interaction Design</span>
-          <span class="skill-tag">Wireframing &amp; Prototyping</span>
-          <span class="skill-tag">Task Flow Optimisation</span>
+    <div class="skill-sections">
+      <div class="skill-section">
+        <div class="skill-section-header">
+          <div class="skill-section-num">01</div>
+          <div class="skill-section-title">UX Strategy &amp; Research</div>
         </div>
+        <ol class="skill-list">
+          <li class="core">User Journey Mapping</li>
+          <li class="core">Information Architecture</li>
+          <li class="core">Heuristic Analysis</li>
+          <li class="hfi">Usability Evaluation</li>
+          <li class="hfi">Interaction Design</li>
+          <li>Wireframing &amp; Prototyping</li>
+          <li>Task Flow Optimisation</li>
+        </ol>
       </div>
-      <div class="skill-group">
-        <div class="skill-group-label">UX / UI Design</div>
-        <div class="skill-tags">
-          <span class="skill-tag">Design Systems</span>
-          <span class="skill-tag">Enterprise UX</span>
-          <span class="skill-tag">Accessibility (WCAG 2.1)</span>
-          <span class="skill-tag">High-Fidelity UI</span>
-          <span class="skill-tag">Responsive Design</span>
+      <div class="skill-section">
+        <div class="skill-section-header">
+          <div class="skill-section-num">02</div>
+          <div class="skill-section-title">UX / UI Design</div>
         </div>
+        <ol class="skill-list">
+          <li>Design Systems</li>
+          <li>Enterprise UX</li>
+          <li>Accessibility (WCAG 2.1)</li>
+          <li>High-Fidelity UI</li>
+          <li>Responsive Design</li>
+        </ol>
       </div>
-      <div class="skill-group">
-        <div class="skill-group-label">AI-Driven Design &amp; Collaboration</div>
-        <div class="skill-tags">
-          <span class="skill-tag">AI-Assisted Design Workflows</span>
-          <span class="skill-tag">Prompt Engineering</span>
-          <span class="skill-tag">Agile Product Development</span>
-          <span class="skill-tag">Design Handoff with Engineering</span>
-          <span class="skill-tag">Cross-functional Collaboration</span>
+      <div class="skill-section">
+        <div class="skill-section-header">
+          <div class="skill-section-num">03</div>
+          <div class="skill-section-title">AI-Driven Design &amp; Collaboration</div>
         </div>
+        <ol class="skill-list">
+          <li>AI-Assisted Design Workflows</li>
+          <li>Prompt Engineering</li>
+          <li>Agile Product Development</li>
+          <li>Design Handoff with Engineering</li>
+          <li>Cross-functional Collaboration</li>
+        </ol>
       </div>
     </div>
     <div>
